@@ -60,3 +60,6 @@ hs_err_pid*
 bin
 obj
 .vs
+*.suo
+MigrationBackup
+
