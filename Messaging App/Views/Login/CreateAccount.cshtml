@@ -1,0 +1,52 @@
+﻿@model MessagingApp.Models.CreateAccountModel
+@{
+    Layout = "CreateAccountLayout";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <form asp-action="CreateAccount" method="post">
+        <h3 for="h3Login">Create Account</h3>
+        <p>
+            <label for="FirstNameLabel" asp-for="FirstName">First Name:</label>
+            <input for="FirstNameInput" asp-for="FirstName" />
+        </p>
+        <p>
+            <label for="LastNameLabel" asp-for="LastName">Last Name:</label>
+            <input for="LastNameInput" asp-for="LastName" />
+        </p>
+        <p>
+            <label for="UsernameLabel" asp-for="UserName">UserName:</label>
+            <input for="UserNameInput" asp-for="UserName" />
+        </p>
+        <p>
+            <label for="PhoneNumberLabel" asp-for="Phone_Number">Phone Number:</label>
+            <input for="PhoneNumberInput" asp-for="Phone_Number" />
+        </p>
+        <p>
+            <label for="EmailLabel" asp-for="Email">Email:</label>
+            <input for="EmailInput" asp-for="Email" />
+        </p>
+        <p>
+            <label for="DateOfBirthLabel" asp-for="DateOfBirth">Date of Birth:</label>
+            <input type="date" for="DateOfBirthInput" asp-for="DateOfBirth" />
+        </p>
+        <p>
+            <label for="PasswordLabel" asp-for="Password">Password:</label>
+            <input for="PasswordInput" asp-for="Password" />
+        </p>
+        <p>
+            <label for="ConfirmPasswordLabel" asp-for="ConfirmPassword">Confirm Password:</label>
+            <input for="ConfirmPasswordInput" asp-for="ConfirmPassword" />
+        </p>
+
+        <button for="CancelButton" type="submit" asp-controller="Login" asp-action="Login">Cancel</button>
+        <button for="CreateAccountButton" type="submit" asp-controller="Login" asp-action="Login">Create Account</button>
+    </form>
+    
+</body>
+</html>
