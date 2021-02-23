@@ -1,0 +1,29 @@
+﻿@model MessagingApp.Models.LoginModel
+@{
+    Layout = "LoginLayout";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <form asp-action="Login" method="post">
+        <h3 for="h3Login">Login</h3>
+        <p>
+            <label for="UsernameLabel" asp-for="Name">Username:</label>            
+            <input for="UsernameInput" asp-for="Name" />
+        </p>
+        <p>
+            <label for="PasswordLabel" asp-for="Password">Password:</label>
+            <input for="PasswordInput" asp-for="Password" />
+        </p>
+       
+        <button for="LoginButton" type="submit">Login</button>
+        <button for="CreateAccountButton" type="submit" asp-controller="Login" asp-action="CreateAccount">Create Account</button>
+        <button for="ForgotPasswordButton" type="submit">Forgot Password</button>
+    </form>
+    
+</body>
+</html>
