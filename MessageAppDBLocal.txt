@@ -1,0 +1,13 @@
+create database message_app;
+
+create table users (id int AUTO_INCREMENT, firstName varchar(30) NOT NULL, lastName varchar(30) NOT NULL, username varchar(30) NOT NULL, password varchar(30) NOT NULL, email varchar(30) NOT NULL, phoneNUm varchar(10) NULL, dob date NULL, PRIMARY KEY(id) );
+
+create table login (userId int NOT NULL, email varchar(30) NOT NULL, username varchar(30) NOT NULL, password varchar(30) NOT NULL, PRIMARY KEY(userId) );
+
+create table preferences (id int NOT NULL, picture blob NULL, backgroundColor varchar(30) NULL, font varchar(30) NULL, fontSize int NULL, notification bool NULL, PRIMARY KEY(id) );
+
+create table messageTopicBase (userId int NOT NULL, topicId int NOT NULL, privacyOption varchar(30) NULL, category varchar(30) NOT NULL, question varchar(30) NOT NULL, fontColor varchar(30) NULL, dob date NULL, PRIMARY KEY(userId) );
+
+create table topics (topicId int AUTO_INCREMENT, category varchar(30) NOT NULL, description varchar(30) NULL, dob date NULL, PRIMARY KEY(topicId) );
+
+create table groupMessage (userId int NOT NULL, chatName varchar(30) NULL, privacyOption varchar(30) NULL, fontColor varchar(30), PRIMARY KEY(userId) );
