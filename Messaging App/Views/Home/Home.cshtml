@@ -11,7 +11,6 @@
 </head>
 <body>
     <div class="LeftSideButton">
-        <!-- asp-controller="Home" asp-action="Profile" -->
         <button id="ProfileButton" type="submit" onclick="location.href='@Url.Action("Profile", "Home")'">Profile</button>
         <button id="TopicSearchButton" type="submit" onclick="location.href='@Url.Action("TopicSearch", "Home")'">Search For Topics</button>
         <button id="CreateGroupButton" type="submit" onclick="location.href='@Url.Action("CreateGroup", "Home")'">Create Group</button>
@@ -19,27 +18,12 @@
 
         <h2>Joined Groups</h2>
         <div id="ScrollBox">
-
-
-            <button id="ContactsButton" type="submit" width="1000" height="400">Contacts</button>
-            <p>Group 1</p>
-            <p>Group 2</p>
-            <p>Group 3</p>
-            <p>Group 4</p>
+            <p>Chat with friends</p>
+            <p>SNHU Topic Discussion</p>
         </div>
     </div>
-    <div class="RightSide">       
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
-        <script type="text/javascript">
-            $(function () {
-                $('#ContactsButton').click(function () {
-                    if (!$('#iframe').length) {
-                        $('#iframeHolder').html('<iframe id="iframe" src="@Url.Action("Index","Login")" width="auto" height="auto"></iframe>');
-                    }
-                });
-            });
-        </script>
-        <div id="iframeHolder"></div>
+    <div class="RightSide">
+        <button id="LoginScreenButton" type="submit" onclick="location.href='@Url.Action("Index", "Login")'">Log Out</button>
     </div>
 </body>
 </html>
