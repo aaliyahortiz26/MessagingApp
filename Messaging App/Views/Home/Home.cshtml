@@ -1,0 +1,29 @@
+﻿@{
+    // Use login layout under View->Shared folder
+    Layout = "_Layout";
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/HomePageStyleSheet.css" />
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <div class="LeftSideButton">
+        <button id="ProfileButton" type="submit" onclick="location.href='@Url.Action("Profile", "Home")'">Profile</button>
+        <button id="TopicSearchButton" type="submit" onclick="location.href='@Url.Action("TopicSearch", "Home")'">Search For Topics</button>
+        <button id="CreateGroupButton" type="submit" onclick="location.href='@Url.Action("CreateGroup", "Home")'">Create Group</button>
+        <button id="ContactsButton" type="submit" onclick="location.href='@Url.Action("Contacts", "Home")'">Contacts</button>
+
+        <h2>Joined Groups</h2>
+        <div id="ScrollBox">
+            <p>Chat with friends</p>
+            <p>SNHU Topic Discussion</p>
+        </div>
+    </div>
+    <div class="RightSide">
+        <button id="LoginScreenButton" type="submit" onclick="location.href='@Url.Action("Index", "Login")'">Log Out</button>
+    </div>
+</body>
+</html>

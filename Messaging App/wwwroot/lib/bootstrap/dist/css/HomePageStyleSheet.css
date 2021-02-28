@@ -1,0 +1,77 @@
+﻿body {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 500px;
+    height: 500px;
+    margin: 0;
+}
+
+footer {
+    background-color: white;
+}
+
+.LeftSideButton {
+    position: fixed;
+    margin-top: 0px;
+    /* based off of size of the element */
+    background-color: white;
+    width: 210px;
+    height: 100%;
+    margin-left: 0px;
+}
+
+.RightSide {
+    position: fixed;
+    margin-top: 0px;
+    background-color: tan;
+    width: 100vw;
+    height: 100vh;
+    margin-left: 210px;
+}
+
+button {
+    justify-content: center;
+    vertical-align: middle;
+    width: 210px;
+    height: 90px;
+    color: black;
+    font-size: 16px;
+    background: white;
+    border-color: white;
+    border-bottom-color: black;
+}
+
+#ProfileButton {
+    margin-top: 10px;
+    border-top-color: black;
+}
+
+h2 {   
+    color: blue;
+    margin-top: 30px;
+    text-align: center;
+    font-size: 16px;
+}
+
+#myframe {
+    width: 100%;
+    height: 100%;
+}
+
+#ScrollBox {
+    text-align: center;
+    height: 34%;
+    width: 100%;
+    border-top: 1px dashed black;
+    font: 16px/26px Georgia, Garamond, Serif;
+    overflow: auto;
+}
+
+.RightSide #LoginScreenButton {
+    color: Red;
+    border-color: black;
+    font-size: 15px;
+    vertical-align: middle;
+    width: 90px;
+    height: 30px;
+}
+
