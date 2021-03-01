@@ -1,9 +1,5 @@
 ﻿@model MessagingApp.Models.LoginModel
-@{
-    // Use login layout under View->Shared folder
-    Layout = "_Layout";
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/LoginStyleSheet.css" />
-}
+@{ Layout = "LoginLayout"; }
 
 <!DOCTYPE html>
 <html>
@@ -12,24 +8,21 @@
 </head>
 <body>
     <form asp-action="Login" method="post">
-        <div class="loginForm">
-            <div class="rectangle"></div>
-            <h3 id="h3Login">Login</h3>
-            <div class="fields">
-                <p>
-                    <label id="UsernameLabel" asp-for="Name">Username:</label>
-                    <input id="UsernameInput" asp-for="Name" placeholder="Enter Username"/>
-                </p>
-                <p>
-                    <label id="PasswordLabel" asp-for="Password">Password:</label>
-                    <input id="PasswordInput" asp-for="Password" placeholder="Enter Password" />
-                </p>
-            </div>
-            <button id="LoginButton" type="submit" asp-controller="Home" asp-action="Index">Login</button>
-            <button id="CreateAccountButton" type="submit" asp-controller="Login" asp-action="CreateAccount">Create Account</button>
-            <button id="ForgotPasswordButton" type="submit">Forgot Password</button>
-        </div>
+        <h3 for="h3Login">Login</h3>
+        <p>
+            <label for="UsernameLabel" asp-for="Name">Username:</label>
+            <input for="UsernameInput" asp-for="Name" placeholder="Username" />
+            <!--<span asp-validation-for="Name" class="text-danger"></span>-->
+        </p>
+        <p>
+            <label for="PasswordLabel" asp-for="Pass">Password:</label>
+            <input for="PasswordInput" asp-for="Pass" placeholder="Password" />
+            <!--<span asp-validation-for="Pass" class="text-danger"></span>-->
+        </p>
 
+        <button for="LoginButton" type="submit" asp-action="login">Login</button>
+        <button for="CreateAccountButton" type="submit" asp-action="CreateAccount">Create Account</button>
+        <button for="ForgotPasswordButton" type="submit">Forgot Password</button>
     </form>
 </body>
 </html>
