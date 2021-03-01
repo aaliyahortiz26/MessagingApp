@@ -23,34 +23,62 @@ namespace MessagingApp.Controllers
         [Route("Login")]
         public IActionResult Login()
         {
-            if (ModelState.IsValid)
-            {
-                const string connectionstring = "server=localhost;user id=Guess; password = guess; persistsecurityinfo=True;database=message_app";
-                MySqlConnection conn = new MySqlConnection(connectionstring);
-
-
-                string Username = Request.Form["UserName"];
-                string Password = Request.Form["Pass"];
-
-                conn.Open();
-                string txtcmd2 = $"SELECT* FROM userinfo where username = '" + Username + "' AND password = '" + Password + "'"; // the command
-                MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn);
-                MySqlDataReader dRead;
-
-                using (dRead = cmd2.ExecuteReader()) // executes the search command
-                {
-                    if (dRead.Read())
-                    {
-                        conn.Dispose();
-                        return View();
-
-                    }
-                }
-                conn.Close();
-            }
-
             return View();
         }
+
+        [Route("Login")]
+        [HttpPost]
+        public IActionResult Login(LoginModel lm)
+        {
+            
+            const string connectionstring = "server=localhost;user id=Guess; password = guess; persistsecurityinfo=True;database=message_app";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+
+
+            string Username = lm.Name;
+            string Password = lm.Pass;
+
+            conn.Open();
+            string txtcmd2 = $"SELECT* FROM users where username = '" + Username + "' AND password = '" + Password + "'"; // the command
+            MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn);
+          
+            MySqlDataReader dRead;
+
+            if (ModelState.IsValid)
+            {
+                using (dRead = cmd2.ExecuteReader()) // executes the search command
+                {
+                    if (dRead.Read()) // Checks if username and password is in it
+                    {
+
+                        string txtcmd1 = "SELECT id FROM users where username='" + Username + "'"; // the command
+                        MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
+                        dRead.Close();
+                        using (dRead = cmd1.ExecuteReader()) // executes the search command
+                        {
+                            if (dRead.Read())
+                            {
+                                lm.id = Convert.ToInt32(dRead.GetValue(0).ToString());
+                                return View("~/Views/Home/Home.cshtml");
+                            }
+
+                        }
+                        conn.Close();
+                        dRead.Close();
+                    }
+                    else
+                    {
+                        conn.Close();
+                        dRead.Close();
+                        return View("Login");
+                    }
+
+                }
+
+            }
+                return View("Login");
+                
+        }  
 
         [Route("CreateAccount")]
         public IActionResult CreateAccount()
@@ -59,9 +87,9 @@ namespace MessagingApp.Controllers
             return View();
         }
 
-        [Route("Login")]
+        [Route("CreateAccount")]
         [HttpPost]
-        public IActionResult Login(CreateAccountModel CreateAccountModel)
+        public IActionResult CreateAccount(CreateAccountModel Ca)
         {
 
             if (ModelState.IsValid)
@@ -69,61 +97,47 @@ namespace MessagingApp.Controllers
                 const string connectionstring = "server=localhost;user id=Guess; password = guess; persistsecurityinfo=True;database=message_app";
                 MySqlConnection conn = new MySqlConnection(connectionstring);
 
-
-                string Username = Request.Form["UserName"];
-                string Password = Request.Form["Password"];
-                string FirstName = Request.Form["FirstName"];
-                string LastName = Request.Form["LastName"];
-                string email = Request.Form["Email"];
-                string PhoneNUm = Request.Form["Phone_Number"];
-                string dob = Request.Form["DateOfBirth"];
-                string ConfirmPassword = Request.Form["ConfirmPassword"];
-
                 conn.Open();
-                string txtcmd2 = $"SELECT id FROM users where username='" + Username + "'"; // the command
+                
+                string txtcmd2 = $"SELECT id FROM users where username='" + Ca.UserName + "'"; // the command
                 MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn);
                 MySqlDataReader dRead;
-
                 using (dRead = cmd2.ExecuteReader()) // executes the search command
                 {
                     if (dRead.Read())
                     {
                         conn.Close();
-                        return View();
+                        return View("CreateAccount.cshtml");
                     }
                 }
+                dRead.Close();
 
-                if (Username == "" || email == "" || FirstName == "" || LastName == "" || PhoneNUm == "" || dob == "")
-                {
-
-
-                    conn.Close();
-
-                }
-
-                if (Password != ConfirmPassword)
+                if (Ca.Password != Ca.ConfirmPassword)
                 {
 
                     conn.Close();
-                }
-                else if (Password == ConfirmPassword && !(Username == "" || email == "" || FirstName == "" || LastName == "" || PhoneNUm == "" || dob == ""))
+                    return View("CreateAccount.cshtml");
+                } 
+                
+                else
                 {
                     string txtcmd = $"Insert into users (firstName,lastName,username,password,email,phoneNUm, dob)" + $"values ( @firstName, @lastName,@username,@password,@email,@phoneNUm,@dob) ";
                     MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
                     cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@firstName", FirstName);
-                    cmd.Parameters.AddWithValue("@lastName", LastName);
-                    cmd.Parameters.AddWithValue("@username", Username);
-                    cmd.Parameters.AddWithValue("@password", Password);
-                    cmd.Parameters.AddWithValue("@email", email);
-                    cmd.Parameters.AddWithValue("@phoneNUm", PhoneNUm);
-                    cmd.Parameters.AddWithValue("@dob", Convert.ToDateTime(dob).ToString("yyyy-MM-dd"));
+                    cmd.Parameters.AddWithValue("@firstName", Ca.FirstName);
+                    cmd.Parameters.AddWithValue("@lastName", Ca.LastName);
+                    cmd.Parameters.AddWithValue("@username", Ca.UserName);
+                    cmd.Parameters.AddWithValue("@password", Ca.Password);
+                    cmd.Parameters.AddWithValue("@email", Ca.Email);
+                    cmd.Parameters.AddWithValue("@phoneNUm", Ca.Phone_Number);
+                    cmd.Parameters.AddWithValue("@dob", Convert.ToDateTime(Ca.DateOfBirth).ToString("yyyy-MM-dd"));
                     cmd.Prepare();
                     cmd.ExecuteReader();
                     conn.Close();
+                    return View("Login");
                 }
             }
-            return View();
+            return View("CreateAccount");
         }
 
     }

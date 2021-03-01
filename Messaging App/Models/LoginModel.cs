@@ -21,6 +21,7 @@ namespace MessagingApp.Models
         [Display(Name = "Pass")]
         public string Pass { get; set; }
 
+        public int id { get; set; }
     }
 
 }

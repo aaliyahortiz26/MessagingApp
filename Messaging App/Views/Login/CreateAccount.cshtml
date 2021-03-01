@@ -1,6 +1,7 @@
 ﻿@model MessagingApp.Models.CreateAccountModel
 @{ Layout = "CreateAccountLayout"; }
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,40 +13,47 @@
         <p>
             <label for="FirstNameLabel" asp-for="FirstName">First Name: </label>
             <input for="FirstNameInput" asp-for="FirstName" placeholder="FirstName" />
+            <!--<span asp-validation-for="FirstName" class="text-danger"></span>-->
         </p>
         <p>
             <label for="LastNameLabel" asp-for="LastName">Last Name:</label>
             <input for="LastNameInput" asp-for="LastName" placeholder="LastName" />
+            <!--<span asp-validation-for="LastName" class="text-danger"></span> -->
         </p>
         <p>
             <label for="UsernameLabel" asp-for="UserName">UserName:</label>
             <input for="UserNameInput" asp-for="UserName" placeholder="UserName" />
+            <!--<span asp-validation-for="UserName" class="text-danger"></span>-->
         </p>
         <p>
             <label for="PhoneNumberLabel" asp-for="Phone_Number">Phone Number:</label>
             <input for="PhoneNumberInput" asp-for="Phone_Number" placeholder="Phone_Number" />
+            <!--<span asp-validation-for="Phone_Number" class="text-danger"></span>-->
         </p>
         <p>
             <label for="EmailLabel" asp-for="Email">Email:</label>
             <input for="EmailInput" asp-for="Email" placeholder="Email" />
+            <!--<span asp-validation-for="Email" class="text-danger"></span>-->
         </p>
         <p>
             <label for="DateOfBirthLabel" asp-for="DateOfBirth">Date of Birth:</label>
             <input type="date" for="DateOfBirthInput" asp-for="DateOfBirth" placeholder="DateOfBirth" />
+            <!--<span asp-validation-for="DateOfBirth" class="text-danger"></span>-->
         </p>
         <p>
             <label for="PasswordLabel" textmode="Password" asp-for="Password">Password:</label>
             <input for="PasswordInput" asp-for="Password" placeholder="Password" />
+            <!--<span asp-validation-for="Password" class="text-danger"></span>-->
         </p>
         <p>
             <label for="ConfirmPasswordLabel" asp-for="ConfirmPassword">Confirm Password:</label>
             <input for="ConfirmPasswordInput" asp-for="ConfirmPassword" placeholder="ConfirmPassword" />
+            <!--<span asp-validation-for="ConfirmPassword" class="text-danger"></span>-->
         </p>
 
 
         <button for="CancelButton" type="submit" asp-controller="Login" asp-action="Login">Cancel</button>
-        <button for="CreateAccountButton" type="submit" asp-controller="Login" asp-action="Login">Create Account</button>
+        <button for="CreateAccountButton" type="submit" asp-controller="Login">Create Account</button>
     </form>
-
 </body>
 </html>

@@ -12,16 +12,17 @@
         <p>
             <label for="UsernameLabel" asp-for="Name">Username:</label>
             <input for="UsernameInput" asp-for="Name" placeholder="Username" />
+            <!--<span asp-validation-for="Name" class="text-danger"></span>-->
         </p>
         <p>
             <label for="PasswordLabel" asp-for="Pass">Password:</label>
             <input for="PasswordInput" asp-for="Pass" placeholder="Password" />
+            <!--<span asp-validation-for="Pass" class="text-danger"></span>-->
         </p>
 
-        <button for="LoginButton" type="submit">Login</button>
-        <button for="CreateAccountButton" type="submit" asp-controller="Login" asp-action="CreateAccount">Create Account</button>
+        <button for="LoginButton" type="submit" asp-action="login">Login</button>
+        <button for="CreateAccountButton" type="submit" asp-action="CreateAccount">Create Account</button>
         <button for="ForgotPasswordButton" type="submit">Forgot Password</button>
     </form>
-
 </body>
 </html>
