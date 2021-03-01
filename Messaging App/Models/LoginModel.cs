@@ -18,6 +18,7 @@ namespace MessagingApp.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Enter Your Password")]
+        [DataType(DataType.Password)]
         [Display(Name = "Pass")]
         public string Pass { get; set; }
 
