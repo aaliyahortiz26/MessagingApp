@@ -15,7 +15,7 @@ footer {
     top: 50%;
     left: 50%;
     /* based off of size of the element */
-    transform: translate(-50%, -50%);   
+    transform: translate(-50%, -50%);
     background-color: white;
     border-radius: 12px;
     width: 420px;
@@ -37,12 +37,12 @@ footer {
     text-align: center;
 }
 
-.fields label {
-    font-size: 18px;
-}
+    .fields label {
+        font-size: 18px;
+    }
 
 #PasswordLabel {
-    margin-left:3px;
+    margin-left: 3px;
 }
 
 .fields input {
@@ -67,11 +67,6 @@ button {
     border-radius: 6px;
 }
 
- #LoginButton {
-     margin-left: 38px;    
+#LoginButton {
+    margin-left: 38px;
 }
-
-
-
-
-

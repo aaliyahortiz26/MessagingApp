@@ -3,46 +3,47 @@ namespace MessagingApp.Models
 {
     public class CreateAccountModel
     {
-
-        [Required]
-        [Display(Name = "firstName")]
-        [StringLength(32, ErrorMessage = "First length can't be more than 32.")]
+        [StringLength(32, MinimumLength = 0)]
+        [Required(ErrorMessage = "Required field.")]
+        [Display(Name = "First Name:")]
+        
         public string FirstName { get; set; }
 
-        [Required]
-        [Display(Name = "lastName")]
-        [StringLength(32, ErrorMessage = "LastName length can't be more than 32.")]
+        [Required(ErrorMessage = "Required field.")]
+        [Display(Name = "Last Name:")]
+        [StringLength(32, MinimumLength = 0)]
         public string LastName { get; set; }
 
-        [Required]
-        [Display(Name = "UserName")]
-        [StringLength(32, ErrorMessage = "UserName length can't be more than 32.")]
+        [Required(ErrorMessage = "Required field.")]
+        [Display(Name = "Username:")]
+        [StringLength(32, MinimumLength = 0)]
         public string UserName { get; set; }
 
-        [Required]
-        [Display(Name = "Phone Number")]
-        [Phone(ErrorMessage = "Phone has an invalid format. Format: ###-###-####")]
+        //        [Required(ErrorMessage = "Phone has an invalid format. Format: ###-###-####")")]
+        [Display(Name = "Phone Number:")]
+        [Phone]
         public string Phone_Number { get; set; }
 
-        [Required]
-        [Display(Name = "Email Adress")]
-        [EmailAddress(ErrorMessage = "Please Enter a valid Email Adress")]
-        [StringLength(32, ErrorMessage = "Email length can't be more than 32.")]
+        [Required(ErrorMessage = "Required field.")]
+        [Display(Name = "Email Adress:")]
+        [EmailAddress]
+        [StringLength(32, MinimumLength = 0)]
         public string Email { get; set; }
 
-        [Required]
-        [Display(Name = "Date Of Birth")]
+        [Display(Name = "Date Of Birth:")]
         public string DateOfBirth { get; set; }
 
         [Required]
-        [Compare("ConfirmPassword", ErrorMessage = "Password does not match")]
-        [Display(Name = "Password")]
-        [StringLength(32, ErrorMessage = "Password length can't be more than 32.")]
+        [DataType(DataType.Password)]
+        [Compare("ConfirmPassword")]
+        [Display(Name = "Password:")]
+        [StringLength(32, MinimumLength = 0)]
         public string Password { get; set; }
 
-        [Required]
-        [Display(Name = "Confirm  Password")]
-        [StringLength(32, ErrorMessage = "Confirm Password length can't be more than 32.")]
+        [Required(ErrorMessage = "Required field")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm Password:")]
+        [StringLength(32, MinimumLength = 0)]
         public string ConfirmPassword { get; set; }
 
 

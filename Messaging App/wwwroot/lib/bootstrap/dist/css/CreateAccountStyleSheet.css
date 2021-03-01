@@ -18,7 +18,7 @@ footer {
     transform: translate(-50%, -50%);
     background-color: white;
     border-radius: 12px;
-    width: 480px;
+    width: 510px;
     height: 500px;
     margin-left: auto;
     margin-right: auto;
@@ -38,9 +38,9 @@ footer {
     text-align: center;
 }
 
-.fields label {
-    font-size: 18px;
-}
+    .fields label {
+        font-size: 18px;
+    }
 
 #PhoneNumberLabel {
     margin-left: -35px;
@@ -91,5 +91,5 @@ button {
 }
 
 #CancelButton {
-    margin-left: 120px;
+    margin-left: 145px;
 }

@@ -31,7 +31,7 @@ namespace MessagingApp.Controllers
         public IActionResult Login(LoginModel lm)
         {
             
-            const string connectionstring = "server=localhost;user id=Guess; password = guess; persistsecurityinfo=True;database=message_app";
+            const string connectionstring = "server=localhost;user id=root; password = MessagingApp; persistsecurityinfo=True;database=message_app";
             MySqlConnection conn = new MySqlConnection(connectionstring);
 
 
@@ -61,7 +61,6 @@ namespace MessagingApp.Controllers
                                 lm.id = Convert.ToInt32(dRead.GetValue(0).ToString());
                                 return View("~/Views/Home/Home.cshtml");
                             }
-
                         }
                         conn.Close();
                         dRead.Close();
@@ -70,6 +69,8 @@ namespace MessagingApp.Controllers
                     {
                         conn.Close();
                         dRead.Close();
+                        // Error message pops up on screen
+                        ViewBag.message = "Username not found or password incorrect!";
                         return View("Login");
                     }
 
@@ -80,21 +81,21 @@ namespace MessagingApp.Controllers
                 
         }  
 
-        [Route("CreateAccount")]
-        public IActionResult CreateAccount()
+        public IActionResult CreateAccountScreen()
         {
 
-            return View();
+            return View("CreateAccount");
         }
 
-        [Route("CreateAccount")]
+//        [Route("CreateAccount")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreateAccount(CreateAccountModel Ca)
         {
 
             if (ModelState.IsValid)
             {
-                const string connectionstring = "server=localhost;user id=Guess; password = guess; persistsecurityinfo=True;database=message_app";
+                const string connectionstring = "server=localhost;user id=root; password = MessagingApp; persistsecurityinfo=True;database=message_app";
                 MySqlConnection conn = new MySqlConnection(connectionstring);
 
                 conn.Open();
