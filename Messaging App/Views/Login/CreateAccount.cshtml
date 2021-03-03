@@ -12,55 +12,66 @@
 </head>
 <body>
     <form asp-action="CreateAccount" method="post">
+        <div id="CreateAccountBackground">
+            <img src="/Images/galaxy-3608029_1920 (Large).jpg" />
+        </div>
+
         <div class="CreateAccountForm">
-            <div class="rectangle"></div>
-            <h3 id="h3Login">Create Account</h3>          
+            <h3 id="h3Login">Create Account</h3>
             <div class="fields">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <p>
                     <label id="FirstNameLabel" asp-for="FirstName"></label>
-                    <input type="text" class="trigger" id="FirstNameInput" asp-for="FirstName" />
+                    <input id="FirstNameInput" asp-for="FirstName" />
+                    <br>
                     <span asp-validation-for="FirstName" class="text-danger"></span>
                 </p>
                 <p>
                     <label id="LastNameLabel" asp-for="LastName"></label>
                     <input id="LastNameInput" asp-for="LastName" />
+                    <br>
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </p>
                 <p>
                     <label id="UsernameLabel" asp-for="UserName"></label>
                     <input id="UserNameInput" asp-for="UserName" />
+                    <br>
                     <span asp-validation-for="UserName" class="text-danger"></span>
                 </p>
                 <p>
                     <label id="PhoneNumberLabel" asp-for="Phone_Number"></label>
                     <input id="PhoneNumberInput" asp-for="Phone_Number" />
-                    <span asp-validation-for="Phone_Number" class="text-danger"></span>
+                    <br>
+                    <span id="phoneNumberValidation" asp-validation-for="Phone_Number" class="text-danger"></span>
                 </p>
                 <p>
                     <label id="EmailLabel" asp-for="Email">Email:</label>
                     <input id="EmailInput" asp-for="Email" />
+                    <br>
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </p>
                 <p>
                     <label id="DateOfBirthLabel" asp-for="DateOfBirth"></label>
                     <input type="date" id="DateOfBirthInput" asp-for="DateOfBirth" />
+                    <br>
                     <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                 </p>
                 <p>
                     <label id="PasswordLabel" asp-for="Password"></label>
                     <input id="PasswordInput" asp-for="Password" />
+                    <br>
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </p>
                 <p>
                     <label id="ConfirmPasswordLabel" asp-for="ConfirmPassword"></label>
                     <input id="ConfirmPasswordInput" asp-for="ConfirmPassword" />
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    <br>
+                    <span id="confirmPasswordValidation" asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </p>
             </div>
             <button id="CancelButton" type="button" onclick="location.href='@Url.Action("Index", "Login")'">Cancel</button>
-            <button id="CreateAccountButton" type="submit" >Create Account</button>
+            <button id="CreateAccountButton" type="submit">Create Account</button>
         </div>
-</form>
+    </form>
 </body>
 </html>

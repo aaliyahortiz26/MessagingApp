@@ -83,7 +83,6 @@ namespace MessagingApp.Controllers
 
         public IActionResult CreateAccountScreen()
         {
-
             return View("CreateAccount");
         }
 
@@ -141,5 +140,13 @@ namespace MessagingApp.Controllers
             return View("CreateAccount");
         }
 
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+        public IActionResult LoginChangePassword()
+        {
+            return View();
+        }
     }
 }

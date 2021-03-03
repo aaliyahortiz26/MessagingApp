@@ -1,9 +1,24 @@
 ﻿body {
     font-family: Arial, Helvetica, sans-serif;
-    background-image: linear-gradient(blue, orange, red);
     width: 500px;
     height: 500px;
     margin: 0;
+}
+
+#LoginBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-size: auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    /*position: fixed;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    resize: both;*/
 }
 
 footer {
@@ -19,7 +34,7 @@ footer {
     background-color: white;
     border-radius: 12px;
     width: 420px;
-    height: 260px;
+    height: 290px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -37,15 +52,17 @@ footer {
     text-align: center;
 }
 
-    .fields label {
-        font-size: 18px;
-    }
+.fields label {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
 
 #PasswordLabel {
     margin-left: 3px;
 }
 
 .fields input {
+    margin-bottom: 20px;
     border-color: black;
     border-width: 1px;
     box-sizing: border-box;
@@ -55,7 +72,7 @@ footer {
 }
 
 button {
-    margin-top: 10px;
+    margin-top: 5px;
     justify-content: center;
     margin-left: 10px;
     vertical-align: middle;
@@ -69,4 +86,12 @@ button {
 
 #LoginButton {
     margin-left: 38px;
+}
+
+
+.field-validation-error {
+    margin-left: -28px;
+    margin-top: -15px;
+    position: absolute;
+    color: red;
 }
