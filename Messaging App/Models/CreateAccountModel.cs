@@ -19,13 +19,13 @@ namespace MessagingApp.Models
         [StringLength(32, MinimumLength = 0)]
         public string UserName { get; set; }
 
-        //        [Required(ErrorMessage = "Phone has an invalid format. Format: ###-###-####")")]
+        // [Required(ErrorMessage = "Phone has an invalid format. Format: ###-###-####")")]
         [Display(Name = "Phone Number:")]
-        [Phone]
+        [Phone(ErrorMessage = "Not a valid phone number.")]
         public string Phone_Number { get; set; }
 
         [Required(ErrorMessage = "Required field.")]
-        [Display(Name = "Email Adress:")]
+        [Display(Name = "Email Address:")]
         [EmailAddress]
         [StringLength(32, MinimumLength = 0)]
         public string Email { get; set; }
@@ -33,19 +33,17 @@ namespace MessagingApp.Models
         [Display(Name = "Date Of Birth:")]
         public string DateOfBirth { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Required field")]
         [DataType(DataType.Password)]
-        [Compare("ConfirmPassword")]
         [Display(Name = "Password:")]
         [StringLength(32, MinimumLength = 0)]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Required field")]
+        [Required(ErrorMessage = "Confirm Password is required")]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password:")]
         [StringLength(32, MinimumLength = 0)]
-        public string ConfirmPassword { get; set; }
-
-
+        [Compare("Password", ErrorMessage = "Passwords are not the same.")]
+        public string ConfirmPassword { get; set; }      
     }
 }

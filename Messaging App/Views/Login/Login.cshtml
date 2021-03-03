@@ -11,6 +11,10 @@
 </head>
 <body>
     <form asp-action="Login" method="post">
+        <div id = "LoginBackground">
+           <img src="/Images/earth (Large).jpeg"/>
+        </div>
+
         <div class="loginForm">
             <div class="rectangle"></div>
             <h3 id="h3Login">Login</h3>
@@ -30,7 +34,7 @@
             </div>
             <button id="LoginButton" type="submit">Login</button>
             <button id="CreateAccountButton" type="button" onclick="location.href='@Url.Action("CreateAccountScreen", "Login")'">Create Account</button>
-            <button id="ForgotPasswordButton" type="button">Forgot Password</button>
+            <button id="ForgotPasswordButton" type="button" onclick="location.href='@Url.Action("ForgotPassword", "Login")'">Forgot Password</button>
         </div>
     </form>
 </body>
