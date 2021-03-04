@@ -13,7 +13,6 @@ namespace MessagingApp.Models
         [StringLength(32, MinimumLength = 0)]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Required field. *")]
         [Display(Name = "Security Code:")]
         public string SecurityCode { get; set; }
 

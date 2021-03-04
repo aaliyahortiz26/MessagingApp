@@ -87,7 +87,6 @@ namespace MessagingApp.Controllers
             return View("CreateAccount");
         }
 
-//        [Route("CreateAccount")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateAccount(CreateAccountModel Ca)
@@ -114,7 +113,6 @@ namespace MessagingApp.Controllers
                     }
                 }
                 dRead.Close();
-
 
                     if (Ca.Password != Ca.ConfirmPassword)
                     {
@@ -146,7 +144,15 @@ namespace MessagingApp.Controllers
 
 
 
-        public IActionResult ForgotPassword(ForgotPasswordModel fpm, LoginChangePasswordModel cp)
+        public IActionResult ForgotPasswordScreen()
+        {
+            return View("ForgotPassword");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public IActionResult ForgotPassword(ForgotPasswordModel fpm)
         {
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
@@ -181,16 +187,15 @@ namespace MessagingApp.Controllers
 
                         MailMessage mail = new MailMessage();
                         SmtpClient SmtpServer = new SmtpClient("smpt.gmail.com");
-                        mail.From = new MailAddress("UnitedMessaging@gmail.com");
-                        mail.To.Add( $"{fpm.Email}");
+                        mail.From = new MailAddress("unitedmessaging1@gmail.com");
+                        mail.To.Add(fpm.Email);
                         mail.Subject = "Password Change Security Code";
                         mail.Body = $" The Security Code is : ${fpm.RandomCode}";
                         SmtpServer.Port = 587;
-                        SmtpServer.Credentials = new System.Net.NetworkCredential("UnitedMessaging@gmail.com", "UnitedMessage21");
+                        SmtpServer.Credentials = new System.Net.NetworkCredential("unitedmessaging1@gmail.com", "cs204SP21");
                         SmtpServer.EnableSsl = true;
                         SmtpServer.Send(mail);
 
-                        cp.userName = fpm.Username;
                         conn.Close();
                         dRead.Close();
                     }
