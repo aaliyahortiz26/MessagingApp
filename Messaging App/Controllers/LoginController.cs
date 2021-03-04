@@ -8,7 +8,8 @@ using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
-using System.Net.Mail;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace MessagingApp.Controllers
 {
@@ -148,7 +149,8 @@ namespace MessagingApp.Controllers
         {
             return View("ForgotPassword");
         }
-
+        string username2 = "";
+        string rand = "";
         [HttpPost]
         [ValidateAntiForgeryToken]
 
@@ -157,7 +159,7 @@ namespace MessagingApp.Controllers
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
 
-
+            username2 = fpm.Username;
             string Username = fpm.Username;
             string Email = fpm.Email;
             string code = "";
@@ -182,19 +184,39 @@ namespace MessagingApp.Controllers
                             c = rnd.Next(10);
                             code = code + c;
                         }
-                       // fpm.RandomCode = code;
-                        fpm.RandomCode = fpm.Username;
+                        fpm.RandomCode = code;
+                        rand = code;
 
-                        MailMessage mail = new MailMessage();
-                        SmtpClient SmtpServer = new SmtpClient("smpt.gmail.com");
-                        mail.From = new MailAddress("unitedmessaging1@gmail.com");
-                        mail.To.Add(fpm.Email);
+                        MimeMessage mail = new MimeMessage();
+
+                        MailboxAddress from = new MailboxAddress("UnitedMessaging",
+                        "unitedmessaging1@gmail.com");
+                        mail.From.Add(from);
+
+                        MailboxAddress to = new MailboxAddress(Username, Email);
+                        mail.To.Add(to);
+
                         mail.Subject = "Password Change Security Code";
-                        mail.Body = $" The Security Code is : ${fpm.RandomCode}";
-                        SmtpServer.Port = 587;
-                        SmtpServer.Credentials = new System.Net.NetworkCredential("unitedmessaging1@gmail.com", "cs204SP21");
-                        SmtpServer.EnableSsl = true;
-                        SmtpServer.Send(mail);
+
+                        SmtpClient client = new SmtpClient();
+                        client.Connect("smtp.gmail.com", 465, true);
+                        client.Authenticate("unitedmessaging1@gmail.com", "cs204SP21");
+
+                       // BodyBuilder bodyBuilder = new BodyBuilder();
+                       // bodyBuilder.TextBody = "The Security Code is : " + code;
+
+
+                        
+                        mail.Body = new TextPart("plain")
+                        {
+                            Text = @"Code: " + code.ToString()
+                        };
+
+                        //mail.Body = $" The Security Code is : ${code}";
+
+                        client.Send(mail);
+                        client.Disconnect(true);
+                        client.Dispose();                      
 
                         conn.Close();
                         dRead.Close();
@@ -215,14 +237,14 @@ namespace MessagingApp.Controllers
 
         public IActionResult Checker(ForgotPasswordModel ck)
         {
-            if (ck.SecurityCode == ck.RandomCode)
+            if (ck.SecurityCode == rand)
             {
                 return View("LoginChangePassword");
             }
 
             else
             {
-                return View("LoginChangePassword");
+                return View("ForgotPassword");
             }
         }
 
@@ -230,10 +252,10 @@ namespace MessagingApp.Controllers
         {
             string Password = lcp.NewPassword;
             string ConPassword = lcp.ConfirmPassword;
-            string username = lcp.userName;
+            string username = username2;
 
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
-            string txtcmd = $"update userinfo SET password ='" + Password + "' Where username ='" + username + "'"; // the command
+            string txtcmd = $"update users SET password ='" + Password + "' Where username ='" + username + "'"; // the command
             MySqlConnection conn = new MySqlConnection(connectionstring);
             MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
             conn.Open();
