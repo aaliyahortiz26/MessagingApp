@@ -1,5 +1,5 @@
 ﻿@model MessagingApp.Models.CreateAccountModel
-@{ 
+@{
     Layout = "_Layout";
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/CreateAccountStyleSheet.css" />
 
@@ -75,3 +75,11 @@
     </form>
 </body>
 </html>
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+    window.onload = function () {
+        alert("@ViewBag.Message");
+    };
+    </script>
+}

@@ -13,11 +13,11 @@ namespace MessagingApp.Models
 
     public class LoginModel
     {
-        [Required(ErrorMessage = "Enter Your UserName")]
+        [Required(ErrorMessage = "Enter Your UserName. *")]
         [Display(Name = "UserName")]
         public string Name { get; set; }
-
-        [Required(ErrorMessage = "Enter Your Password")]
+  
+        [Required(ErrorMessage = "Enter Your Password. *")]
         [DataType(DataType.Password)]
         [Display(Name = "Pass")]
         public string Pass { get; set; }

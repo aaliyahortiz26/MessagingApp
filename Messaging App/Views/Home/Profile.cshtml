@@ -1,18 +1,80 @@
 ﻿@{
     // Use login layout under View->Shared folder
     Layout = "_Layout";
-
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/ProfileStyleSheet.css" />
 }
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <script>
+        // Preferences
+        function hidePreferencesFrame() {
+            var getframe = document.getElementById("Preferences");
+            getframe.style.display = 'none'
+        }
+        function showPreferencesFrame() {
+            var getframe = document.getElementById("Preferences");
+            getframe.style.display = 'block';
+        }
+
+        // Account Settings
+        function hideAccountSettingsFrame() {
+            var getframe = document.getElementById("AccountSettings");
+            getframe.style.display = 'none'
+        }
+        function showAccountSettingsFrame() {
+            var getframe = document.getElementById("AccountSettings");
+            getframe.style.display = 'block';
+        }
+
+        // Pinned Messages 
+        function hidePinnedMessagesFrame() {
+            var getframe = document.getElementById("PinnedMessages");
+            getframe.style.display = 'none'
+        }
+        function showPinnedMessagesFrame() {
+            var getframe = document.getElementById("PinnedMessages");
+            getframe.style.display = 'block';
+        }
+
+        // Open each page
+        function OpenPreferencesFrame() {
+            hideAccountSettingsFrame();
+            hidePinnedMessagesFrame();
+            showPreferencesFrame();
+        }
+
+        function OpenAccountSettingsFrame() {
+            hidePreferencesFrame();
+            hidePinnedMessagesFrame();
+            showAccountSettingsFrame();
+        }
+
+        function OpenPinnedMessagesFrame() {
+            hidePreferencesFrame();
+            hideAccountSettingsFrame();
+            showPinnedMessagesFrame();
+        }
+    </script>
 </head>
 <body>
-    <div class="test">
-        <h1>Profile</h1>
+    <div class="LeftSideButton">
+        <h1>Profile</h1>    
+        <button onclick="OpenPreferencesFrame()">Preferences</button>
+
+        <button onclick="OpenAccountSettingsFrame()">Account Settings</button>
+
+        <button onclick="OpenPinnedMessagesFrame()">Pinned Messages</button>
+
         <button id="GoHomeButton" type="submit" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
+
+    </div>
+    <div class="RightSide">
+        <iframe allowfullscreen style="display: none" frameborder="0" id="Preferences" src="~/Home/Preferences"></iframe>
+        <iframe allowfullscreen style="display: none" frameborder="0" id="AccountSettings" src="~/Home/AccountSettings"></iframe>
+        <iframe allowfullscreen style="display: none" frameborder="0" id="PinnedMessages" src="~/Home/PinnedMessages"></iframe>
     </div>
 </body>
 </html>

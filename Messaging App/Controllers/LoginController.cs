@@ -8,6 +8,8 @@ using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace MessagingApp.Controllers
 {
@@ -31,7 +33,7 @@ namespace MessagingApp.Controllers
         public IActionResult Login(LoginModel lm)
         {
             
-            const string connectionstring = "server=localhost;user id=root; password = MessagingApp; persistsecurityinfo=True;database=message_app";
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
 
 
@@ -86,7 +88,6 @@ namespace MessagingApp.Controllers
             return View("CreateAccount");
         }
 
-//        [Route("CreateAccount")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateAccount(CreateAccountModel Ca)
@@ -94,7 +95,7 @@ namespace MessagingApp.Controllers
 
             if (ModelState.IsValid)
             {
-                const string connectionstring = "server=localhost;user id=root; password = MessagingApp; persistsecurityinfo=True;database=message_app";
+                const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
                 MySqlConnection conn = new MySqlConnection(connectionstring);
 
                 conn.Open();
@@ -107,46 +108,165 @@ namespace MessagingApp.Controllers
                     if (dRead.Read())
                     {
                         conn.Close();
-                        return View("CreateAccount.cshtml");
+                        ViewBag.message = "UserName Already Taken";
+                        return View("CreateAccount");
+                        
                     }
                 }
                 dRead.Close();
 
-                if (Ca.Password != Ca.ConfirmPassword)
-                {
+                    if (Ca.Password != Ca.ConfirmPassword)
+                    {
 
-                    conn.Close();
-                    return View("CreateAccount.cshtml");
-                } 
-                
-                else
-                {
-                    string txtcmd = $"Insert into users (firstName,lastName,username,password,email,phoneNUm, dob)" + $"values ( @firstName, @lastName,@username,@password,@email,@phoneNUm,@dob) ";
-                    MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@firstName", Ca.FirstName);
-                    cmd.Parameters.AddWithValue("@lastName", Ca.LastName);
-                    cmd.Parameters.AddWithValue("@username", Ca.UserName);
-                    cmd.Parameters.AddWithValue("@password", Ca.Password);
-                    cmd.Parameters.AddWithValue("@email", Ca.Email);
-                    cmd.Parameters.AddWithValue("@phoneNUm", Ca.Phone_Number);
-                    cmd.Parameters.AddWithValue("@dob", Convert.ToDateTime(Ca.DateOfBirth).ToString("yyyy-MM-dd"));
-                    cmd.Prepare();
-                    cmd.ExecuteReader();
-                    conn.Close();
-                    return View("Login");
-                }
+                        conn.Close();
+                        return View("CreateAccount.cshtml");
+                    }
+
+                    else
+                    {
+                        string txtcmd = $"Insert into users (firstName,lastName,username,password,email,phoneNUm, dob)" + $"values ( @firstName, @lastName,@username,@password,@email,@phoneNUm,@dob) ";
+                        MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@firstName", Ca.FirstName);
+                        cmd.Parameters.AddWithValue("@lastName", Ca.LastName);
+                        cmd.Parameters.AddWithValue("@username", Ca.UserName);
+                        cmd.Parameters.AddWithValue("@password", Ca.Password);
+                        cmd.Parameters.AddWithValue("@email", Ca.Email);
+                        cmd.Parameters.AddWithValue("@phoneNUm", Ca.Phone_Number);
+                        cmd.Parameters.AddWithValue("@dob", Convert.ToDateTime(Ca.DateOfBirth).ToString("yyyy-MM-dd"));
+                        cmd.Prepare();
+                        cmd.ExecuteReader();
+                        conn.Close();
+                        return View("Login");
+                    }
             }
             return View("CreateAccount");
         }
 
-        public IActionResult ForgotPassword()
+
+
+        public IActionResult ForgotPasswordScreen()
         {
-            return View();
+            return View("ForgotPassword");
         }
-        public IActionResult LoginChangePassword()
+        string username2 = "";
+        string rand = "";
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public IActionResult ForgotPassword(ForgotPasswordModel fpm)
         {
-            return View();
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+
+            username2 = fpm.Username;
+            string Username = fpm.Username;
+            string Email = fpm.Email;
+            string code = "";
+
+            conn.Open();
+            string txtcmd2 = $"SELECT* FROM users where username = '" + Username + "' AND email = '" + Email + "'"; // the command
+            MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn);
+
+            MySqlDataReader dRead;
+
+            if (ModelState.IsValid)
+            {
+                using (dRead = cmd2.ExecuteReader()) 
+                {
+                    if (dRead.Read())
+                    {
+                      
+                       int c = ' ';
+                        Random rnd = new Random();
+                        for (int i = 0; i < 6; i++)
+                        {
+                            c = rnd.Next(10);
+                            code = code + c;
+                        }
+                        fpm.RandomCode = code;
+                        rand = code;
+
+                        MimeMessage mail = new MimeMessage();
+
+                        MailboxAddress from = new MailboxAddress("UnitedMessaging",
+                        "unitedmessaging1@gmail.com");
+                        mail.From.Add(from);
+
+                        MailboxAddress to = new MailboxAddress(Username, Email);
+                        mail.To.Add(to);
+
+                        mail.Subject = "Password Change Security Code";
+
+                        SmtpClient client = new SmtpClient();
+                        client.Connect("smtp.gmail.com", 465, true);
+                        client.Authenticate("unitedmessaging1@gmail.com", "cs204SP21");
+
+                       // BodyBuilder bodyBuilder = new BodyBuilder();
+                       // bodyBuilder.TextBody = "The Security Code is : " + code;
+
+
+                        
+                        mail.Body = new TextPart("plain")
+                        {
+                            Text = @"Code: " + code.ToString()
+                        };
+
+                        //mail.Body = $" The Security Code is : ${code}";
+
+                        client.Send(mail);
+                        client.Disconnect(true);
+                        client.Dispose();                      
+
+                        conn.Close();
+                        dRead.Close();
+                    }
+                    else
+                    {
+                        conn.Close();
+                        dRead.Close();
+                        // Error message pops up on screen
+                        ViewBag.message = "Username or Email not found!";
+                    }
+
+                }
+
+            }
+           return View("ForgotPassword");
         }
+
+        public IActionResult Checker(ForgotPasswordModel ck)
+        {
+            if (ck.SecurityCode == rand)
+            {
+                return View("LoginChangePassword");
+            }
+
+            else
+            {
+                return View("ForgotPassword");
+            }
+        }
+
+        public IActionResult LoginChangePassword(LoginChangePasswordModel lcp)
+        {
+            string Password = lcp.NewPassword;
+            string ConPassword = lcp.ConfirmPassword;
+            string username = username2;
+
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            string txtcmd = $"update users SET password ='" + Password + "' Where username ='" + username + "'"; // the command
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+            MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+
+            ViewBag.message = ("Password Changed");
+
+            conn.Close();
+
+            return View("Login");
+        }
+
     }
 }
