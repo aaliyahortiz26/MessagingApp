@@ -32,5 +32,18 @@ namespace MessagingApp.Controllers
         {
             return View();
         }
+
+        public IActionResult Preferences()
+        {
+            return View();
+        }
+        public IActionResult AccountSettings()
+        {
+            return View();
+        }
+        public IActionResult PinnedMessages()
+        {
+            return View();
+        }
     }
 }
