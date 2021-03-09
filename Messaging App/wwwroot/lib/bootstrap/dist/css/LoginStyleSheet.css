@@ -4,39 +4,51 @@
     height: 500px;
     margin: 0;
 }
+ 
 
 #LoginBackground {
     position: fixed;
-    top: 0;
-    left: 0;
     background-size: auto;
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
-    /*position: fixed;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-    background-size: cover;
-    resize: both;*/
 }
 
 footer {
     background-color: white;
 }
 
+.loginContainer {
+    position: fixed;
+    top: 20%;
+    left: 30%;
+    width: 40%;
+    height: 60%;
+}
+
+#LoginLogo {
+    position: absolute;
+    top: 20px;
+    transform: scale(.25, .25);
+    width: 800px;
+}
+
 .loginForm {
+    position: relative;
+    top: 30%;
+    left: 20%;
+/*
     position: fixed;
     top: 50%;
     left: 50%;
+*/
     /* based off of size of the element */
-    transform: translate(-50%, -50%);
+/*    transform: translate(-50%, -50%);*/
     background-color: white;
     border-radius: 12px;
     width: 420px;
     height: 290px;
-    margin-left: auto;
-    margin-right: auto;
+/*    margin-left: auto;
+    margin-right: auto;*/
 }
 
 .loginForm h3 {
