@@ -24,10 +24,6 @@ namespace MessagingApp.Controllers
         {
             return View();
         }
-        public IActionResult CreateGroup()
-        {
-            return View();
-        }
         public IActionResult Contacts()
         {
             return View();

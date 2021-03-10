@@ -10,7 +10,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MessagingApp.Models
 {
-
     public class LoginModel
     {
         [Required(ErrorMessage = "Enter Your UserName. *")]

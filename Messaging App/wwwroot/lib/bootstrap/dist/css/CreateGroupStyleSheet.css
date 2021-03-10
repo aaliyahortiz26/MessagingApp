@@ -1,0 +1,117 @@
+﻿body {
+    background-image: url("~/../../../../../Images/EarthBackground - Copy.jpeg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    font: 18px;
+    margin: 0;
+}
+
+footer {
+    background-color: white;
+}
+
+.createGroupContainer {
+    margin: auto;
+    width: 60%;
+    height: 35%;
+  /*  border: 3px solid red;   */
+    padding: 0px 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.centered {
+    width: 21.5%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  /*  border: 2px solid #73AD28; */
+}
+
+.createGroupArea {
+    background-color: white;
+    border-radius: 12px;
+    width: 450px;
+    height: 330px;
+}
+
+
+h1 {
+    margin-top:0px;
+    text-align: center;
+}
+
+
+
+
+
+
+
+.fields {
+    text-align: center;
+}
+
+.fields label {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.usernameInput {
+    width: 220px;
+    padding-bottom: 0px;
+}
+
+
+.publicRadioContainer {
+    margin-left: -5px;
+}
+
+.fields input {
+    margin-bottom: 20px;
+    border-color: black;
+    border-width: 1px;
+    box-sizing: border-box;
+    margin-left: 10px;
+    font-size: 17px;
+    text-align: left;
+}
+
+
+.inviteContactLabel {
+    margin-left: -76px;
+    margin-top: 20px;
+}
+
+.inviteContactInput {
+    margin-top: 20px;
+    width: 220px;
+}
+
+button {
+    margin-top: 5px;
+    justify-content: center;
+    margin-left: 10px;
+    vertical-align: middle;
+    width: 105px;
+    height: 45px;
+    color: white;
+    font-size: 16px;
+    background-color: #2196F3;
+    border-radius: 6px;
+}
+
+.goHomeButton {
+    margin-left: 25%;
+}
+
+.field-validation-error {
+    margin-left: -28px;
+    margin-top: -15px;
+    position: absolute;
+    color: red;
+}

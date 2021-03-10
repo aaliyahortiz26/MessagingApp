@@ -1,7 +1,8 @@
-﻿@{
+﻿@model MessagingApp.Models.CreateGroupModel
+@{
     // Use login layout under View->Shared folder
     Layout = "_Layout";
-
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/CreateGroupStyleSheet.css" />
 }
 
 <!DOCTYPE html>
@@ -10,9 +11,36 @@
     <meta name="viewport" content="width=device-width" />
 </head>
 <body>
-    <div class="test">
-        <h1>Create Group</h1>
-        <button id="GoHomeButton" type="submit" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
+    <div class="createGroupContainer">
+        <form class="centered createGroupArea" asp-action="Login" method="post">
+            <h1>Create Group Chat</h1>
+            <div class="fields">
+                <p>
+                    <label class="titleLabel">Title:</label>
+                    <input class="usernameInput" asp-for="groupChatTitle" placeholder="Enter name of group chat" />
+                    <br>
+                    <span asp-validation-for="groupChatTitle" class="text-danger"></span>
+                </p>
+                <p>
+                    <label class="publicRadioContainer">
+                        <input type="radio" id="publicRadio">
+                        <span class="checkmark"></span>Public
+                    </label>
+                    <br>
+                    <label class="privateRadioContainer">
+                        <input type="radio" name="privateRadio">
+                        <span class="checkmark"></span>Private
+                    </label>
+                    <br>
+
+                    <label class="inviteContactLabel">Invite Contacts:</label>
+                    <input class="inviteContactInput" asp-for="inviteContact" placeholder="Enter a username" />
+                </p>
+            </div>
+            <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
+            <button class="createChatButton" type="submit">Create Chat</button>
+
+        </form>
     </div>
 </body>
 </html>
