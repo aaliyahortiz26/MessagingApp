@@ -1,46 +1,50 @@
-﻿body {
+﻿.loginBackground {
+    background-image: url("~/../../../../../Images/EarthBackground - Copy.jpeg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
     font-family: Arial, Helvetica, sans-serif;
     width: 500px;
     height: 500px;
     margin: 0;
 }
 
-#LoginBackground {
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-size: auto;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-    /*position: fixed;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-    background-size: cover;
-    resize: both;*/
-}
-
 footer {
     background-color: white;
 }
 
-.loginForm {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    /* based off of size of the element */
-    transform: translate(-50%, -50%);
+.loginContainer {
+    margin: auto;
+    width: 50%;
+    height: 55%;
+    /*  border: 3px solid red;   */
+    padding: 0px 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.centered {
+    width: 21.5%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+     /*  border: 2px solid #73AD28;   */
+}
+
+.loginArea {
     background-color: white;
     border-radius: 12px;
     width: 420px;
-    height: 290px;
-    margin-left: auto;
-    margin-right: auto;
+    height: 255px;
 }
 
-.loginForm h3 {
-    margin-top: 30px;
+#loginAreaTitle {
+    padding-top: 7px;
+    margin-top: 0px;
     margin-bottom: 30px;
     text-align: center;
     font-size: 30px;
@@ -48,7 +52,6 @@ footer {
 
 /*Style for username label/ input and */
 .fields {
-    justify-content: center;
     text-align: center;
 }
 
@@ -87,7 +90,6 @@ button {
 #LoginButton {
     margin-left: 38px;
 }
-
 
 .field-validation-error {
     margin-left: -28px;

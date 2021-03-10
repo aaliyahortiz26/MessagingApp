@@ -8,16 +8,13 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="pragma" content="no-cache" />
 </head>
-<body>
-    <form asp-action="Login" method="post">
-        <div id = "LoginBackground">
-           <img src="/Images/earth (Large).jpeg"/>
-        </div>
-
-        <div class="loginForm">
-            <div class="rectangle"></div>
-            <h3 id="h3Login">Login</h3>
+<body class="loginBackground">
+    <div class="loginContainer">
+        <img class="centered" id="LoginLogo" src="/Images/Logo.png" />
+        <form class="centered loginArea" asp-action="Login" method="post">
+            <h3 id="loginAreaTitle">Login</h3>
             <div class="fields">
                 <p>
                     <label id="UsernameLabel" asp-for="Name">Username:</label>
@@ -35,8 +32,8 @@
             <button id="LoginButton" type="submit">Login</button>
             <button id="CreateAccountButton" type="button" onclick="location.href='@Url.Action("CreateAccountScreen", "Login")'">Create Account</button>
             <button id="ForgotPasswordButton" type="button" onclick="location.href='@Url.Action("ForgotPasswordScreen", "Login")'">Forgot Password</button>
-        </div>
-    </form>
+        </form>
+    </div>
 </body>
 </html>
 

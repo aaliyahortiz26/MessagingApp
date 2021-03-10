@@ -13,7 +13,7 @@
     <div class="LeftSideButton">
         <button id="ProfileButton" type="submit" onclick="location.href='@Url.Action("Profile", "Home")'">Profile</button>
         <button id="TopicSearchButton" type="submit" onclick="location.href='@Url.Action("TopicSearch", "Home")'">Search For Topics</button>
-        <button id="CreateGroupButton" type="submit" onclick="location.href='@Url.Action("CreateGroup", "Home")'">Create Group</button>
+        <button id="CreateGroupButton" type="submit" onclick="location.href='@Url.Action("CreateGroup", "Chat")'">Create Group</button>
         <button id="ContactsButton" type="submit" onclick="location.href='@Url.Action("Contacts", "Home")'">Contacts</button>
 
         <h2>Joined Groups</h2>
@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="RightSide">
-        <button id="LoginScreenButton" type="submit" onclick="location.href='@Url.Action("Index", "Login")'">Log Out</button>
+        <button class="centered" id="LoginScreenButton" type="submit" onclick="location.href='@Url.Action("Index", "Login")'">Log Out</button>
     </div>
 </body>
 </html>
