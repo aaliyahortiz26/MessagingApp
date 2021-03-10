@@ -1,11 +1,15 @@
-﻿body {
+﻿.createAccountBackground {
+    background-image: url("~/../../../../../Images/galaxy.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
     font-family: Arial, Helvetica, sans-serif;
     width: 500px;
     height: 500px;
     margin: 0;
 }
 
-#CreateAccountBackground {
+/* #CreateAccountBackground {
     position: fixed;
     top: 0;
     left: 0;
@@ -14,7 +18,7 @@
     margin-right: auto;
     width: 50%;
     background-size: 100%;
-}
+}*/
 
 footer {
     background-color: white;

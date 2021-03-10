@@ -10,33 +10,27 @@
     <meta name="viewport" content="width=device-width" />
 </head>
 <body class="loginBackground">
-<!--    <img id="LoginBackground" src="/Images/earth (Large).jpeg" /> -->
     <div class="loginContainer">
-        <form asp-action="Login" method="post">
-
-            <img id="LoginLogo" src="/Images/Logo.png" />
-            <div class="loginForm">
-                <!--                <div class="rectangle"></div>-->
-
-                <h3 id="h3Login">Login</h3>
-                <div class="fields">
-                    <p>
-                        <label id="UsernameLabel" asp-for="Name">Username:</label>
-                        <input id="UsernameInput" asp-for="Name" placeholder="Enter Username" />
-                        <br>
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </p>
-                    <p>
-                        <label id="PasswordLabel" asp-for="Pass">Password:</label>
-                        <input id="PasswordInput" asp-for="Pass" placeholder="Enter Password" />
-                        <br>
-                        <span asp-validation-for="Pass" class="text-danger"></span>
-                    </p>
-                </div>
-                <button id="LoginButton" type="submit">Login</button>
-                <button id="CreateAccountButton" type="button" onclick="location.href='@Url.Action("CreateAccountScreen", "Login")'">Create Account</button>
-                <button id="ForgotPasswordButton" type="button" onclick="location.href='@Url.Action("ForgotPasswordScreen", "Login")'">Forgot Password</button>
+        <img class="centered" id="LoginLogo" src="/Images/Logo.png" />
+        <form class="centered loginArea" asp-action="Login" method="post">
+            <h3 id="loginAreaTitle">Login</h3>
+            <div class="fields">
+                <p>
+                    <label id="UsernameLabel" asp-for="Name">Username:</label>
+                    <input id="UsernameInput" asp-for="Name" placeholder="Enter Username" />
+                    <br>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </p>
+                <p>
+                    <label id="PasswordLabel" asp-for="Pass">Password:</label>
+                    <input id="PasswordInput" asp-for="Pass" placeholder="Enter Password" />
+                    <br>
+                    <span asp-validation-for="Pass" class="text-danger"></span>
+                </p>
             </div>
+            <button id="LoginButton" type="submit">Login</button>
+            <button id="CreateAccountButton" type="button" onclick="location.href='@Url.Action("CreateAccountScreen", "Login")'">Create Account</button>
+            <button id="ForgotPasswordButton" type="button" onclick="location.href='@Url.Action("ForgotPasswordScreen", "Login")'">Forgot Password</button>
         </form>
     </div>
 </body>
