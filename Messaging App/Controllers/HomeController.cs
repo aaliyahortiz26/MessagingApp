@@ -20,10 +20,6 @@ namespace MessagingApp.Controllers
         {
             return View();
         }
-        public IActionResult TopicSearch()
-        {
-            return View();
-        }
         public IActionResult Contacts()
         {
             return View();

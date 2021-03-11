@@ -1,8 +1,8 @@
-﻿@model MessagingApp.Models.CreateGroupModel
+﻿@model MessagingApp.Models.CreateTopicModel
 @{
     // Use login layout under View->Shared folder
     Layout = "_Layout";
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/Chat_StyleSheet/CreateGroupStyleSheet.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/Chat_StyleSheet/CreateTopicStyleSheet.css" />
 }
 
 <!DOCTYPE html>
@@ -13,13 +13,13 @@
 <body>
     <div class="createGroupContainer">
         <form class="centered createGroupArea" asp-action="Login" method="post">
-            <h1>Create Group Chat</h1>
+            <h1>Create Topic</h1>
             <div class="fields">
                 <p>
-                    <label class="titleLabel">Title:</label>
-                    <input class="usernameInput" asp-for="groupChatTitle" placeholder="Enter name of group chat" />
+                    <label class="topicNameLabel">Topic Name:</label>
+                    <input class="topicNameInput" asp-for="topicName" placeholder="Enter name of topic" />
                     <br>
-                    <span asp-validation-for="groupChatTitle" class="text-danger"></span>
+                    <span asp-validation-for="topicName" class="text-danger"></span>
                 </p>
                 <p>                   
                     <input type="radio" class="privateRadioContainer" name="groupType" value="private">

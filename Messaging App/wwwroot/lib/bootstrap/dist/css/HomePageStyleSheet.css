@@ -15,15 +15,16 @@ footer {
     width: 11.3%;
     height: 94%;
 
-    /* border: 3px solid green; */
+  /*   border: 3px solid green; */
 }
 
 
-/* #LoginLogo {
+#LoginLogo {
+    padding-left: 25%;
     margin-top: 10px;
-    width: 50%;
+    width: 55%;
     padding-bottom: 0px;
-}*/
+}
 
 .RightSide {
     background-color: slategray;
@@ -52,7 +53,7 @@ button {
 }
 
 #ProfileButton {
-    margin-top: 10px;
+    margin-top: 2px;
     border-top-color: black;
 }
 
@@ -75,6 +76,12 @@ h2 {
     border-top: 1px dashed black;
     font: 16px/26px Georgia, Garamond, Serif;
     overflow: auto;
+
+
+
+
+    /*   border: 3px solid green; */
+
 }
 
 
@@ -92,4 +99,3 @@ h2 {
     width: 100px;
     height: 36px;
 }
-

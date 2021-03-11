@@ -1,0 +1,41 @@
+﻿@model MessagingApp.Models.TopicSearchModel
+@{
+    // Use login layout under View->Shared folder
+    Layout = "_Layout";
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/Chat_StyleSheet/TopicSearchStyleSheet.css" />
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <div class="topicSearchContainer">
+        <form class="centered topicSearchArea" asp-action="Login" method="post">
+            <h1>Topic Search</h1>
+            <div class="fields">
+                <p>
+                    <label class="categoryLabel">Category:</label>
+                    <select class="categoryDropdown">
+                        <option value="all">All categories</option>
+                    </select>
+                    <br>
+                    <span asp-validation-for="categoryDropdown" class="text-danger"></span>
+                </p>
+                <p>
+                    <label class="topicLabel">Topic:</label>
+                    <select class="topicDropdown">
+                        <option value="none"></option>
+                    </select>
+                    <br>
+                    <span asp-validation-for="topicDropdown" class="text-danger"></span>
+                </p>
+            </div>
+            <button class="viewTopicButton" type="submit">View Topic</button>
+            <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
+            <button class="createNewTopicButton" type="button" onclick="location.href='@Url.Action("CreateTopic", "Chat")'">Create New Topic</button>
+        </form>
+    </div>
+</body>
+</html>
