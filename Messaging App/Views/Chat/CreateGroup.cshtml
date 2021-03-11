@@ -12,21 +12,27 @@
 </head>
 <body>
     <div class="createGroupContainer">
-        <form class="centered createGroupArea" asp-action="Login" method="post">
+        <form class="centered createGroupArea" asp-action="CreateGroup" method="post">
             <h1>Create Group Chat</h1>
             <div class="fields">
                 <p>
-                    <label class="titleLabel">Title:</label>
+                    <label class="titleLabel" asp-for="groupChatTitle">Title:</label>
                     <input class="usernameInput" asp-for="groupChatTitle" placeholder="Enter name of group chat" />
                     <br>
                     <span asp-validation-for="groupChatTitle" class="text-danger"></span>
                 </p>
-                <p>                   
-                    <input type="radio" class="privateRadioContainer" name="groupType" value="private">
+                <p>
+                    <input type="radio" class="privateRadioContainer" asp-for=radioField value="private">
                     <label for="private">Private</label><br>
-                    <input type="radio" class="publicRadioContainer" name="groupType" value="public">
-                    <label for="public">Public</label><br>          
-                    
+                    <input type="radio" class="publicRadioContainer" asp-for=radioField value="public">
+                    <label for="public">Public</label><br>
+
+<!--
+                    <input type="radio" asp-for=radioField value="option1" checked />
+                    <br>
+                    <input type="radio" asp-for=radioField value="2" checked /> -->
+
+
                     <label class="inviteContactLabel">Invite Contacts:</label>
                     <input class="inviteContactInput" asp-for="inviteContact" placeholder="Enter a username" />
                 </p>

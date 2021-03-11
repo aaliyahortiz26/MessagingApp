@@ -11,11 +11,14 @@ using System.ComponentModel.DataAnnotations;
 namespace MessagingApp.Models
 {
 
-    public class CreateGroupModel
+    public class CreateGroupModel : DBObject
     {
         [Required(ErrorMessage = "Required Field")]
         public string groupChatTitle { get; set; }
   
+        public string radioField { get; set; }
+
+
         public string inviteContact { get; set; }
     }
 }

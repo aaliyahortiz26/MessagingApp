@@ -16,7 +16,6 @@ namespace MessagingApp.Controllers
 
     public class LoginController : Controller
     {
-
         public IActionResult Index()
         {
             return View("Login");
@@ -32,7 +31,6 @@ namespace MessagingApp.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel lm)
         {
-            
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
 
@@ -61,7 +59,7 @@ namespace MessagingApp.Controllers
                             if (dRead.Read())
                             {
                                 lm.id = Convert.ToInt32(dRead.GetValue(0).ToString());
-                                return View("~/Views/Home/Home.cshtml");
+                               return RedirectToAction("Home", "Home");
                             }
                         }
                         conn.Close();
