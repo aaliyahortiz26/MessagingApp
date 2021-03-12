@@ -82,13 +82,21 @@ h1 {
 
 
 .inviteContactLabel {
-    margin-left: -76px;
+    margin-left: -30px;
     margin-top: 20px;
 }
 
-.inviteContactInput {
+.inviteContactDropdown {
     margin-top: 20px;
     width: 220px;
+    margin-left: 10px;
+}
+
+select {
+    width: 240px;
+    font-size: 16px;
+    text-align: center;
+    height: 30px;
 }
 
 button {

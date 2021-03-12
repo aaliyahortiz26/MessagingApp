@@ -38,7 +38,7 @@ namespace MessagingApp.Controllers
                 if (createGroupMod.groupChatTitle == "")
                 {
                     return View("CreateGroup");
-                }
+                }                            
                 else
                 {
                     const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
@@ -60,6 +60,36 @@ namespace MessagingApp.Controllers
             }
             return View("CreateGroup");
             
+        }
+
+        public IActionResult GroupTemplate(GroupTemplateModel groupTemplateMod, string? name)
+        {
+            bool foundUsername = false;
+            string groupChatName = name;
+            for (int i = 0; i < HomeModel.m_grouplist.Count; i++)
+            {
+                if (name == HomeModel.m_grouplist[i])
+                {
+                    foundUsername = true;
+                }
+            }
+            /*if (name == "6")
+            {
+                return View();
+            }
+            else
+            {
+                return View();
+            }*/
+
+            if (foundUsername == true)
+            {
+                // select from database based on username of group and print out title
+                // 
+
+
+            }
+            return View();
         }
     }
 }

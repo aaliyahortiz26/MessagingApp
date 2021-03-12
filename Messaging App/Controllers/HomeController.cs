@@ -23,18 +23,16 @@ namespace MessagingApp.Controllers
 
 
             MySqlCommand getGroups = conn.CreateCommand(); 
-            getGroups.CommandText = "SELECT userid FROM groupmessage where userID= @userID"; // the command
+            getGroups.CommandText = "SELECT chatName FROM groupmessage where userID= @userID"; // the command
             getGroups.Parameters.AddWithValue("@userID", DBObject.m_id);
 
             MySqlDataReader reader = getGroups.ExecuteReader();
 
             List<string> groupsList = new List<string>();
 
-            int i = 0;
             while (reader.Read())
             {
-                groupsList.Add(Convert.ToString(reader[i]));
-                i++;
+                groupsList.Add(Convert.ToString(reader[0]));
             }
             reader.Close();
 

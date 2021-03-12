@@ -24,12 +24,10 @@
             @{
                 for (int i = 0; i < HomeModel.m_grouplist.Count; i++)
                 {
-                     <button>@HomeModel.m_grouplist[i]    </button>;
+                    <button id="groupButtons" name="button" type="submit" value="@HomeModel.m_grouplist[i]" onclick="location.href='@Url.Action("GroupTemplate", "Chat")?name=@HomeModel.m_grouplist[i]'" >@HomeModel.m_grouplist[i]</button>;
                 }
             }
-            <p>Chat with friends</p>
-            <p>SNHU Topic Discussion</p>
-                </div>
+        </div>
     </div>
     <div class="RightSide">
         <button class="centered" id="LoginScreenButton" type="submit" onclick="location.href='@Url.Action("Index", "Login")'">Log Out</button>

@@ -1,8 +1,4 @@
 ﻿body {
-    background-image: url("~/../../../../../../Images/EarthBackground - Copy.jpeg"); 
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
     font: 18px;
     margin: 0;
 }
@@ -55,34 +51,12 @@ h1 {
     font-size: 18px;
 }
 
-.categoryDropdown {
-    padding-bottom: 0px;
-}
-
-select {
-    width: 240px;
-    font-size: 16px;
-    text-align: center;
-    height: 30px;
-}
 
 
 
 
-.categoryLabel {
-    margin-left: -25px;
-    margin-top: 35px;
-}
 
 
-.topicLabel {
-    margin-top: 35px;
-}
-
-.topicDropdown {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
 
 
 
@@ -100,13 +74,3 @@ button {
     border-radius: 6px;
 }
 
-.viewTopicButton {
-    margin-left: 14%;
-}
-
-.field-validation-error {
-    margin-left: -28px;
-    margin-top: -15px;
-    position: absolute;
-    color: red;
-}
