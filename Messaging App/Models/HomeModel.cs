@@ -13,8 +13,6 @@ namespace MessagingApp.Models
     public class HomeModel : DBObject
     {
         public static List<string> m_grouplist;
-//        List<string> groupList { get => m_grouplist; set => m_grouplist = value; }
-
         public void SetGroupListAttr(List<string> grouplist)
         {
             m_grouplist = grouplist;

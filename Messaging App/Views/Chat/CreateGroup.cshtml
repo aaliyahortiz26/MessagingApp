@@ -28,18 +28,18 @@
                     <label for="public">Public</label><br>
 
                     <!--
-    <input type="radio" asp-for=radioField value="option1" checked />
-    <br>
-    <input type="radio" asp-for=radioField value="2" checked /> -->
+                    <input type="radio" asp-for=radioField value="option1" checked />
+                    <br>
+                    <input type="radio" asp-for=radioField value="2" checked /> -->
 
                     <label class="inviteContactLabel">Contact:</label>
-                    <select class="inviteContactDropdown">
-                        <option asp-for="addontact" value="all">none</option>
+                    <select asp-for=inviteContact class="inviteContactDropdown">
+                        <option value="none">none</option>
                     </select>
 
                     <!--<label class="inviteContactLabel">Invite Contacts:</label>
 
-    <input class="inviteContactInput" asp-for="inviteContact" placeholder="Enter a username" />-->
+                    <input class="inviteContactInput" asp-for="inviteContact" placeholder="Enter a username" />-->
                 </p>
             </div>
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
@@ -49,3 +49,12 @@
     </div>
 </body>
 </html>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+    window.onload = function () {
+        alert("@ViewBag.Message");
+    };
+    </script>
+}

@@ -18,7 +18,7 @@ namespace MessagingApp.Models
   
         public string radioField { get; set; }
 
-        [Required(ErrorMessage = "Required Field")]
         public string inviteContact { get; set; }
+
     }
 }

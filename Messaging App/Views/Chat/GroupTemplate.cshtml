@@ -1,8 +1,8 @@
-﻿@model MessagingApp.Models.HomeModel
+﻿@model MessagingApp.Models.GroupTemplateModel
 @{
     // Use login layout under View->Shared folder
     Layout = "_Layout";
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/Chat_StyleSheet/CreateGroupStyleSheet.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/Chat_StyleSheet/GroupTemplateStyleSheet.css" />
 }
 
 <!DOCTYPE html>
@@ -11,25 +11,41 @@
     <meta name="viewport" content="width=device-width" />
 </head>
 <body>
-    <div class="createGroupContainer">
-        <form class="centered createGroupArea" asp-action="CreateGroup" method="post">
-            <h1>Create Group Chat</h1>
+    <div class="groupTemplateContainer">
+        <form class="centered messageArea" asp-action="GroupTemplate" method="post">
+            <h1>Group Name: @GroupTemplateModel.m_groupName</h1>
 
-            <div id="ScrollBox">
-                @{
-                    for (int i = 0; i < HomeModel.m_grouplist.Count; i++)
-                    {
-                        <button id="groupButtons" name="button" type="submit" value="@HomeModel.m_grouplist[i]" onclick="location.href='@Url.Action("GroupTemplate", "Chat")?name=@HomeModel.m_grouplist[i]'">@HomeModel.m_grouplist[i]</button>;
-                    }
+
+
+            <div class="fields">
+                @for (int i = 0; i < 15; i++)
+                {
+
+
+                <p>
+                    <label id="UsernameLabel">Message</label>
+                </p>
                 }
-                </div>
+            </div>
 
 
 
-                
+           
+        </form>
+        <form class="centered sendMessageArea" asp-action="GroupTemplate" method="post">
 
-                <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
-                <button class="createChatButton" type="submit">Create Chat</button>
+
+
+            <div class="fields">
+                <input id="messageInput" asp-for="message" placeholder="Enter Message" />
+                <button class="sendMessageButton" type="submit">Send Message</button>
+
+
+            </div>
+
+
+
+            <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
         </form>
     </div>
 </body>

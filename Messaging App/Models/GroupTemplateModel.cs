@@ -13,12 +13,19 @@ namespace MessagingApp.Models
     public class GroupTemplateModel : DBObject
     {
         public static List<string> m_grouplist;
-//        List<string> groupList { get => m_grouplist; set => m_grouplist = value; }
+        public static string m_groupName;
+
+        //        List<string> groupList { get => m_grouplist; set => m_grouplist = value; }
 
         public void SetGroupListAttr(List<string> grouplist)
         {
             m_grouplist = grouplist;
         }
+
+        public string message {get; set;}
+
+        public string groupName { get=> m_groupName; set=>m_groupName = value; }
+
     }
 
 }

@@ -35,7 +35,26 @@ namespace MessagingApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (createGroupMod.groupChatTitle == "")
+                const string connection1 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                MySqlConnection conn1 = new MySqlConnection(connection1);
+
+                conn1.Open();
+
+
+                MySqlCommand getGroups = conn1.CreateCommand();
+                getGroups.CommandText = "SELECT count(*) FROM groupmessage where chatName= @chatName"; // the command
+                getGroups.Parameters.AddWithValue("@chatName", createGroupMod.groupChatTitle);
+
+                int groupExist = Convert.ToInt32(getGroups.ExecuteScalar());
+
+                conn1.Close();
+
+                if (groupExist >= 1)
+                {
+                    ViewBag.message = "Group already exists";
+                    return View("CreateGroup");
+                }
+                else if (createGroupMod.groupChatTitle == "")
                 {
                     return View("CreateGroup");
                 }                            
@@ -58,21 +77,22 @@ namespace MessagingApp.Controllers
                     return RedirectToAction("Home", "Home");
                 }
             }
+            
             return View("CreateGroup");
             
         }
 
         public IActionResult GroupTemplate(GroupTemplateModel groupTemplateMod, string? name)
         {
-            bool foundUsername = false;
-            string groupChatName = name;
-            for (int i = 0; i < HomeModel.m_grouplist.Count; i++)
-            {
-                if (name == HomeModel.m_grouplist[i])
-                {
-                    foundUsername = true;
-                }
-            }
+            // bool foundUsername = false;
+            //string groupChatName = name;
+            /*  for (int i = 0; i < HomeModel.m_grouplist.Count; i++)
+              {
+                  if (name == HomeModel.m_grouplist[i])
+                  {
+                      foundUsername = true;
+                  }
+              }*/
             /*if (name == "6")
             {
                 return View();
@@ -82,13 +102,15 @@ namespace MessagingApp.Controllers
                 return View();
             }*/
 
-            if (foundUsername == true)
-            {
-                // select from database based on username of group and print out title
-                // 
+            /*   if (foundUsername == true)
+               {
+                   // select from database based on username of group and print out title
+                   // 
 
 
-            }
+               }*/
+            groupTemplateMod.groupName = name;
+
             return View();
         }
     }
