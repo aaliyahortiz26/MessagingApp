@@ -1,4 +1,5 @@
-﻿@{
+﻿@model MessagingApp.Models.HomeModel
+@{
     // Use login layout under View->Shared folder
     Layout = "_Layout";
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/HomePageStyleSheet.css" />
@@ -11,15 +12,21 @@
 </head>
 <body>
     <div class="LeftSideButton">
+        <img id="LoginLogo" src="/Images/Logo.png" />
+
         <button id="ProfileButton" type="submit" onclick="location.href='@Url.Action("Profile", "Home")'">Profile</button>
-        <button id="TopicSearchButton" type="submit" onclick="location.href='@Url.Action("TopicSearch", "Home")'">Search For Topics</button>
-        <button id="CreateGroupButton" type="submit" onclick="location.href='@Url.Action("CreateGroup", "Chat")'">Create Group</button>
+        <button id="TopicSearchButton" type="submit" onclick="location.href='@Url.Action("TopicSearch", "Chat")'">Search For Topics</button>
+        <button id="CreateGroupButton" type="button" onclick="location.href='@Url.Action("CreateGroupScreen", "Chat")'">Create Group</button>
         <button id="ContactsButton" type="submit" onclick="location.href='@Url.Action("Contacts", "Home")'">Contacts</button>
 
         <h2>Joined Groups</h2>
         <div id="ScrollBox">
-            <p>Chat with friends</p>
-            <p>SNHU Topic Discussion</p>
+            @{
+                for (int i = 0; i < HomeModel.m_grouplist.Count; i++)
+                {
+                    <button id="groupButtons" name="button" type="submit" value="@HomeModel.m_grouplist[i]" onclick="location.href='@Url.Action("GroupTemplate", "Chat")?name=@HomeModel.m_grouplist[i]'" >@HomeModel.m_grouplist[i]</button>;
+                }
+            }
         </div>
     </div>
     <div class="RightSide">
