@@ -1,7 +1,9 @@
-﻿@{
+﻿@model MessagingApp.Models.ContactsModel
+
+@{
     // Use login layout under View->Shared folder
     Layout = "_Layout";
-
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/ContactsStyleSheet.css" />
 }
 
 <!DOCTYPE html>
@@ -10,9 +12,33 @@
     <meta name="viewport" content="width=device-width" />
 </head>
 <body>
-    <div class="test">
-        <h1>Contacts</h1>
-        <button id="GoHomeButton" type="submit" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
+    <div class="contactContainer">
+        <form class="centered contactSearchArea" asp-action="Contact" method="post">
+            <h1>Contacts</h1>
+            <div class="fields">
+                <p>                    
+                    <label class="addContactLabel">Add contact:</label>
+                    <select class="addContactDropdown">
+                        <!-- add contact from database to the dropdown by using a for loop below with the value being equal to the contact's username from the database -->
+                        <option value="all">name of contact</option>
+                    </select>
+                    <br>
+                </p>
+            </div>
+        </form>
+        <form class="centered viewContactsArea" asp-action="GroupTemplate" method="post">
+            <div class="fields">
+                <label class="contactLabel">Contacts:</label>
+                <br>                
+                <!-- display contacts (Example: 1. friend name) -->
+                <!-- display groups that are similar -->
+                <br>
+            </div>
+        </form>
+        <div class="centered buttonArea">
+            <button class="addContactButton" type="submit">Add Contact</button>
+            <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
+        </div>
     </div>
 </body>
 </html>
