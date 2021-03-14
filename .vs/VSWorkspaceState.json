@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Messaging App",
+    "\\Messaging App\\Models"
   ],
+  "SelectedNode": "\\Messaging App\\MessagingApp.sln",
   "PreviewInSolutionExplorer": false
 }
