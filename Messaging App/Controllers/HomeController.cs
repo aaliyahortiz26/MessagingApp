@@ -24,7 +24,6 @@ namespace MessagingApp.Controllers
 
             conn.Open();
 
-
             MySqlCommand getGroups = conn.CreateCommand(); 
             getGroups.CommandText = "SELECT chatName FROM groupmessage where userID= @userID"; // the command
             getGroups.Parameters.AddWithValue("@userID", DBObject.m_id);
@@ -115,10 +114,10 @@ namespace MessagingApp.Controllers
                 return View("AccountSettings");
             }
 
-
-        public IActionResult PinnedMessages()
+        public IActionResult ChangePassword()
         {
             return View();
         }
+
     }
 }
