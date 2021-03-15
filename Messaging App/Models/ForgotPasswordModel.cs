@@ -15,7 +15,5 @@ namespace MessagingApp.Models
 
         [Display(Name = "Security Code:")]
         public string SecurityCode { get; set; }
-
-        public string RandomCode{get; set;}
     }
 }

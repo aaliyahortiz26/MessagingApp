@@ -8,6 +8,8 @@ namespace MessagingApp.Models
     public abstract class DBObject
     {
         public static string m_username;
+        public static string m_email;
+        public static string RandC;
         public static int m_id;
 
         public string Username
@@ -15,10 +17,20 @@ namespace MessagingApp.Models
             get => m_username;
             set => m_username = value;
         }
+        public string email
+        {
+            get => m_email;
+            set => m_email = value;
+        }
         public int ID
         {
             get => m_id;
             set => m_id = value;
+        }
+        public string RandC2
+        {
+            get => RandC;
+            set => RandC = value;
         }
     }
 }
