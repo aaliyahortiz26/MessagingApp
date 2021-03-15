@@ -9,6 +9,7 @@ namespace MessagingApp.Models
     {
         public static string m_username;
         public static int m_id;
+        public static string RandC;
 
         public string Username
         {
@@ -19,6 +20,12 @@ namespace MessagingApp.Models
         {
             get => m_id;
             set => m_id = value;
+        }
+
+        public string RandC2
+        {
+            get => RandC;
+            set => RandC = value;
         }
     }
 }
