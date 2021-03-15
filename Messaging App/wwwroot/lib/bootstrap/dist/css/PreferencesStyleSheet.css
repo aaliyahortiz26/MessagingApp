@@ -14,19 +14,19 @@ h1 {
     text-align: left;
 }
 
-h2 {
+p2 {
     padding: 100px;
     color: black;
     text-align: left;
-    margin-bottom: 10px;
+    margin-left: 28px;
     font-size: 16px;
 }
 
-h3 {
+p3 {
     padding: 100px;
     color: black;
     text-align: left;
-    margin-bottom: 10px;
+    margin-left: -60px;
     font-size: 16px;
 }
 
