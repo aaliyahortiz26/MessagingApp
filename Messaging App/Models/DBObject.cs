@@ -9,16 +9,29 @@ namespace MessagingApp.Models
     {
         public static string m_username;
         public static int m_id;
+        public static string RandC;
+        public static string m_email;
 
         public string Username
         {
             get => m_username;
             set => m_username = value;
         }
+        public string email
+        {
+            get => m_email;
+            set => m_email = value;
+        }
         public int ID
         {
             get => m_id;
             set => m_id = value;
+        }
+
+        public string RandC2
+        {
+            get => RandC;
+            set => RandC = value;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 namespace MessagingApp.Models
 {
-    public class ForgotPasswordModel
+    public class ForgotPasswordModel : DBObject
     {
         [Required(ErrorMessage = "Required field. *")]
         [Display(Name = "Username:")]
@@ -16,6 +16,5 @@ namespace MessagingApp.Models
         [Display(Name = "Security Code:")]
         public string SecurityCode { get; set; }
 
-        public string RandomCode{get; set;}
     }
 }
