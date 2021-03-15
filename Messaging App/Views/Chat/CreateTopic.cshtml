@@ -21,6 +21,12 @@
                     <br>
                     <span asp-validation-for="topicName" class="text-danger"></span>
                 </p>
+                <p>
+                    <label class="descriptionLabel">Description:</label>
+                    <input class="descriptionInput" asp-for="description" placeholder="Enter description of topic" />
+                    <br>
+                    <span asp-validation-for="description" class="text-danger"></span>
+                </p>
                 <p>                   
                     <input type="radio" class="privateRadioContainer" name="groupType" value="private">
                     <label for="private">Private</label><br>
