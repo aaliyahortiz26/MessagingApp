@@ -59,11 +59,21 @@ namespace MessagingApp.Controllers
                             if (dRead.Read())
                             {
                                 lm.id = Convert.ToInt32(dRead.GetValue(0).ToString());
-                                return RedirectToAction("Home", "Home");
+                            }
+                        }
+                       txtcmd1 = "SELECT email FROM users where username='" + Username + "'"; // the command
+                       cmd1 = new MySqlCommand(txtcmd1, conn);
+                        dRead.Close();
+                        using (dRead = cmd1.ExecuteReader()) // executes the search command
+                        {
+                            if (dRead.Read())
+                            {
+                                DBObject.m_email = dRead.GetValue(0).ToString();
                             }
                         }
                         conn.Close();
                         dRead.Close();
+                        return RedirectToAction("Home", "Home");
                     }
                     else
                     {

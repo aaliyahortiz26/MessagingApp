@@ -14,18 +14,18 @@
         <h1>Account Settings</h1>
 
 
-
         <div class="c">
-
             <p2>Username: </p2>
-            <input type="text" id="uname" name="username" placeholder="Your Username..">
+            <input type="text" id="uname" name="username">
+            <label id="UnameLabel">Username:</label>
             <br />
             <br />
             <br />
             <br />
 
             <p3>Email: </p3>
-            <input type="text" id="email" name="email" placeholder="Your Email.">
+            <input type="text" id="email" name="email">
+            <label id="EmailLabel">Username: </label>
             <br />
             <br />
             <br />
@@ -39,14 +39,13 @@
         </div>
 
         <div class="second">
-        <div class=" Buttons">
+            <div class=" Buttons">
 
+                <button class ="button button1" id="ApplyButton" type="button" onclick="location.href='@Url.Action("AccountSetting", "Home")'">Apply Changes</button>
+                <button class="button button2">Cancel</button>
+                <button class="button button3">Change Password</button>
 
-
-
-            <button class="button button1">Apply Changes</button>
-            <button class="button button2">Cancel</button>
-            <button class="button button3">Change Password</button>
+            </div>
 
         </div>
     </div>
