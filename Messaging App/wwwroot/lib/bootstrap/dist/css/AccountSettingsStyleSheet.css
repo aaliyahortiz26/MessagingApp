@@ -8,3 +8,98 @@
 footer {
     background-color: white;
 }
+
+h1 {
+    color: black;
+    text-align: left;
+}
+
+p2 {
+    padding: 30px;
+    color: black;
+    text-align: left;
+    margin-left: 37px;
+    font-size: 16px;
+}
+
+p3 {
+    padding: 30px;
+    color: black;
+    text-align: left;
+    margin-left: 71px;
+    font-size: 16px;
+}
+
+p4 {
+    padding: 30px;
+    color: black;
+    text-align: left;
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 4px 2px;
+    cursor: pointer;
+}
+
+input[type=text], select {
+    width: 50%;
+    padding: 12px 20px;
+    margin-left: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    
+    
+}
+
+
+
+.button1 {
+    border-radius: 2px;
+}
+
+.button2 {
+    border-radius: 2px;
+}
+
+.button3 {
+    border-radius: 2px;
+}
+
+.c {
+    
+}
+
+.first {
+    width: 50%;
+    height: 20%;
+    border: 2px solid orange;
+}
+
+.second {
+    margin-top: 50px;
+    padding: 50px;
+    width: 75%;
+    height: 10%;
+    border: 2px solid blue;
+}
+
+.whole {
+    width: 150%;
+    height: 100%;
+    border: 2px solid green;
+    display: block;
+}
+
+

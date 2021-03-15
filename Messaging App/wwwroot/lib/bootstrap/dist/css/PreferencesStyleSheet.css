@@ -8,3 +8,50 @@
 footer {
     background-color: white;
 }
+
+h1 {
+    color: black;
+    text-align: left;
+}
+
+p2 {
+    padding: 100px;
+    color: black;
+    text-align: left;
+    margin-left: 28px;
+    font-size: 16px;
+}
+
+p3 {
+    padding: 100px;
+    color: black;
+    text-align: left;
+    margin-left: -60px;
+    font-size: 16px;
+}
+
+input[type=text], select {
+    width: 40%;
+    padding: 12px 15px;
+    margin: 15px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/*p{
+
+    font: Arial;
+    text-align: left;
+
+
+    stuff for drop down
+    <select class="categoryDropdown">
+                        <option value="all">All categories</option>
+                    </select>
+
+}
+    */
+
+
