@@ -16,7 +16,11 @@ namespace MessagingApp.Models
         [Required(ErrorMessage = "Required Field")]
         public string topicName { get; set; }
 
+        [Required(ErrorMessage = "Required Field")]
         public string description { get; set; }
+
+        [Required(ErrorMessage = "Required Field")]
+        public string question { get; set; }
 
         public string inviteContact { get; set; }
     }
