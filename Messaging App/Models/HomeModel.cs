@@ -17,6 +17,12 @@ namespace MessagingApp.Models
         {
             m_grouplist = grouplist;
         }
+        public static List<string> m_contactslist;
+        public void SetcontactsListAttr(List<string> contactslist)
+        {
+            m_contactslist = contactslist;
+        }
+
     }
 
 }

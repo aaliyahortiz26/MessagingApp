@@ -20,6 +20,7 @@
                     <label class="addContactLabel">Add contact:</label>
                     <select class="addContactDropdown">
                         <!-- add contact from database to the dropdown by using a for loop below with the value being equal to the contact's username from the database -->
+
                         <option value="all">name of contact</option>
                     </select>
                     <br>
@@ -29,7 +30,13 @@
         <form class="centered viewContactsArea" asp-action="GroupTemplate" method="post">
             <div class="fields">
                 <label class="contactLabel">Contacts:</label>
-                <br>                
+                <br>
+                @{
+                    for (int i = 0; i < HomeModel.m_contactslist.Count; i++)
+                    {
+                        <button id="contactButtons" name="button" type="submit" value="@HomeModel.m_contactslist[i]" onclick="location.href='@Url.Action("ContactsTemplate", "Chat")?name=@HomeModel.m_contactslist[i]'">@HomeModel.m_contactslist[i]</button>;
+                    }
+                }
                 <!-- display contacts (Example: 1. friend name) -->
                 <!-- display groups that are similar -->
                 <br>
