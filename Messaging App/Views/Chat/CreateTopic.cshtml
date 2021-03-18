@@ -17,29 +17,37 @@
             <div class="fields">
                 <p>
                     <label class="topicNameLabel">Topic Name:</label>
-                    <input class="topicNameInput" asp-for="topicName" placeholder="Enter name of topic" />
+                    <textarea class="topicNameTextArea" asp-for="topicName" placeholder="Enter name of topic" ></textarea>
                     <br>
                     <span asp-validation-for="topicName" class="text-danger"></span>
                 </p>
                 <p>
                     <label class="descriptionLabel">Description:</label>
-                    <input class="descriptionInput" asp-for="description" placeholder="Enter description of topic" />
+                    <textarea type="text" class="descriptionTextArea" asp-for="description" placeholder="Enter description of topic" ></textarea>
                     <br>
                     <span asp-validation-for="description" class="text-danger"></span>
                 </p>
-                <p>                   
+                <p>
+                    <label class="questionLabel">Question:</label>
+                    <textarea class="questionTextArea" asp-for="question" placeholder="Enter question for topic" ></textarea>
+                    <br>
+                    <span asp-validation-for="question" class="text-danger"></span>
+                </p>
+                <p>
                     <input type="radio" class="privateRadioContainer" name="groupType" value="private">
                     <label for="private">Private</label><br>
+                    <br>
                     <input type="radio" class="publicRadioContainer" name="groupType" value="public">
-                    <label for="public">Public</label><br>          
-                    
-                    <label class="inviteContactLabel">Invite Contacts:</label>
-                    <input class="inviteContactInput" asp-for="inviteContact" placeholder="Enter a username" />
+                    <label for="public">Public</label><br>
                 </p>
-            </div>
+                <br>
+                <label class="inviteContactLabel">Invite Contacts:</label>
+                <textarea class="inviteContactTextArea" asp-for="inviteContact" placeholder="Enter a username"></textarea>
+                
+            </div>            
+            <button class="previewButton" type="submit">Preview</button>
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
             <button class="createChatButton" type="submit">Create Chat</button>
-
         </form>
     </div>
 </body>
