@@ -21,16 +21,16 @@
 
         <h2>Joined Groups</h2>
         <div id="ScrollBox">
-            @{
+            @{        
                 for (int i = 0; i < HomeModel.m_grouplist.Count; i++)
                 {
-                    <button id="groupButtons" name="button" type="submit" value="@HomeModel.m_grouplist[i]" onclick="location.href='@Url.Action("GroupTemplate", "Chat")?name=@HomeModel.m_grouplist[i]'" >@HomeModel.m_grouplist[i]</button>;
+                    <button id="groupButtons" name="button" type="submit" value="@HomeModel.m_grouplist[i]" onclick="location.href='@Url.Action("GroupTemplate", "Chat")?name=@HomeModel.m_grouplist[i]'">@HomeModel.m_grouplist[i]</button>;
                 }
             }
         </div>
     </div>
-    <div class="RightSide">
-        <button class="centered" id="LoginScreenButton" type="submit" onclick="location.href='@Url.Action("Index", "Login")'">Log Out</button>
-    </div>
+        <div class="RightSide">
+            <button class="centered" id="LoginScreenButton" type="submit" onclick="location.href='@Url.Action("Index", "Login")'">Log Out</button>
+        </div>
 </body>
 </html>

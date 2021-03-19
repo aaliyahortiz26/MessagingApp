@@ -4,60 +4,61 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/AccountSettingsStyleSheet.css" />
 }
 
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta name="viewport" content="width=device-width" />
-        </head>
-        <body class="AccountSettings">
-            <form asp-action="AccountSettings" method="post">
-                <div class="whole">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body class="AccountSettings">
+    <form asp-action="AccountSettings" method="post">
+        <div class="whole">
 
-                    <h1>Account Settings</h1>
+            <h1>Account Settings</h1>
 
+            <div class="c">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @{
+                    <p>
 
-
-                    <div class="c">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <p>
-                            <label id="userNameLabel" asp-for="userName"></label>
-                            <br />
-                            <input type="text" class="trigger" id="userNameInput" asp-for="userName" />
-                            <br>
-                            <span asp-validation-for="userName" class="text-danger"></span>
-                        </p>
+                        <label id="userNameLabel" asp-for="userName"> Username: </label>
                         <br />
-                        <br />
-                        
-                        <p>
-                            <label id="EmailLabel" asp-for="Email"></label>
-                            <br />
-                            <input type="text" class="trigger" id="EmailInput" asp-for="Email" />
-                            <br>
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </p>                        <br />
-                        <br />
-                        <br />
+                        <input type="text" class="trigger" id="userNameInput" asp-for="userName" />
+                        <br>
+                        <span asp-validation-for="userName" class="text-danger"></span>
+                    </p>
 
-                        <p4>Profile Picture:</p4>
+                    <br />
+                    <br />
+                }
+                <p>
+                    <label id="EmailLabel" asp-for="Email"> Email </label>
+                    <br />
+                    <input type="text" class="trigger" id="EmailInput" asp-for="Email: " />
+                    <br>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </p>                        <br />
+                <br />
+                <br />
+
+                <p4>Profile Picture:</p4>
 
 
 
 
 
-                    </div>
+            </div>
 
-                    <div class="second">
-                        <div class=" Buttons">
+            <div class="second">
+                <div class=" Buttons">
 
-                            <button class="button button1" id="ApplyButton" type="submit" onclick="location.href='@Url.Action("AccountSettings", "Home")'"> Apply Changes</button>
-                            <button class="button button2">Cancel</button>
-                            <button class="button button3" type="button" onclick="location.href='@Url.Action("ChangePasswordScreen", "Home")'">Change Password</button>
+                    <button class="button button1" id="ApplyButton" type="submit" onclick="location.href='@Url.Action("AccountSettings", "Home")'"> Apply Changes</button>
+                    <button class="button button2">Cancel</button>
+                    <button class="button button3" type="button" onclick="location.href='@Url.Action("ChangePasswordScreen", "Home")'">Change Password</button>
 
-                        </div>
-                    </div>
                 </div>
-              </form>
-                <!--- </div>-->
-        </body>
-    </html>
+            </div>
+        </div>
+    </form>
+    <!--- </div>-->
+</body>
+</html>

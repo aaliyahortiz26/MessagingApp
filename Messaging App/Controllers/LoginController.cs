@@ -73,6 +73,7 @@ namespace MessagingApp.Controllers
                         }
                         conn.Close();
                         dRead.Close();
+                        DBObject.m_username = Username;
                         return RedirectToAction("Home", "Home");
                     }
                     else

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model MessagingApp.Models.Preferences
+@{
     Layout = null;
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/PreferencesStyleSheet.css" />
 }
@@ -8,43 +9,48 @@
 <head>
     <meta name="viewport" content="width=device-width" />
 </head>
-<body>
-    <div class="test">
-        <h1>Preferences</h1>
+<body class="Preferences">
+    <form asp-action="Preferences" method="post">
+
+        <div class="test">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <h1>Preferences</h1>
 
 
 
 
 
 
-    </div>
+        </div>
 
-    <div class=" b">
+        <div class=" b">
 
-        <p2> Text Color </p2>
-        <select id="tcolor" name="color">
-            <option value="red">Red</option>
-            <option value="green">Green</option>
-            <option value="blue">Blue</option>
-            <option value="yellow">Yellow</option>
-        </select>
-        <br />
-        <br />
-        <br />
-        <br />
-
-
-        <p3> Background Theme </p3>
-        <select id="theme" name="Theme">
-            <option value="t1">Theme 1</option>
-            <option value="t2">Theme 2</option>
-            <option value="t3">Theme 3</option>
-            <option value="t4">Theme 4</option>
-        </select>
-
-        <button class="button button1" type="submit">Apply Changes</button>
+            <p2> Text Color </p2>
+            <select id="TxtColor" type="text" name="TxtColor" asp-for="TxtColor" typeof="text">
+                <option value="red">Red</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="yellow">Yellow</option>
+            </select>
+            <br />
+            <br />
+            <br />
+            <br />
 
 
-    </div>
+            <p3> Background Theme </p3>
+            <select id="Baccolor" type="text" name="Baccolor" asp-for="Baccolor">
+                <option value="t1">Theme 1</option>
+                <option value="t2">Theme 2</option>
+                <option value="t3">Theme 3</option>
+                <option value="t4">Theme 4</option>
+            </select>
+
+            <button class="button button1" type="submit" onclick="location.href='@Url.Action("Preferences", "Home")'">Apply Changes</button>
+
+
+        </div>
+        </form>
 </body>
 </html>

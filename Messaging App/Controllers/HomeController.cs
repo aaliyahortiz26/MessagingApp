@@ -13,7 +13,10 @@ namespace MessagingApp.Controllers
 {
     public class HomeController : Controller
     {
-       // public IActionResult Index => View("Home");
+        public IActionResult Index()
+        {
+            return View("Home");
+        } 
         public IActionResult Home(HomeModel homeMod)
         {
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
@@ -34,10 +37,42 @@ namespace MessagingApp.Controllers
                 groupsList.Add(Convert.ToString(reader[0]));
             }
             reader.Close();
+            conn.Close();
 
             homeMod.SetGroupListAttr(groupsList);
 
-            return View();
+            conn.Open();
+
+            string txtcmd2 = $"SELECT fontColor FROM preferences where id='" + DBObject.m_id + "'"; // the command
+            MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn);
+            MySqlDataReader dRead;
+            using (dRead = cmd2.ExecuteReader()) // executes the search command
+            {
+                if (dRead.Read())
+                {
+                    DBObject.Tcolor = dRead.GetValue(0).ToString();
+
+                }
+            }
+            dRead.Close();
+            conn.Close();
+
+            conn.Open();
+            string txtcmd1 = $"SELECT backgroundColor FROM preferences where id='" + DBObject.m_id + "'"; // the command
+            MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
+            using (dRead = cmd1.ExecuteReader()) // executes the search command
+            {
+                if (dRead.Read())
+                {
+                    
+                    DBObject.Bcolor = dRead.GetValue(0).ToString();
+                }
+            }
+            dRead.Close();
+            conn.Close();
+
+             return View();
+
         }
         public IActionResult Profile()
         {
@@ -68,18 +103,63 @@ namespace MessagingApp.Controllers
             return View();
         }
 
-        public IActionResult Preferences()
+        public IActionResult PreferencesScreen()
         {
-            return View();
+            return View("Preferences");
         }
 
-        public IActionResult AccountSettingsScreen()
+        public IActionResult Preferences(Preferences pc)
         {
+            string BackgroundColor = pc.Baccolor;
+            string TextColor = pc.TxtColor;
+
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+            conn.Open();
+            string txtcmd2 = $"SELECT id FROM preferences where id='" + DBObject.m_id + "'"; // the command
+            MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn);
+            MySqlDataReader dRead;
+            using (dRead = cmd2.ExecuteReader()) // executes the search command
+            {
+                if (dRead.Read())
+                {
+                    conn.Close();
+                    string txtcmd = "update preferences SET backgroundColor ='" + BackgroundColor + "', fontColor ='" + TextColor + "' Where id ='" + DBObject.m_id + "'"; // the command
+                    MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+                    conn.Open();
+                    cmd.Prepare();
+                    cmd.ExecuteReader();
+                }
+                else
+                {
+                    conn.Close();
+                    string txtcmd = $"Insert into preferences (id,fontColor,backgroundColor)" + $"values ( @id, @TextColor,@BackgroundColor) ";
+                    MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+                    conn.Open();
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@id", DBObject.m_id);
+                    cmd.Parameters.AddWithValue("@TextColor", TextColor);
+                    cmd.Parameters.AddWithValue("@BackgroundColor", BackgroundColor);
+                    cmd.Prepare();
+                    cmd.ExecuteReader();
+                }
+            }
+            dRead.Close();
+            conn.Close();
+
+            DBObject.Tcolor = TextColor;
+            DBObject.Bcolor = BackgroundColor;
             return View("AccountSettings");
         }
 
         public IActionResult AccountSettings(AccountSettings ac)
         {
+            var NAS = new AccountSettings
+            {
+                userName = DBObject.m_username,
+                Email = DBObject.m_email
+            };
+
             string Email = ac.Email;
             if (Email != null)
             {
@@ -88,7 +168,7 @@ namespace MessagingApp.Controllers
 
                 MySqlConnection conn = new MySqlConnection(connectionstring);
                 MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
-
+                
                 conn.Open();
                 cmd.ExecuteNonQuery();
 
@@ -128,8 +208,7 @@ namespace MessagingApp.Controllers
                 DBObject.m_username = Username;
                 conn.Close();
             }
-            return View("AccountSettings");
-            return View();
+            return View(NAS);
         }
 
         public IActionResult ChangePasswordScreen()
