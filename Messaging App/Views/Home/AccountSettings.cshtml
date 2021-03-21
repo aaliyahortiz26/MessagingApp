@@ -1,4 +1,5 @@
-﻿@{
+﻿@model MessagingApp.Models.AccountSettings
+@{
     Layout = null;
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/AccountSettingsStyleSheet.css" />
 }
@@ -8,45 +9,48 @@
 <head>
     <meta name="viewport" content="width=device-width" />
 </head>
-<body>
-    <div class="whole">
+<body class="AccountSettings">
+   <!-- <form asp-action="AccountSettings" method="post">-->
+        <div class="whole">
 
-        <h1>Account Settings</h1>
+            <h1>Account Settings</h1>
 
+            <div class="c">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @{
+                        <label class="userNameLabel" asp-for="userName"> Username: </label>
+                        <input type="text" class="trigger" id="userNameInput" asp-for="userName" />
+                        <br>
+                        <span asp-validation-for="userName" class="text-danger"></span>
 
+                    <br />
+                    <br />
+                }
+                    <label class="EmailLabel" asp-for="Email"> Email: </label>
+                    <input type="text" class="trigger" id="EmailInput" asp-for="Email" />
+                    <br>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                <br />
+                <br />
+                <br />
 
-        <div class="c">
+                <p4>Profile Picture:</p4>
+            </div>
 
-            <p2>Username: </p2>
-            <input type="text" id="uname" name="username" placeholder="Your Username..">
-            <br />
-            <br />
-            <br />
-            <br />
-
-            <p3>Email: </p3>
-            <input type="text" id="email" name="email" placeholder="Your Email.">
-            <br />
-            <br />
-            <br />
-            <br />
-            <p4>Profile Picture:</p4>
-
-
-
-
-
+            <div class="second">
+                    <button class="button button1" id="ApplyButton" type="submit" onclick="location.href='@Url.Action("AccountSettings", "Home")'"> Apply Changes</button>
+                    <button class="button button2">Cancel</button>
+                    <button class="button button3" type="button" onclick="location.href='@Url.Action("ChangePasswordScreen", "Home")'">Change Password</button>
+            </div>
         </div>
-
-        <div class="second">
-        <div class=" Buttons">
-
-            <button class="button button1" type="submit">Apply Changes</button>
-           <!-- <button class="button button2">Cancel</button>-->
-            <button class="button button3" type="button" onclick="location.href='@Url.Action("ChangePassword", "Home")'">Change Password</button>
-
-        </div>
-    </div>
-    <!--- </div>-->
+    <!--</form>-->
 </body>
 </html>
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+    window.onload = function () {
+        alert("@ViewBag.Message");
+    };
+    </script>
+}
