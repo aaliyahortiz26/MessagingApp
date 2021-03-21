@@ -11,7 +11,8 @@ namespace MessagingApp.Models
         public static string m_email;
         public static string RandC;
         public static int m_id;
-
+        public static string Bcolor;
+        public static string Tcolor;
         public string Username
         {
             get => m_username;
@@ -31,6 +32,16 @@ namespace MessagingApp.Models
         {
             get => RandC;
             set => RandC = value;
+        }
+        public string Tcolor1
+        {
+            get => Tcolor;
+            set => Tcolor = value;
+        }
+        public string Bcolor1
+        {
+            get => Bcolor;
+            set => Bcolor = value;
         }
     }
 }
