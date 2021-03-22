@@ -2,6 +2,7 @@
 @{
     Layout = null;
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/AccountSettingsStyleSheet.css" />
+    ViewBag.message = TempData["Password Changed"];
 }
 
 <!DOCTYPE html>
@@ -10,7 +11,7 @@
     <meta name="viewport" content="width=device-width" />
 </head>
 <body class="AccountSettings">
-   <!-- <form asp-action="AccountSettings" method="post">-->
+   <form asp-action="AccountSettings" method="post">
         <div class="whole">
 
             <h1>Account Settings</h1>
@@ -43,7 +44,7 @@
                     <button class="button button3" type="button" onclick="location.href='@Url.Action("ChangePasswordScreen", "Home")'">Change Password</button>
             </div>
         </div>
-    <!--</form>-->
+    </form>
 </body>
 </html>
 @if (ViewBag.Message != null)

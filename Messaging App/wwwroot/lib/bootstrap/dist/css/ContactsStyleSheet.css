@@ -68,8 +68,8 @@ h1 {
     font-size: 20px;
 }
 
-.addContactDropdown {
-    padding-bottom: 0px;
+#addContactInput {
+    width: 36%;
 }
 
 select {

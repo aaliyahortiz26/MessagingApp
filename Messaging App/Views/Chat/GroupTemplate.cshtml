@@ -11,6 +11,15 @@
     <meta name="viewport" content="width=device-width" />
 </head>
 <body>
+    <style>
+        body{ 
+            background-image: @DBObject.Bcolor;
+        }
+        p {
+            color:@DBObject.Tcolor;
+        }
+
+    </style>
     <div class="groupTemplateContainer">
         <form class="centered messageArea" asp-action="GroupTemplate" method="post">
             <h1>Group Name: @GroupTemplateModel.m_groupName</h1>
@@ -22,15 +31,15 @@
                 {
 
 
-                <p>
-                    <label id="UsernameLabel">Message</label>
-                </p>
+                    <p>
+                        <label id="UsernameLabel">Message</label>
+                    </p>
                 }
             </div>
 
 
 
-           
+
         </form>
         <form class="centered sendMessageArea" asp-action="GroupTemplate" method="post">
 

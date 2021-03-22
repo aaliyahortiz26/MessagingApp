@@ -8,7 +8,6 @@ namespace MessagingApp.Models
 {
     public class AccountSettings : DBObject
     {
-
         public string userName { get; set; }
 
         public string Email { get; set; }
