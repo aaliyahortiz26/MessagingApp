@@ -2,7 +2,9 @@
 @{
     Layout = null;
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/AccountSettingsStyleSheet.css" />
+    ViewBag.message = TempData["PasswordChanged"];
 }
+
 
 <!DOCTYPE html>
 <html>
@@ -11,38 +13,39 @@
 </head>
 <body class="AccountSettings">
    <!-- <form asp-action="AccountSettings" method="post">-->
-        <div class="whole">
+    <div class="whole">
 
-            <h1>Account Settings</h1>
+        <h1>Account Settings</h1>
 
-            <div class="c">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                @{
-                        <label class="userNameLabel" asp-for="userName"> Username: </label>
-                        <input type="text" class="trigger" id="userNameInput" asp-for="userName" />
-                        <br>
-                        <span asp-validation-for="userName" class="text-danger"></span>
+        <div class="c">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @{
+                <label class="userNameLabel" asp-for="userName"> Username: </label>
+                <input type="text" class="trigger" id="userNameInput" asp-for="userName" />
+                <br>
+                <span asp-validation-for="userName" class="text-danger"></span>
 
-                    <br />
-                    <br />
-                }
-                    <label class="EmailLabel" asp-for="Email"> Email: </label>
-                    <input type="text" class="trigger" id="EmailInput" asp-for="Email" />
-                    <br>
-                    <span asp-validation-for="Email" class="text-danger"></span>
                 <br />
                 <br />
-                <br />
+            }
+            <label class="EmailLabel" asp-for="Email"> Email: </label>
+            <input type="text" class="trigger" id="EmailInput" asp-for="Email" />
+            <br>
+            <span asp-validation-for="Email" class="text-danger"></span>
+            <br />
+            <br />
+            <br />
 
-                <p4>Profile Picture:</p4>
-            </div>
-
-            <div class="second">
-                    <button class="button button1" id="ApplyButton" type="submit" onclick="location.href='@Url.Action("AccountSettings", "Home")'"> Apply Changes</button>
-                    <button class="button button2">Cancel</button>
-                    <button class="button button3" type="button" onclick="location.href='@Url.Action("ChangePasswordScreen", "Home")'">Change Password</button>
-            </div>
+            <p4>Profile Picture:</p4>
         </div>
+
+        <div class="second">
+            <button class="button button1" id="ApplyButton" type="submit" onclick="location.href='@Url.Action("AccountSettings", "Home")'"> Apply Changes</button>
+            <button class="button button2">Cancel</button>
+            <button class="button button3" type="button" onclick="location.href='@Url.Action("ChangePasswordScreen", "Home")'">Change Password</button>
+        </div>
+
+    </div>
     <!--</form>-->
 </body>
 </html>

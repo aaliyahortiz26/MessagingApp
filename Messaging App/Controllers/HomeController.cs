@@ -204,13 +204,10 @@ namespace MessagingApp.Controllers
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
-
-                ViewBag.message = ("Password Changed");
-
                 conn.Close();
-                /*return RedirectToAction("AccountSettings", "Home"); */
 
-                return View("AccountSettings");
+                TempData["PasswordChanged"] = "Password has been Changed"; 
+                return RedirectToAction("AccountSettings", "Home");
                 
             }
         }
