@@ -70,6 +70,7 @@ h1 {
 
 #addContactInput {
     width: 36%;
+    font-size: 16px;
 }
 
 select {
@@ -78,9 +79,6 @@ select {
     text-align: center;
     height: 30px;
 }
-
-
-
 
 .addContactLabel {
     margin-left: -25px;
