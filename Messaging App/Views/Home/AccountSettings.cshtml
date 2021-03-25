@@ -37,6 +37,13 @@
             <br />
 
             <p4>Profile Picture:</p4>
+            <br />
+            <br />
+            <br />
+            <div id="profile-container">
+                <image id="profileImage" src="" />
+                <input id="imageUpload" class="fileUpload" type="file" name="profile_photo" placeholder="Photo" require="" capture onclick="location.href='@Url.Action("savePicture", "Home")'" />
+            </div>        
         </div>
 
         <div class="second">

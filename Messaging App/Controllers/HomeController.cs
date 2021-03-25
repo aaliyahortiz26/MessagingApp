@@ -178,7 +178,55 @@ namespace MessagingApp.Controllers
             }
             return View(NAS);
         }
-    
+
+
+        public IActionResult savePicture()
+        {
+            byte[] imageFile;
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+            conn.Open();
+            string txtcmd2 = $"SELECT id FROM preferences where id='" + DBObject.m_id + "'"; // the command
+            MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn);
+            MySqlDataReader dRead;
+
+            using (dRead = cmd2.ExecuteReader()) // executes the search command
+            {
+                if (dRead.Read())
+                {
+                    imageFile = (Byte[])(dRead["image"]);
+                    /*
+                     There's a error here when the choose file button gets pressed with the line above
+                     */
+                    conn.Close();
+                    string txtcmd = "update preferences SET picture ='" + imageFile + "' Where id ='" + DBObject.m_id + "'"; // the command
+                    MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+                    conn.Open();
+                    cmd.Prepare();
+                    cmd.ExecuteReader();
+                    ViewBag.message = ("Profile Picture Changed");
+                }
+                else
+                {
+                    imageFile = (Byte[])(dRead["image"]);
+                    /*
+                    There's a error here when the choose file button gets pressed with the line above
+                    */
+                    conn.Close();
+                    string txtcmd = $"Insert into preferences (id,picture)" + $"values ( @id, @pictureFile) ";
+                    MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+                    conn.Open();
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@id", DBObject.m_id);
+                    cmd.Parameters.AddWithValue("@pictureFile", imageFile);
+                    cmd.Prepare();
+                    cmd.ExecuteReader();
+                }
+            }
+            dRead.Close();
+            conn.Close();
+            return View("");
+        }
 
         public IActionResult ChangePasswordScreen()
         {
