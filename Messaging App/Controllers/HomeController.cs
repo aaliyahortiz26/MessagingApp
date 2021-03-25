@@ -17,7 +17,7 @@ namespace MessagingApp.Controllers
         {
             return View("Home");
         }
-        public IActionResult Home(HomeModel homeMod)
+        public IActionResult Home(HomeModel homeMod, Preferences pc)
         {
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
@@ -40,6 +40,58 @@ namespace MessagingApp.Controllers
 
             homeMod.SetGroupListAttr(groupsList);
 
+
+
+            // set background color and textcolor that user selected
+           
+            const string connectionstring2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn2 = new MySqlConnection(connectionstring2);
+
+            conn2.Open();
+
+            MySqlCommand getContacts = conn.CreateCommand();
+            getContacts.CommandText = "SELECT backgroundColor, fontColor FROM preferences where id = @userID"; // the command
+            getContacts.Parameters.AddWithValue("@userID", DBObject.m_id);
+            MySqlDataReader reader2 = getContacts.ExecuteReader();
+
+            List<string> txtBackgroundColorList = new List<string>();
+
+            int i = 0;
+            while (i != 2)
+            {
+                reader2.Read();
+                if (reader2.HasRows == false)
+                {
+                    break;
+                }
+                txtBackgroundColorList.Add(Convert.ToString(reader2[i]));
+                i++;
+                    
+            }
+
+            reader.Close();
+            if (txtBackgroundColorList.Count() == 0)
+            {
+                pc.TxtColor = "black";
+                pc.Baccolor = "White";
+
+                string txtcmd = $"Insert into preferences (id,fontColor,backgroundColor)" + $"values ( @id, @TextColor,@BackgroundColor) ";
+                MySqlCommand cmd = new MySqlCommand(txtcmd, conn2);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("@id", DBObject.m_id);
+                cmd.Parameters.AddWithValue("@TextColor", pc.TxtColor);
+                cmd.Parameters.AddWithValue("@BackgroundColor", pc.Baccolor);
+                cmd.Prepare();
+                cmd.ExecuteReader();
+                conn.Close();
+            }
+            
+            else
+            {
+                DBObject.Bcolor = txtBackgroundColorList[0];
+                DBObject.Tcolor = txtBackgroundColorList[1];
+            }
+                     
             return View();
         }
         public IActionResult Profile()
@@ -97,6 +149,7 @@ namespace MessagingApp.Controllers
                     conn.Open();
                     cmd.Prepare();
                     cmd.ExecuteReader();
+                    ViewBag.message = ("Updated Preferences");
                 }
                 else
                 {
@@ -252,11 +305,11 @@ namespace MessagingApp.Controllers
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
-                conn.Close();
 
-                TempData["PasswordChanged"] = "Password has been Changed"; 
-                return RedirectToAction("AccountSettings", "Home");
-                
+                ViewBag.message = (TempData["Password Changed"]="Password has been changed");
+
+                conn.Close();
+                return RedirectToAction("AccountSettings", "Home");                 
             }
         }
 

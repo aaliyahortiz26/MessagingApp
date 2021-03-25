@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using Microsoft.AspNetCore.SignalR;                                         
 
 namespace MessagingApp.Controllers
 {

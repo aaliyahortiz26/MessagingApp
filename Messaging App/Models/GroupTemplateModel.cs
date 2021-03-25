@@ -26,6 +26,7 @@ namespace MessagingApp.Models
 
         public string groupName { get=> m_groupName; set=>m_groupName = value; }
 
+       
     }
 
 }

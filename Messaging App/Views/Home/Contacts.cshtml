@@ -16,12 +16,9 @@
         <form class="centered contactSearchArea" asp-action="Contact" method="post">
             <h1>Contacts</h1>
             <div class="fields">
-                <p>                    
+                <p>
                     <label class="addContactLabel">Add contact:</label>
-                    <select class="addContactDropdown">
-                        <!-- add contact from database to the dropdown by using a for loop below with the value being equal to the contact's username from the database -->
-                        <option value="all">name of contact</option>
-                    </select>
+                    <input type="text" id="addContactInput" asp-for="addContactInput" />
                     <br>
                 </p>
             </div>

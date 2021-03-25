@@ -11,38 +11,54 @@
     <meta name="viewport" content="width=device-width" />
 </head>
 <body>
+    <style>
+        body{
+            background-image: @DBObject.Bcolor;
+        }
+        p {
+            color:@DBObject.Tcolor;
+        }
+
+    </style>
     <div class="groupTemplateContainer">
         <form class="centered messageArea" asp-action="GroupTemplate" method="post">
-            <h1>Group Name: @GroupTemplateModel.m_groupName</h1>
+            <h1 id="groupName">Group Name: @GroupTemplateModel.m_groupName</h1>
 
-
+            <script>
+                var 
+            </script>
 
             <div class="fields">
-                @for (int i = 0; i < 15; i++)
+              <!--  @for (int i = 0; i < 15; i++)
                 {
 
 
+                    <p>
+                        <label id="messagesLabel">Message</label>
+                    </p>
+                }-->
                 <p>
-                    <label id="UsernameLabel">Message</label>
+                    <label id="messagesLabelNotFromDatabase">Message</label>
                 </p>
-                }
             </div>
 
+            
 
 
-           
         </form>
         <form class="centered sendMessageArea" asp-action="GroupTemplate" method="post">
 
 
 
             <div class="fields">
-                <input id="messageInput" asp-for="message" placeholder="Enter Message" />
-                <button class="sendMessageButton" type="submit">Send Message</button>
+                <!--<input id="messageInput" asp-for="message" placeholder="Enter Message" />-->
+                <input id="messageInput" type="text" placeholder="Enter Message" />
+                <button id="sendMessageButton" type="button" value="Send Message">Send Message</button>
 
 
             </div>
 
+            
 
 
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
@@ -50,3 +66,5 @@
     </div>
 </body>
 </html>
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>

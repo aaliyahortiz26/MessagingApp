@@ -68,8 +68,9 @@ h1 {
     font-size: 20px;
 }
 
-.addContactDropdown {
-    padding-bottom: 0px;
+#addContactInput {
+    width: 36%;
+    font-size: 16px;
 }
 
 select {
@@ -78,9 +79,6 @@ select {
     text-align: center;
     height: 30px;
 }
-
-
-
 
 .addContactLabel {
     margin-left: -25px;

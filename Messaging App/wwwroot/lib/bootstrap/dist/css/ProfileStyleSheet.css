@@ -18,7 +18,8 @@ footer {
 }
 
 .RightSide {
-    background-color: slategray;
+    background-color: tan;
+    /* background-color: slategray;*/
     right: 0px;
     position: absolute;
     width: 88.7%;

@@ -12,8 +12,6 @@ namespace MessagingApp.Models
 {
     public class ContactsModel : DBObject
     {
-
-
-
+        public string addContactInput { get; set; }
     }
 }
