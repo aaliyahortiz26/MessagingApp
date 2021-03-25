@@ -13,29 +13,54 @@
 </head>
 <body>
     <div class="contactContainer">
-        <form class="centered contactSearchArea" asp-action="Contact" method="post">
-            <h1>Contacts</h1>
-            <div class="fields">
-                <p>
-                    <label class="addContactLabel">Add contact:</label>
-                    <input type="text" id="addContactInput" asp-for="addContactInput" />
-                    <br>
-                </p>
-            </div>
-        </form>
-        <form class="centered viewContactsArea" asp-action="GroupTemplate" method="post">
-            <div class="fields">
-                <label class="contactLabel">Contacts:</label>
-                <br>                
-                <!-- display contacts (Example: 1. friend name) -->
-                <!-- display groups that are similar -->
-                <br>
-            </div>
-        </form>
-        <div class="centered buttonArea">
-            <button class="addContactButton" type="submit">Add Contact</button>
-            <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
-        </div>
-    </div>
+        <form>
+            <fieldset class="centered contactSearchArea" asp-action="ContactsTemplate">
+                <h1>Contacts</h1>
+                <div class="fields">
+                    <p>
+                        <label class="addContactLabel">Add contact:</label>
+                        <input type="text" id="addContactInput" asp-for="addContactInput" />
+                        <br>
+                        <!--<div class="centered buttonArea">-->
+                        <button class="addContactButton" type="submit" onclick="location.href='@Url.Action("Contacts", "Home")'">Add Contact</button>
+                        <!--</div>-->
+                        <br />
+                    </p>
+                </div>
+            </fieldset>
+            </form>
+            <form class="centered viewContactsArea" asp-action="GroupTemplate" method="post">
+               <!-- <fieldset>-->
+                    <div class="fields">
+                        <label class="contactLabel">Contacts:</label>
+                        <br>
+
+                        <dl>
+                            @for (int i = 0; i < HomeModel.m_contactslist.Count; i++)
+                            {
+
+                                <dt>@HomeModel.m_contactslist[i]</dt>
+
+                            }
+                        </dl>
+                        <br>
+                        <br>
+
+                        <!-- <div class="centered buttonArea">-->
+                        <!--  <button class="addContactButton" type="submit">Add Contact</button>-->
+                        <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
+                        <!--</div>-->
+                    </div>
+               <!-- </fieldset>-->
+            </form>
+</div>
 </body>
 </html>
+@if (ViewBag.Message != null)
+{
+<script type="text/javascript">
+    window.onload = function () {
+        alert("@ViewBag.Message");
+    };
+</script>
+}
