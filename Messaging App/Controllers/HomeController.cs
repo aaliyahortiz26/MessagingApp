@@ -98,29 +98,84 @@ namespace MessagingApp.Controllers
         {
             return View();
         }
-        public IActionResult Contacts(HomeModel homeMod)
+        public IActionResult Contacts(HomeModel homeMod, ContactsModel cm)
         {
+            string username = cm.addContactInput;
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
-
             conn.Open();
+            string txtcmd2 = $"SELECT id_newContact FROM contacts where UserId='" + DBObject.m_id + "' and username_newContact = '" + username + "'"; // the command
+            MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn);
+            MySqlDataReader dRead;
+            using (dRead = cmd2.ExecuteReader()) // executes the search command
+            {
+                if (dRead.Read() && username != null)
+                {
+                    conn.Close();
+                    dRead.Close();
+                    ViewBag.Message = "User is already contact";
+                    return View("Contacts");
 
+                }
+                else
+                {
+                    conn.Close();
+                    dRead.Close();
+                }
+            }
+
+            txtcmd2 = $"SELECT id FROM users where username='" + username + "'"; // the command
+            cmd2 = new MySqlCommand(txtcmd2, conn);
+            MySqlDataReader cRead;
+            conn.Open();
+            if (username != null)
+            {
+                using (cRead = cmd2.ExecuteReader()) // executes the search command
+                {
+                    if (cRead.Read() && DBObject.m_username != username && username != null)
+                    {
+                        int id = Convert.ToInt32(cRead.GetValue(0));
+
+                        MySqlCommand cmd = new MySqlCommand(null, conn);
+                        cmd.CommandText = $"Insert into contacts (UserId,id_newContact,username, username_newContact)" + $"values ( @UserId, @id_newContact,@username,@username_newContact) ";
+                        cmd.Parameters.AddWithValue("@UserId", DBObject.m_id);
+                        cmd.Parameters.AddWithValue("@id_newContact", id);
+                        cmd.Parameters.AddWithValue("@username", DBObject.m_username);
+                        cmd.Parameters.AddWithValue("@username_newContact", username);
+
+                        cRead.Close();
+                        cmd.Prepare();
+                        cmd.ExecuteReader();
+                        conn.Close();
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Not a valid User";
+                        cRead.Close();
+                        conn.Close();
+                    }
+                }
+            }
+            else
+            {
+                conn.Close();
+            }
             MySqlCommand getContacts = conn.CreateCommand();
-            getContacts.CommandText = "SELECT username FROM contacts where userID= @userID"; // the command
+            getContacts.CommandText = "SELECT username_newContact FROM contacts where userID= @userID"; // the command
             getContacts.Parameters.AddWithValue("@userID", DBObject.m_id);
-            MySqlDataReader reader = getContacts.ExecuteReader();
-
+            conn.Open();
+            MySqlDataReader lRead = getContacts.ExecuteReader();
             List<string> ContactsList = new List<string>();
 
-            while (reader.Read())
+            while (lRead.Read())
             {
-                ContactsList.Add(Convert.ToString(reader[0]));
+                ContactsList.Add(Convert.ToString(lRead[0]));
             }
-            reader.Close();
+            lRead.Close();
 
             homeMod.SetcontactsListAttr(ContactsList);
-
-            return View();
+            conn.Close();
+            return View("Contacts");
         }
 
         public IActionResult PreferencesScreen()
