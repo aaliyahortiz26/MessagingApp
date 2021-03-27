@@ -28,12 +28,22 @@ footer {
     border: 2px solid #73AD28;   
 }
 
+.right {
+    width: 24%;
+    display: block;
+    margin-left: 72%;
+    margin-right: auto;
+    border: 2px solid pink;
+    margin-top: -35.6%;
+}
+
 .messageArea {
     background-color: white;
     border-radius: 12px;
-    width: 90%;
+    width: 74%;
     height: 68%;
     overflow: auto;
+    margin-right: 27%;
 }
 
 .sendMessageArea {
@@ -43,8 +53,16 @@ footer {
     height: 28%;
 }
 
+.contactArea {
+    background-color: lightgray;
+    /* border-radius: 12px;*/
+    width: 20%;
+    height: 54%;
+    position: absolute;
+}
+
 h1 {
-    margin-top: 5px;
+    margin-top: -4%;
     text-align: center;
 }
 
