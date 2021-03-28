@@ -13,5 +13,14 @@ namespace MessagingApp.Models
     public class ContactsModel : DBObject
     {
         public string addContactInput { get; set; }
+
+        public static List<string> m_contactslist;
+        public static string m_contactsName;
+
+        public void SetContactsListAttr(List<string> contactslist)
+        {
+            m_contactslist = contactslist;
+        }
+
     }
 }

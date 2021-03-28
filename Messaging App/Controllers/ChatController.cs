@@ -116,6 +116,7 @@ namespace MessagingApp.Controllers
                }*/
             groupTemplateMod.groupName = name;
 
+
             return View();
         }
     }

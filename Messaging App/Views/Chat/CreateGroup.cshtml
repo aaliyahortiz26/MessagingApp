@@ -34,7 +34,12 @@
 
                     <label class="inviteContactLabel">Contact:</label>
                     <select asp-for=inviteContact class="inviteContactDropdown">
-                        <option value="none">none</option>
+                        @for (int i = 0; i < HomeModel.m_contactslist.Count(); i++)
+                        {
+
+                            <option value="all">@HomeModel.m_contactslist[i];</option>
+
+                        }
                     </select>
 
                     <!--<label class="inviteContactLabel">Invite Contacts:</label>
