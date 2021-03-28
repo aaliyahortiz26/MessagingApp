@@ -12,6 +12,12 @@ namespace MessagingApp.Controllers
 {
     public class ChatController : Controller
     {
+        /*private readonly DBManager _manager;
+
+        public ChatController(DBManager manager)
+        {
+            _manager = manager;
+        }*/
         public IActionResult Index()
         {
             return View();
@@ -132,9 +138,17 @@ namespace MessagingApp.Controllers
 
         public IActionResult GroupTemplate(GroupTemplateModel groupTemplateMod, string? name)
         {
-            DBObject.m_GroupName = name;
+            DBManager _manager = new DBManager();
+            List<Messages> messages = new List<Messages>();
+            List<string> users = new List<string>();
 
-            // print all messages from database
+            messages = _manager.GetMessagesGroup(name);
+
+            ViewData["messageobjects"] = messages;
+
+
+            users = _manager.GetGroupUsers(name);
+            ViewData["userobjects"] = users;
 
             // bool foundUsername = false;
             //string groupChatName = name;
@@ -162,6 +176,7 @@ namespace MessagingApp.Controllers
 
                }*/
             groupTemplateMod.groupName = name;
+
 
             return View();
         }
