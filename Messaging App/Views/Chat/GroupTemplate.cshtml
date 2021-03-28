@@ -20,22 +20,41 @@
         }
 
     </style>
-    <div class="groupTemplateContainer">
+    <div class="LeftSideButton">
+        <img id="LoginLogo" src="/Images/Logo.png" />
+
+        <button id="ProfileButton" type="submit" onclick="location.href='@Url.Action("Profile", "Home")'">Profile</button>
+        <button id="TopicSearchButton" type="submit" onclick="location.href='@Url.Action("TopicSearch", "Chat")'">Search For Topics</button>
+        <button id="CreateGroupButton" type="button" onclick="location.href='@Url.Action("CreateGroupScreen", "Chat")'">Create Group</button>
+        <button id="ContactsButton" type="submit" onclick="location.href='@Url.Action("Contacts", "Home")'">Contacts</button>
+
+        <h2>Joined Groups</h2>
+        <div id="ScrollBox">
+            @{
+                for (int i = 0; i < HomeModel.m_grouplist.Count; i++)
+                {
+                    <button id="groupButtons" name="button" type="submit" value="@HomeModel.m_grouplist[i]" onclick="location.href='@Url.Action("GroupTemplate", "Chat")?name=@HomeModel.m_grouplist[i]'">@HomeModel.m_grouplist[i]</button>;
+                }
+            }
+        </div>
+    </div>
+    <div class="RightSide">
         <form class="messageArea" asp-action="GroupTemplate" method="post">
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
             <h1 id="groupName">Group Name: @GroupTemplateModel.m_groupName</h1>
 
             <div class="fields">
+
                 <!--  @for (int i = 0; i < 15; i++)
-        {
+                {
 
 
-            <p>
-                <label id="messagesLabel">Message</label>
-            </p>
-        }-->
+                    <p>
+                        <label id="messagesLabel">Message</label>
+                    </p>
+                }-->
                 <p>
-                    <label id="messagesLabelNotFromDatabase">Message</label>
+                    <label id="messagesLabelNotFromDatabase"></label>
                 </p>
             </div>
 
@@ -46,39 +65,42 @@
 
 
 
-            <form class="right contactArea" asp-action="GroupTemplate" method="post">              
-                <div class="fields">
-                    <!--  @for (int i = 0; i < 15; i++)
-                  {
+        <form class="right contactArea" asp-action="GroupTemplate" method="post">
+            <div class="fields">
+
+                <!--  @for (int i = 0; i < 15; i++)
+                {
 
 
-                      <p>
-                          <label id="messagesLabel">Message</label>
-                      </p>
-                  }-->
                     <p>
-                        <h2 id="contactAreaLabel">Contacts</h2>
+                        <label id="messagesLabel">Message</label>
                     </p>
-                </div>
-            </form>
+                }-->
+                <p>
+                    <h2 id="contactAreaLabel">Contacts</h2>
+                </p>
+            </div>
+        </form>
 
 
 
 
-            <form class="centered sendMessageArea" asp-action="GroupTemplate" method="post">
+        <form class="centered sendMessageArea" asp-action="GroupTemplate" method="post">
 
 
 
-                    <div class="fields">
-                        <!--<input id="messageInput" asp-for="message" placeholder="Enter Message" />-->
-                        <input id="messageInput" type="text" placeholder="Enter Message" >
+            <div class="fields">
+                <br>
+                <!--<input id="messageInput" asp-for="message" placeholder="Enter Message" />-->
+                <textarea id="messageTextArea" data-emojiable="true" type="text" placeholder="Enter Message"></textarea>
 
-                        <button id="sendMessageButton" type="button" value="Send Message">Send Message</button>
+                <button id="sendMessageButton" type="button" value="Send Message">Send Message</button>
 
 
-                    </div>
-                </form>
-        </div>
+            </div>
+        </form>
+    </div>
+
 </body>
 </html>
 <script src="~/js/signalr/dist/browser/signalr.js"></script>

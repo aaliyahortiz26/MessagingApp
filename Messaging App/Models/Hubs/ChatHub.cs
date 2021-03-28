@@ -12,8 +12,13 @@ namespace SignalRChat.Hubs
     {
         public async Task SendMessage(string message)
         {
+            string groupName = DBObject.m_GroupName;
             await Clients.All.SendAsync("ReceiveMessage", DBObject.m_username, message);
            
+
+            // insert into database
+
+
          /*   const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
 
