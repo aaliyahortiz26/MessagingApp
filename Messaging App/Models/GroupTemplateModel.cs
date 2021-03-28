@@ -15,6 +15,7 @@ namespace MessagingApp.Models
         public static List<string> m_grouplist;
         public static string m_groupName;
 
+
         //        List<string> groupList { get => m_grouplist; set => m_grouplist = value; }
 
         public void SetGroupListAttr(List<string> grouplist)
@@ -25,8 +26,6 @@ namespace MessagingApp.Models
         public string message {get; set;}
 
         public string groupName { get=> m_groupName; set=>m_groupName = value; }
-
-       
     }
 
 }

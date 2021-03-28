@@ -73,7 +73,7 @@ namespace MessagingApp.Controllers
             if (txtBackgroundColorList.Count() == 0)
             {
                 pc.TxtColor = "black";
-                pc.Baccolor = "White";
+                pc.Baccolor = "linear-gradient(blue, orange)";
 
                 string txtcmd = $"Insert into preferences (id,fontColor,backgroundColor)" + $"values ( @id, @TextColor,@BackgroundColor) ";
                 MySqlCommand cmd = new MySqlCommand(txtcmd, conn2);

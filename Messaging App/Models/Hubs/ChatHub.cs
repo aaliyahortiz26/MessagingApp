@@ -31,8 +31,9 @@ namespace SignalRChat.Hubs
                 }
             }
             MySqlCommand cmd = new MySqlCommand(null, conn);
-            cmd.CommandText = $"Insert into groupmessagetext (userId,groupId,groupmessage,chatName)" + $"values ( @userId,@groupId,@groupmessage,@chatName) ";
+            cmd.CommandText = $"Insert into groupmessagetext (userId,userName,groupId,groupmessage,chatName)" + $"values ( @userId,@userName,@groupId,@groupmessage,@chatName) ";
             cmd.Parameters.AddWithValue("@userId", DBObject.m_id);
+            cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
             cmd.Parameters.AddWithValue("@groupId", DBObject.m_Groupid);
             cmd.Parameters.AddWithValue("@groupmessage", message );
             cmd.Parameters.AddWithValue("@chatName", DBObject.m_GroupName);

@@ -44,21 +44,20 @@
             <h1 id="groupName">Group Name: @GroupTemplateModel.m_groupName</h1>
 
             <div class="fields">
-
-                <!--  @for (int i = 0; i < 15; i++)
-                {
-
-
-                    <p>
-                        <label id="messagesLabel">Message</label>
-                    </p>
-                }-->
+                @{
+                    List<Messages> list = new List<Messages>();
+                    list = ViewData["messageobjects"] as List<Messages>;
+                    for (int i = 0; i < list.Count(); i++)
+                    {
+                        <p>
+                            <label>@list[i].GetUsername() says @list[i].GetMessage() </label>
+                        </p>
+                    }
+                }
                 <p>
                     <label id="messagesLabelNotFromDatabase"></label>
                 </p>
-            </div>
-
-
+            </div>         
 
 
         </form>
@@ -67,18 +66,21 @@
 
         <form class="right contactArea" asp-action="GroupTemplate" method="post">
             <div class="fields">
-
-                <!--  @for (int i = 0; i < 15; i++)
-    {
-
-
-        <p>
-            <label id="messagesLabel">Message</label>
-        </p>
-    }-->
                 <p>
                     <h2 id="contactAreaLabel">Contacts</h2>
+                    <br />
                 </p>
+                @{
+                    List<string> userList = new List<string>();
+                    userList = ViewData["userobjects"] as List<string>;
+                    for (int i = 0; i < userList.Count(); i++)
+                    {
+                        <p>
+                            <h3>@userList[i] </h3>
+                        </p>
+                    }
+                }
+
                 <dl>
                 </dl>
             </div>
