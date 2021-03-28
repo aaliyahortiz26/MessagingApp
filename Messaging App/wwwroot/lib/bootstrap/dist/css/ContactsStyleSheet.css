@@ -13,7 +13,7 @@ footer {
 
 .contactContainer {
     margin: auto;
-    width:  66%;
+    width: 66%;
     height: 79%;
     padding: 0px 0;
     position: absolute;
@@ -21,7 +21,7 @@ footer {
     bottom: 0;
     left: 0;
     right: 0;
-   /*  border: 3px solid red;  */
+  /*  border: 3px solid red;  */
 }
 
 .centered {
@@ -30,7 +30,7 @@ footer {
     display: block;
     margin-left: auto;
     margin-right: auto;
-   /* border: 2px solid #73AD28; */
+  /*  border: 2px solid #73AD28; */
 }
 
 .contactSearchArea {
@@ -112,7 +112,7 @@ button {
     color: white;
     font-size: 16px;
     background-color: #2196F3;
-    /*  border-radius: 6px; */
+     border-radius: 6px; 
 }
 
 .addContactButton {
