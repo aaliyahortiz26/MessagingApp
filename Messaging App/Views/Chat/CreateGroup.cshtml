@@ -21,7 +21,7 @@
                     <br>
                     <span asp-validation-for="groupChatTitle" class="text-danger"></span>
                 </p>
-                <p>
+                <p asp-for="addContactInput">
                     <input type="radio" class="privateRadioContainer" asp-for=radioField value="private">
                     <label for="private">Private</label><br>
                     <input type="radio" class="publicRadioContainer" asp-for=radioField value="public">
@@ -33,8 +33,14 @@
                     <input type="radio" asp-for=radioField value="2" checked /> -->
 
                     <label class="inviteContactLabel">Contact:</label>
-                    <select asp-for=inviteContact class="inviteContactDropdown">
-                        <option value="none">none</option>
+                    <select asp-for=inviteContact class="inviteContactDropdown" asp-action="ContactsTemplate">
+                       
+                                     @for (int i = 0; i < HomeModel.m_contactslist.Count(); i++)
+                                      {
+
+                                        <option value="all">@HomeModel.m_contactslist[i];</option>
+
+                                      }
                     </select>
 
                     <!--<label class="inviteContactLabel">Invite Contacts:</label>
