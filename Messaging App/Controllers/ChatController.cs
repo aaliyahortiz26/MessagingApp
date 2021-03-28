@@ -25,8 +25,25 @@ namespace MessagingApp.Controllers
             return View();
         }
 
-        public IActionResult CreateGroupScreen()
+        public IActionResult CreateGroupScreen(HomeModel homeMod)
         {
+            const string connection2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn2 = new MySqlConnection(connection2);
+            MySqlCommand getContacts = conn2.CreateCommand();
+            getContacts.CommandText = "SELECT username_newContact FROM contacts where userID= @userID"; // the command
+            getContacts.Parameters.AddWithValue("@userID", DBObject.m_id);
+            conn2.Open();
+            MySqlDataReader lRead = getContacts.ExecuteReader();
+            List<string> ContactsList = new List<string>();
+
+            while (lRead.Read())
+            {
+                ContactsList.Add(Convert.ToString(lRead[0]));
+            }
+            lRead.Close();
+
+            homeMod.SetcontactsListAttr(ContactsList);
+            conn2.Close();
             return View("CreateGroup");
         }
 
@@ -34,6 +51,7 @@ namespace MessagingApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateGroup (CreateGroupModel createGroupMod)
         {
+            
             if (ModelState.IsValid)
             {
                 const string connection1 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
@@ -75,8 +93,37 @@ namespace MessagingApp.Controllers
                     cmd.Parameters.AddWithValue("@inviteContact", createGroupMod.inviteContact);
                     cmd.ExecuteNonQuery();
                     conn.Close();
-                    return RedirectToAction("Home", "Home");
+
+                    
+                    const string connectionstring2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                    MySqlConnection conn2 = new MySqlConnection(connectionstring2);
+
+                    conn2.Open();
+                    int contactID = 0;
+                    string txtcmd1 = $"SELECT id FROM users where username='" + createGroupMod.inviteContact + "'"; // the command
+                    MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn2);
+                    MySqlDataReader dRead;
+                    using (dRead = cmd1.ExecuteReader()) // executes the search command
+                    {
+                        if (dRead.Read())
+                        {
+                            contactID = Convert.ToInt32(dRead[0]);
+                        }
+                    }
+                    dRead.Close();
+
+                    string txtcmd2 = $"Insert into united_messaging.groupmessage (userid, chatName, privacyOption, contactName)" + $"values ( @contactUserID, @groupChatContactTitle,@privacyContactOption,@inviteUserContact) ";
+                    MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn2);
+                    cmd2.CommandType = CommandType.Text;
+                    cmd2.Parameters.AddWithValue("@contactUserID", contactID);
+                    cmd2.Parameters.AddWithValue("@groupChatContactTitle", createGroupMod.groupChatTitle);
+                    cmd2.Parameters.AddWithValue("@privacyContactOption", createGroupMod.radioField);
+                    cmd2.Parameters.AddWithValue("@inviteUserContact", DBObject.m_username);
+                    cmd2.ExecuteNonQuery();
+                    conn2.Close();
                 }
+                return RedirectToAction("Home", "Home");
+                
             }
             
             return View("CreateGroup");
