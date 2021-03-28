@@ -85,6 +85,10 @@ namespace MessagingApp.Controllers
 
         public IActionResult GroupTemplate(GroupTemplateModel groupTemplateMod, string? name)
         {
+            DBObject.m_GroupName = name;
+
+            // print all messages from database
+
             // bool foundUsername = false;
             //string groupChatName = name;
             /*  for (int i = 0; i < HomeModel.m_grouplist.Count; i++)
