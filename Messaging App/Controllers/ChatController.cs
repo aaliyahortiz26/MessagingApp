@@ -180,5 +180,12 @@ namespace MessagingApp.Controllers
 
             return View();
         }
+        public IActionResult TopicTemplate(TopicTemplateModel topicTemplateMod,string? name)
+        {
+            topicTemplateMod.topicName = name;
+
+
+            return View();
+        }
     }
 }
