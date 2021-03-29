@@ -288,9 +288,9 @@ namespace MessagingApp.Controllers
         }
 
 
-        public IActionResult savePicture()
+        public IActionResult savePicture(Preferences im)
         {
-            byte[] imageFile;
+            byte[] imageFile = im.UserImage;
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
             conn.Open();
@@ -300,12 +300,14 @@ namespace MessagingApp.Controllers
 
             using (dRead = cmd2.ExecuteReader()) // executes the search command
             {
-                if (dRead.Read())
+                if (!dRead.Read())
                 {
-                    imageFile = (Byte[])(dRead["image"]);
+                    //imageFile = (Byte[])(dRead["image"]);
                     /*
                      There's a error here when the choose file button gets pressed with the line above
                      */
+
+                    imageFile = im.UserImage;
                     conn.Close();
                     string txtcmd = "update preferences SET picture ='" + imageFile + "' Where id ='" + DBObject.m_id + "'"; // the command
                     MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
@@ -316,10 +318,11 @@ namespace MessagingApp.Controllers
                 }
                 else
                 {
-                    imageFile = (Byte[])(dRead["image"]);
+                    // imageFile = (Byte[])(dRead["image"]);
                     /*
                     There's a error here when the choose file button gets pressed with the line above
                     */
+                    imageFile = im.UserImage;
                     conn.Close();
                     string txtcmd = $"Insert into preferences (id,picture)" + $"values ( @id, @pictureFile) ";
                     MySqlCommand cmd = new MySqlCommand(txtcmd, conn);

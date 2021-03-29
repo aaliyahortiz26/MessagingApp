@@ -1,7 +1,5 @@
 ﻿"use strict";
 
-
-
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
 //Disable send button until connection is established
@@ -28,4 +26,3 @@ document.getElementById("sendMessageButton").addEventListener("click", function 
     });
     event.preventDefault();
 });
-
