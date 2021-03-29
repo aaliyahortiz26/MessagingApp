@@ -26,9 +26,87 @@ namespace MessagingApp.Controllers
         {
             return View();
         }
-        public IActionResult CreateTopic()
+        public IActionResult CreateTopic(CreateTopicModel createTopic)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                const string connection1 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                MySqlConnection conn1 = new MySqlConnection(connection1);
+
+                conn1.Open();
+
+
+                MySqlCommand getTopics = conn1.CreateCommand();
+                getTopics.CommandText = "SELECT count(*) FROM topics where category= @topicName"; // the command
+                getTopics.Parameters.AddWithValue("@topicName", createTopic.topicName);
+
+                int topicExist = Convert.ToInt32(getTopics.ExecuteScalar());
+
+                conn1.Close();
+
+                if (topicExist >= 1)
+                {
+                    ViewBag.message = "Topic already exists";
+                    return View("CreateTopic");
+                }
+                else if (createTopic.topicName == "")
+                {
+                    return View("CreateTopic");
+                }
+                else
+                {
+                    const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                    MySqlConnection conn = new MySqlConnection(connectionstring);
+
+                    conn.Open();
+
+                    string txtcmd = $"Insert into united_messaging.topics (category, description, privacyOption, topicQuestion)" + $"values (@topicName,@descrption,@question,@inviteContact) ";
+                    MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@topicName", createTopic.topicName);
+                    cmd.Parameters.AddWithValue("@description", createTopic.description);
+                    cmd.Parameters.AddWithValue("@question", createTopic.question);
+                    cmd.Parameters.AddWithValue("@inviteContact", createTopic.inviteContact);
+                    //add one for the privacy option
+
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+
+
+                    const string connectionstring2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                    MySqlConnection conn2 = new MySqlConnection(connectionstring2);
+
+                    conn2.Open();
+                    int contactID = 0;
+                    string txtcmd1 = $"SELECT id FROM users where username='" + createTopic.inviteContact + "'"; // the command
+                    MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn2);
+                    MySqlDataReader dRead;
+                    using (dRead = cmd1.ExecuteReader()) // executes the search command
+                    {
+                        if (dRead.Read())
+                        {
+                            contactID = Convert.ToInt32(dRead[0]);
+                        }
+                    }
+                    dRead.Close();
+
+                    string txtcmd2 = $"Insert into united_messaging.topics (category, description, privacyOption, topicQuestion)" + $"values (@topicNameTitle,@topicDescrption,@topicQuestion,@inviteContactContact) ";
+                    MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn2);
+                    cmd2.CommandType = CommandType.Text;
+                    cmd2.Parameters.AddWithValue("@topicNameTitle", createTopic.topicName);
+                    cmd2.Parameters.AddWithValue("@topicDescription", createTopic.description);
+                    cmd2.Parameters.AddWithValue("@topicQuestion", createTopic.question);
+                    cmd2.Parameters.AddWithValue("@inviteUserContact", DBObject.m_username);
+                    cmd2.ExecuteNonQuery();
+                    conn2.Close();
+
+                }
+                return RedirectToAction("Home", "Home");
+
+            }
+            //return View("CreateTopic");
+
+            return View("CreateTopic");
         }
 
         public IActionResult CreateGroupScreen(HomeModel homeMod)
