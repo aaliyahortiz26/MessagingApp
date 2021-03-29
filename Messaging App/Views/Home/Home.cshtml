@@ -24,8 +24,15 @@
             @{
                 for (int i = 0; i < HomeModel.m_grouplist.Count; i++)
                 {
-                    <button id="groupButtons" name="button" type="submit" value="@HomeModel.m_grouplist[i]" onclick="location.href='@Url.Action("GroupTemplate", "Chat")?name=@HomeModel.m_grouplist[i]'" >@HomeModel.m_grouplist[i]</button>;
+                    <button id="groupButtons" name="button" type="submit" value="@HomeModel.m_grouplist[i]" onclick="location.href='@Url.Action("GroupTemplate", "Chat")?name=@HomeModel.m_grouplist[i]'">@HomeModel.m_grouplist[i]</button>;
                 }
+            }
+            <!-- use to display topic name -->
+            @{
+                <!--  for (int i = 0; i < HomeModel.m_grouplist.Count; i++)-->
+                <!--{-->
+                <button id="topicButtons" name="button" type="submit" value="TopicPage" onclick="location.href='@Url.Action("TopicTemplate", "Chat")?name=topicPage'">Topic Group</button>;
+                <!--}-->
             }
         </div>
     </div>

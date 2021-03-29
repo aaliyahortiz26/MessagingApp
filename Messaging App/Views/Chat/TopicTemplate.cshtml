@@ -1,8 +1,8 @@
-﻿@model MessagingApp.Models.GroupTemplateModel
+﻿@model MessagingApp.Models.TopicTemplateModel
 @{
     // Use login layout under View->Shared folder
     Layout = "_Layout";
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/Chat_StyleSheet/GroupTemplateStyleSheet.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/Chat_StyleSheet/TopicTemplateStyleSheet.css" />
 }
 
 <!DOCTYPE html>
@@ -46,47 +46,44 @@
         </div>
     </div>
     <div class="RightSide">
-        <form class="messageArea" asp-action="GroupTemplate" method="post">
+        <form class="messageArea" asp-action="TopicTemplate" method="post">
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
-            <h1 id="groupName">Group Name: @GroupTemplateModel.m_groupName</h1>
+            <h1 id="topicName">Group Name: @TopicTemplateModel.m_topicName</h1>
+            <h2 id="topicDescription"> Description: </h2>
+            <h2 id="topicQuestion"> Question: </h2>
 
             <div class="scrollMessages">
                 @{
-                    List<Messages> list = new List<Messages>();
-                    list = ViewData["messageobjects"] as List<Messages>;
-                    for (int i = 0; i < list.Count(); i++)
-                    {
-                        <p>
-                            <label>@list[i].GetUsername() says @list[i].GetMessage() </label>
-                        </p>
-                    }
+                    <p>
+                        <label>Message</label>
+                    </p>
+                    /* List<Messages> list = new List<Messages>();
+                     list = ViewData["messageobjects"] as List<Messages>;
+                     for (int i = 0; i < list.Count(); i++)
+                     {
+                         <p>
+                             <label>@list[i].GetUsername() says @list[i].GetMessage() </label>
+                         </p>
+                     }*/
                 }
-            <p>
-                <label id="messagesLabelNotFromDatabase"></label>
-            </p>
-            </div>         
+                <p>
+                    <label id="messagesLabelNotFromDatabase"></label> <br />
+                </p>
+            </div>
 
 
         </form>
 
 
 
-        <form class="right contactArea" asp-action="GroupTemplate" method="post">
+        <form class="right contactArea" asp-action="TopicTemplate" method="post">
             <div class="fields">
                 <p>
                     <h2 id="contactAreaLabel">Contacts</h2>
                     <br />
                 </p>
-                @{
-                    List<string> userList = new List<string>();
-                    userList = ViewData["userobjects"] as List<string>;
-                    for (int i = 0; i < userList.Count(); i++)
-                    {
-                        <p>
-                            <h3>@userList[i] </h3>
-                        </p>
-                    }
-                }
+                <!-- Print Contacts-->
+              
 
                 <dl>
                 </dl>
@@ -96,7 +93,7 @@
 
 
 
-        <form class="centered sendMessageArea" asp-action="GroupTemplate" method="post">
+        <form class="centered sendMessageArea" asp-action="TopicTemplate" method="post">
 
 
 
@@ -114,5 +111,6 @@
 
 </body>
 </html>
-<script src="~/js/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/chat.js"></script>
+
+<!--<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>-->

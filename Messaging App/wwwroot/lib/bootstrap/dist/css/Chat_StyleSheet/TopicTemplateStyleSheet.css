@@ -7,19 +7,6 @@ footer {
     background-color: lightgray;
 }
 
-.groupTemplateContainer {
-    margin: auto;
-    width: 75%;
-    height: 80%;
-    padding: 0px 0;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border: 3px solid red;
-}
-
 .centered {
     width: 21.5%;
     display: block;
@@ -62,6 +49,10 @@ h1 {
     text-align: center;
 }
 
+h2 {
+    text-align: center;
+}
+
 .fields {
     text-align: center;
 }
@@ -78,8 +69,6 @@ h1 {
     overflow: auto;
     height: 83%;
 }
-
-
 
 
 
@@ -226,6 +215,6 @@ h1 {
     border: none;
 }
 
-    #topicButtons:hover {
-        color: green;
-    }
+#topicButtons:hover {
+    color: green;
+}
