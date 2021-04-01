@@ -64,9 +64,9 @@ namespace MessagingApp.Models
 			return userGroupList;
 		}
 
-		public List<Messages> GetMessagesTopic(string name)
+		public List<Messages> GetMessagesTopic(string name2)
 		{
-			DBObject.m_TopicName = name;
+			DBObject.m_TopicName = name2;
 			List<string> messageDataList = new List<string>();
 			List<Messages> messageData = new List<Messages>();
 
@@ -76,8 +76,8 @@ namespace MessagingApp.Models
 				conn.Open();
 
 				MySqlCommand getMessagestopic = conn.CreateCommand();
-				getMessagestopic.CommandText = "SELECT userName, topics FROM messagetopicbase where topicName = @chatName"; // the command
-				getMessagestopic.Parameters.AddWithValue("@chatName", name);
+				getMessagestopic.CommandText = "SELECT userName, topicMessage FROM messagetopicbase where topicName = @chatName";
+				getMessagestopic.Parameters.AddWithValue("@chatName", name2);
 				getMessagestopic.ExecuteNonQuery();
 
 				// Execute the SQL command against the DB:
@@ -94,9 +94,9 @@ namespace MessagingApp.Models
 			}
 			return messageData;
 		}
-		public List<string> GettopicUsers(string name)
+		public List<string> GettopicUsers(string name2)
 		{
-			DBObject.m_TopicName = name;
+			DBObject.m_TopicName = name2;
 			List<string> userTopicList = new List<string>();
 
 			const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
@@ -105,8 +105,8 @@ namespace MessagingApp.Models
 				conn.Open();
 
 				MySqlCommand getMessagestopic = conn.CreateCommand();
-				getMessagestopic.CommandText = "SELECT contactName FROM message where topicName = @chatName"; // the command
-				getMessagestopic.Parameters.AddWithValue("@chatName", name);
+				getMessagestopic.CommandText = "SELECT contactName FROM topics where topicName = @chatName"; // the command
+				getMessagestopic.Parameters.AddWithValue("@chatName", name2);
 
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = getMessagestopic.ExecuteReader();
