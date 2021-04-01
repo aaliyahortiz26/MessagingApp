@@ -42,6 +42,10 @@ namespace MessagingApp.Controllers
 
 
 
+
+
+
+
             // set background color and textcolor that user selected
            
             const string connectionstring2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
