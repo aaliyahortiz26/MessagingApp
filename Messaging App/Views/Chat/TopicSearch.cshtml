@@ -25,8 +25,16 @@
                 </p>
                 <p>
                     <label class="topicLabel">Topic:</label>
-                    <select class="topicDropdown">
+                    @*<select class="topicDropdown">
                         <option value="none"></option>
+                    </select>*@
+                    <select asp-for=topicDropdown class="topicDropdownList">
+                        @for (int i = 0; i < TopicSearchModel.topicSearchList.Count(); i++)
+                        {
+
+                            <option value="@TopicSearchModel.topicSearchList[i]">@TopicSearchModel.topicSearchList[i]</option>
+
+                        }
                     </select>
                     <br>
                     <span asp-validation-for="topicDropdown" class="text-danger"></span>

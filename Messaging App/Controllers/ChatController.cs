@@ -22,18 +22,115 @@ namespace MessagingApp.Controllers
         {
             return View();
         }
-        public IActionResult TopicSearch()
+        public IActionResult TopicSearch(TopicSearchModel topicSearchMod)
         {
-            return View();
+            const string connection2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn2 = new MySqlConnection(connection2);
+            MySqlCommand topicSearch = conn2.CreateCommand();
+            MySqlCommand topicCategory = conn2.CreateCommand();
+            //topicCategory.CommandText = "SELECT category FROM topics";
+
+            topicSearch.CommandText = "SELECT topicName FROM topics where category= @category"; // the command
+            topicSearch.Parameters.AddWithValue("@category", topicSearchMod.categoryDropdown);
+
+            conn2.Open();
+            MySqlDataReader lRead = topicSearch.ExecuteReader();
+            List<string> TopicSearch = new List<string>();
+
+            while (lRead.Read())
+            {
+                TopicSearch.Add(Convert.ToString(lRead[0]));
+            }
+            lRead.Close();
+
+            conn2.Close();
+            topicSearchMod.SetTopicsListAttr(TopicSearch);
+            return View("TopicSearch");
+            //return View();
         }
         public IActionResult ViewTopic()
         {
             return View();
         }
 
-        public IActionResult CreateTopic()
+        public IActionResult CreateTopic(CreateTopicModel ctm)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                const string connection1 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                MySqlConnection conn1 = new MySqlConnection(connection1);
+
+                conn1.Open();
+
+
+                MySqlCommand getGroups = conn1.CreateCommand();
+                getGroups.CommandText = "SELECT count(*) FROM topics where category= @chatName"; // the command
+                getGroups.Parameters.AddWithValue("@chatName", ctm.topicName);
+
+                int groupExist = Convert.ToInt32(getGroups.ExecuteScalar());
+                conn1.Close();
+
+                if (groupExist >= 1)
+                {
+                    ViewBag.message = "Topic already exists";
+                    return View("CreateTopic");
+                }
+                else if (ctm.topicName == "")
+                {
+                    return View("CreateTopic");
+                }
+                else
+                {
+                    const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                    MySqlConnection conn = new MySqlConnection(connectionstring);
+
+                    conn.Open();
+
+                    string txtcmd = $"Insert into united_messaging.topics (userid, topicName, description,privacyOption, topicQuestion)" + $"values ( @userID, @topicName,@description, @privacyOption, @topicQuestion)";
+                    MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
+                    cmd.Parameters.AddWithValue("@topicName", ctm.topicName);
+                    cmd.Parameters.AddWithValue("@description", ctm.description);
+                    cmd.Parameters.AddWithValue("@privacyOption", ctm.radioField);
+                    cmd.Parameters.AddWithValue("@topicQuestion", ctm.question);
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+
+
+                    const string connectionstring2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                    MySqlConnection conn2 = new MySqlConnection(connectionstring2);
+
+                    conn2.Open();
+                    int contactID = 0;
+                    string txtcmd1 = $"SELECT id FROM users where username='" + ctm.inviteContact + "'"; // the command
+                    MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn2);
+                    MySqlDataReader dRead;
+                    using (dRead = cmd1.ExecuteReader()) // executes the search command
+                    {
+                        if (dRead.Read())
+                        {
+                            contactID = Convert.ToInt32(dRead[0]);
+                        }
+                    }
+                    dRead.Close();
+
+                    string txtcmd2 = $"Insert into united_messaging.topics (userid, topicName, description,privacyOption, topicQuestion)" + $"values ( @userID2, @topicName2,@description2, @privacyOption2, @topicQuestion2)";
+                    MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn2);
+                    cmd2.CommandType = CommandType.Text;
+                    cmd2.Parameters.AddWithValue("@userID2", contactID);
+                    cmd2.Parameters.AddWithValue("@topicName2", ctm.topicName);
+                    cmd2.Parameters.AddWithValue("@description2", ctm.description);
+                    cmd2.Parameters.AddWithValue("@privacyOption2", ctm.radioField);
+                    cmd2.Parameters.AddWithValue("@topicQuestion2", ctm.question);
+                    cmd2.ExecuteNonQuery();
+                    conn2.Close();
+                }
+                return RedirectToAction("Home", "Home");
+
+            }
+
+            return View("CreateTopic");
         }
 
         public IActionResult CreateGroupScreen(HomeModel homeMod)
