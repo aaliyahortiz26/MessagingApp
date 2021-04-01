@@ -26,6 +26,11 @@ namespace MessagingApp.Controllers
         {
             return View();
         }
+        public IActionResult ViewTopic()
+        {
+            return View();
+        }
+
         public IActionResult CreateTopic()
         {
             return View();
