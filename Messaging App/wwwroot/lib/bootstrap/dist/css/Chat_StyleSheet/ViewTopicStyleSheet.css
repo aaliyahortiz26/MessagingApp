@@ -1,0 +1,82 @@
+﻿body {
+    font: 18px;
+    margin: 0;
+}
+
+footer {
+    background-color: lightgray;
+}
+
+.right {
+    top: 7%;
+    margin-left: 65%;
+}
+
+.messageArea {
+    background-color: white;
+    border-radius: 12px;
+    width: 72%;
+    height: 92%;
+    margin-left: 3%;
+}
+
+.contactArea {
+    background-color: lightgray;
+    width: 20%;
+    height: 79%;
+    position: fixed;
+    border-radius: 12px;
+}
+
+h1 {
+    margin-top: -4%;
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+.fields {
+    text-align: center;
+}
+
+.fields label {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.scrollMessages {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 18px;
+    overflow: auto;
+    height: 83%;
+}
+
+.messageArea button {
+    margin-top: 5px;
+    justify-content: center;
+    margin-left: 15px;
+    vertical-align: middle;
+    width: 105px;
+    height: 45px;
+    color: white;
+    font-size: 16px;
+    background-color: #2196F3;
+    border-radius: 6px;
+}
+
+.MessageContainer {
+    margin: auto;
+    right: 0px;
+    position: absolute;
+    width: 86.7%;
+    height: 86%;
+    padding: 0px 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /*  border: 3px solid red;  */
+}

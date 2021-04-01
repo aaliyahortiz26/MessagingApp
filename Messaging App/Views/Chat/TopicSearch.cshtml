@@ -32,7 +32,7 @@
                     <span asp-validation-for="topicDropdown" class="text-danger"></span>
                 </p>
             </div>
-            <button class="viewTopicButton" type="submit">View Topic</button>
+            <button class="viewTopicButton" type="button" onclick="location.href='@Url.Action("ViewTopic", "Chat")'">View Topic</button>
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
             <button class="createNewTopicButton" type="button" onclick="location.href='@Url.Action("CreateTopic", "Chat")'">Create New Topic</button>
         </form>
