@@ -39,15 +39,32 @@ namespace MessagingApp.Controllers
             reader.Close();
 
             homeMod.SetGroupListAttr(groupsList);
+            conn.Close();
+           
+            conn.Open();
 
+            MySqlCommand gettopics = conn.CreateCommand();
+            gettopics.CommandText = "SELECT topicName FROM topics where userid= @userID"; // the command
+            gettopics.Parameters.AddWithValue("@userID", DBObject.m_id);
 
+            MySqlDataReader reader1 = getGroups.ExecuteReader();
+
+            List<string> topicList = new List<string>();
+
+            while (reader1.Read())
+            {
+                topicList.Add(Convert.ToString(reader1[0]));
+            }
+            reader1.Close();
+
+            homeMod.SetttopicListAttr(topicList);
 
 
 
 
 
             // set background color and textcolor that user selected
-           
+
             const string connectionstring2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn2 = new MySqlConnection(connectionstring2);
 

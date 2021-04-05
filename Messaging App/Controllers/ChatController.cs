@@ -26,9 +26,26 @@ namespace MessagingApp.Controllers
         {
             return View();
         }
-        public IActionResult ViewTopic()
+        public IActionResult ViewTopic(HomeModel homeMod)
         {
-            return View();
+            const string connection2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn2 = new MySqlConnection(connection2);
+            MySqlCommand getContacts = conn2.CreateCommand();
+            getContacts.CommandText = "SELECT username_newContact FROM contacts where userID= @userID"; // the command
+            getContacts.Parameters.AddWithValue("@userID", DBObject.m_id);
+            conn2.Open();
+            MySqlDataReader lRead = getContacts.ExecuteReader();
+            List<string> ContactsList = new List<string>();
+
+            while (lRead.Read())
+            {
+                ContactsList.Add(Convert.ToString(lRead[0]));
+            }
+            lRead.Close();
+
+            homeMod.SetcontactsListAttr(ContactsList);
+            conn2.Close();
+            return View("CreateTopic");
         }
 
         public IActionResult CreateTopic(CreateTopicModel ctm)
@@ -266,12 +283,12 @@ namespace MessagingApp.Controllers
             List<Messages> messages = new List<Messages>();
             List<string> users = new List<string>();
 
-            messages = _manager.GetMessagesGroup(name);
+            messages = _manager.GetMessagesTopic(name);
 
             ViewData["messageobjects"] = messages;
 
 
-            users = _manager.GetGroupUsers(name);
+            users = _manager.GettopicUsers(name);
             ViewData["userobjects"] = users;
             topicTemplateMod.topicName = name;
 
