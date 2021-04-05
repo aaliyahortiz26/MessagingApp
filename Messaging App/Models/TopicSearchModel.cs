@@ -18,5 +18,11 @@ namespace MessagingApp.Models
 
         [Required(ErrorMessage = "Required Field")]
         public string topicDropdown { get; set; }
+
+        public static List<string> topicSearchList;
+        public void SetTopicsListAttr(List<string> topicList)
+        {
+            topicSearchList = topicList;
+        }
     }
 }
