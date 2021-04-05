@@ -30,8 +30,8 @@ namespace MessagingApp.Controllers
             MySqlCommand topicCategory = conn2.CreateCommand();
             //topicCategory.CommandText = "SELECT category FROM topics";
 
-            topicSearch.CommandText = "SELECT topicName FROM topics where category= @category"; // the command
-            topicSearch.Parameters.AddWithValue("@category", topicSearchMod.categoryDropdown);
+            topicSearch.CommandText = "SELECT topicName FROM topics where userid= @userid"; // the command
+            topicSearch.Parameters.AddWithValue("@userid", DBObject.m_id);
 
             conn2.Open();
             MySqlDataReader lRead = topicSearch.ExecuteReader();
