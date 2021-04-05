@@ -22,9 +22,30 @@ namespace MessagingApp.Controllers
         {
             return View();
         }
-        public IActionResult TopicSearch()
+        public IActionResult TopicSearch(TopicSearchModel topicSearchMod)
         {
-            return View();
+            const string connection2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn2 = new MySqlConnection(connection2);
+            MySqlCommand topicSearch = conn2.CreateCommand();
+            MySqlCommand topicCategory = conn2.CreateCommand();
+            //topicCategory.CommandText = "SELECT category FROM topics";
+
+            topicSearch.CommandText = "SELECT topicName FROM topics where userid= @userid"; // the command
+            topicSearch.Parameters.AddWithValue("@userid", DBObject.m_id);
+
+            conn2.Open();
+            MySqlDataReader lRead = topicSearch.ExecuteReader();
+            List<string> TopicSearch = new List<string>();
+
+            while (lRead.Read())
+            {
+                TopicSearch.Add(Convert.ToString(lRead[0]));
+            }
+            lRead.Close();
+
+            conn2.Close();
+            topicSearchMod.SetTopicsListAttr(TopicSearch);
+            return View("TopicSearch");
         }
         public IActionResult ViewTopic(HomeModel homeMod)
         {
@@ -47,7 +68,10 @@ namespace MessagingApp.Controllers
             conn2.Close();
             return View("CreateTopic");
         }
-
+        public IActionResult CreateTopicScreen()
+        {
+            return View("CreateTopic");
+        }
         public IActionResult CreateTopic(CreateTopicModel ctm)
         {
             if (ModelState.IsValid)

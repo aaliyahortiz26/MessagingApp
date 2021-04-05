@@ -17,21 +17,27 @@
             <div class="fields">
                 <p>
                     <label class="topicNameLabel">Topic Name:</label>
-                    <textarea class="topicNameTextArea" asp-for="topicName" placeholder="Enter name of topic" ></textarea>
+                    <textarea class="topicNameTextArea" asp-for="topicName" placeholder="Enter name of topic" required></textarea>
                     <br>
                     <span asp-validation-for="topicName" class="text-danger"></span>
                 </p>
                 <p>
                     <label class="descriptionLabel">Description:</label>
-                    <textarea type="text" class="descriptionTextArea" asp-for="description" placeholder="Enter description of topic" ></textarea>
+                    <textarea type="text" class="descriptionTextArea" asp-for="description" placeholder="Enter description of topic" required></textarea>
                     <br>
                     <span asp-validation-for="description" class="text-danger"></span>
                 </p>
                 <p>
                     <label class="questionLabel">Question:</label>
-                    <textarea class="questionTextArea" asp-for="question" placeholder="Enter question for topic" ></textarea>
+                    <textarea class="questionTextArea" asp-for="question" placeholder="Enter question for topic" required></textarea>
                     <br>
                     <span asp-validation-for="question" class="text-danger"></span>
+                </p>
+                <p>
+                    <label class="categoryLabel">Type in Category (Ex. sports, SNHU):</label>
+                    <textarea class="categoryTextArea" asp-for="category" placeholder="Enter category name" required></textarea>
+                    <br>
+                    <span asp-validation-for="category" class="text-danger"></span>
                 </p>
                 <p>
                     <input type="radio" class="privateRadioContainer" name="radioField" value="private">
@@ -43,7 +49,7 @@
                 <br>
                 <label class="inviteContactLabel">Invite Contacts:</label>
                 <textarea class="inviteContactTextArea" asp-for="inviteContact" placeholder="Enter a username"></textarea>
-                
+
             </div>            
            <!-- <button class="previewButton" type="submit">Preview</button> -->
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Home</button>
