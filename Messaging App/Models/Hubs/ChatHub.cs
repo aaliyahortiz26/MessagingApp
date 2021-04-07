@@ -43,16 +43,13 @@ namespace SignalRChat.Hubs
 
 
         }
-        public async Task SendMessageTopic(string message)
+        public Task SendMessageTopic(string message)
         {
-            // string groupName = DBObject.m_GroupName;
-            await Clients.All.SendAsync("ReceiveMessage", DBObject.m_username, message);
-
             // insert into database
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
             conn.Open();
-            string txtcmd2 = $"SELECT topicId FROM topics where chatName='" + DBObject.m_GroupName + "'"; // the command
+            string txtcmd2 = $"SELECT topicId FROM topics where topicName='" + DBObject.m_GroupName + "'"; // the command
             MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn);
             MySqlDataReader dRead;
             using (dRead = cmd2.ExecuteReader()) // executes the search command
@@ -73,6 +70,7 @@ namespace SignalRChat.Hubs
             cmd.ExecuteReader();
             conn.Close();
             dRead.Close();
+            return Clients.All.SendAsync("ReceiveMessage", DBObject.m_username, message);
         }
     }
 }
