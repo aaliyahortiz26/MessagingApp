@@ -29,26 +29,27 @@
         <button id="ContactsButton" type="submit" onclick="location.href='@Url.Action("Contacts", "Home")'">Contacts</button>
 
         <h2>Joined Groups</h2>
-        <div id="ScrollBox">
+        <div id="ScrollBoxGroup">
             @{
                 for (int i = 0; i < HomeModel.m_grouplist.Count; i++)
                 {
                     <button id="groupButtons" name="button" type="submit" value="@HomeModel.m_grouplist[i]" onclick="location.href='@Url.Action("GroupTemplate", "Chat")?name=@HomeModel.m_grouplist[i]'">@HomeModel.m_grouplist[i]</button>;
                 }
             }
-            <h3>Topic Joined Groups</h3>
+        </div>
+        <h2>Topic Joined Groups</h2>
+        <div id="ScrollBoxTopic">
             @{
                 for (int j = 0; j < HomeModel.m_topiclist.Count; j++)
                 {
-                    <button id="topicButtons" name="button" type="submit" value="TopicPage" onclick="location.href='@Url.Action("TopicTemplate", "Chat")?name=@HomeModel.m_topiclist[j]'">@HomeModel.m_topiclist[j]</button>;
+                    <button id="topicButtons" name="button" type="submit" value="@HomeModel.m_topiclist[j]" onclick="location.href='@Url.Action("TopicTemplate", "Chat")?name=@HomeModel.m_topiclist[j]'">@HomeModel.m_topiclist[j] </button>;
                 }
             }
-
         </div>
     </div>
     <div class="RightSide">
         <form class="messageArea" asp-action="TopicTemplate" method="post">
-            <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Home</button>
+            <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Home</button>
             <h1 id="topicName">Group Name: @TopicTemplateModel.m_topicName</h1>
             <h2 id="topicDescription"> Description: </h2>
             <h2 id="topicQuestion"> Question: </h2>
