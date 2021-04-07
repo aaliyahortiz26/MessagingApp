@@ -64,6 +64,33 @@ namespace MessagingApp.Models
 			return userGroupList;
 		}
 
+		public List<string> GetDiscussionQuestionTopic(string name2)
+		{
+			DBObject.m_TopicName = name2;
+			List<string> descriptionQuestionList = new List<string>();
+
+			const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+			using (MySqlConnection conn = new MySqlConnection(connectionstring))
+			{
+				conn.Open();
+
+				MySqlCommand getMessagestopic = conn.CreateCommand();
+				getMessagestopic.CommandText = "SELECT description, topicQuestion FROM topics where topicName = @chatName";
+				getMessagestopic.Parameters.AddWithValue("@chatName", name2);
+				getMessagestopic.ExecuteNonQuery();
+
+				MySqlDataReader reader = getMessagestopic.ExecuteReader();
+				while (reader.Read())
+				{
+					descriptionQuestionList.Clear();
+					descriptionQuestionList.Add(Convert.ToString(reader[0]));
+					descriptionQuestionList.Add(Convert.ToString(reader[1]));
+				}
+				reader.Close();
+				conn.Close();
+			}
+			return descriptionQuestionList;
+		}
 		public List<Messages> GetMessagesTopic(string name2)
 		{
 			DBObject.m_TopicName = name2;

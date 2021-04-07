@@ -65,7 +65,6 @@
             <h1 id="groupName">Group Name: @GroupTemplateModel.m_groupName</h1>
             <div class="scrollMessages">
                 <div id="refreshMessages">
-
                     @{
                         List<Messages> list = new List<Messages>();
                         list = ViewData["messageobjects"] as List<Messages>;
@@ -115,7 +114,7 @@
 
             <div class="fields">
                 <br>
-                <textarea id="messageTextArea" data-emojiable="true" type="text" placeholder="Enter Message"></textarea>
+                <textarea id="messageTextArea" type="text" placeholder="Enter Message"></textarea>
 
                 <button id="sendMessageButton" type="button" value="Send Message" onclick="timeFunction()">Send Message</button>
 

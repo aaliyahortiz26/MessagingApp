@@ -105,7 +105,7 @@ namespace MessagingApp.Controllers
 
                     conn.Open();
 
-                    string txtcmd = $"Insert into united_messaging.topics (userid, topicName, description,privacyOption, topicQuestion)" + $"values ( @userID, @topicName,@description, @privacyOption, @topicQuestion)";
+                    string txtcmd = $"Insert into united_messaging.topics (userid, topicName, description,privacyOption, topicQuestion, contactName)" + $"values ( @userID, @topicName,@description, @privacyOption, @topicQuestion, @contactName)";
                     MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
@@ -113,6 +113,7 @@ namespace MessagingApp.Controllers
                     cmd.Parameters.AddWithValue("@description", ctm.description);
                     cmd.Parameters.AddWithValue("@privacyOption", ctm.radioField);
                     cmd.Parameters.AddWithValue("@topicQuestion", ctm.question);
+                    cmd.Parameters.AddWithValue("@contactName", ctm.inviteContact);
                     cmd.ExecuteNonQuery();
                     conn.Close();
 
@@ -134,7 +135,7 @@ namespace MessagingApp.Controllers
                     }
                     dRead.Close();
 
-                    string txtcmd2 = $"Insert into united_messaging.topics (userid, topicName, description,privacyOption, topicQuestion)" + $"values ( @userID2, @topicName2,@description2, @privacyOption2, @topicQuestion2)";
+                    string txtcmd2 = $"Insert into united_messaging.topics (userid, topicName, description,privacyOption, topicQuestion, contactName)" + $"values ( @userID2, @topicName2,@description2, @privacyOption2, @topicQuestion2, @contactName2)";
                     MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn2);
                     cmd2.CommandType = CommandType.Text;
                     cmd2.Parameters.AddWithValue("@userID2", contactID);
@@ -142,6 +143,7 @@ namespace MessagingApp.Controllers
                     cmd2.Parameters.AddWithValue("@description2", ctm.description);
                     cmd2.Parameters.AddWithValue("@privacyOption2", ctm.radioField);
                     cmd2.Parameters.AddWithValue("@topicQuestion2", ctm.question);
+                    cmd2.Parameters.AddWithValue("@contactName2", DBObject.m_username);
                     cmd2.ExecuteNonQuery();
                     conn2.Close();
                 }
@@ -301,21 +303,22 @@ namespace MessagingApp.Controllers
 
             return View();
         }
-        public IActionResult TopicTemplate(TopicTemplateModel topicTemplateMod,string? name)
+        public IActionResult TopicTemplate(TopicTemplateModel topicTemplateMod, string? name)
         {
             DBManager _manager = new DBManager();
+            List<string> discussionAndQuestion = new List<string>();
             List<Messages> messages = new List<Messages>();
             List<string> users = new List<string>();
 
-            messages = _manager.GetMessagesTopic(name);
+            discussionAndQuestion = _manager.GetDiscussionQuestionTopic(name);
+            ViewData["discussionAndQuestion"] = discussionAndQuestion;
 
+            messages = _manager.GetMessagesTopic(name);
             ViewData["messageobjects"] = messages;
 
-
             users = _manager.GettopicUsers(name);
-            ViewData["userobjects"] = users;
+            ViewData["users"] = users;
             topicTemplateMod.topicName = name;
-
 
             return View();
         }
