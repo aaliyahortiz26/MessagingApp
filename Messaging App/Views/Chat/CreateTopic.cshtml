@@ -50,11 +50,19 @@
                 <label class="inviteContactLabel">Invite Contacts:</label>
                 <textarea class="inviteContactTextArea" asp-for="inviteContact" placeholder="Enter a username"></textarea>
 
-            </div>            
-           <!-- <button class="previewButton" type="submit">Preview</button> -->
+            </div>
+            <!-- <button class="previewButton" type="submit">Preview</button> -->
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Home</button>
             <button class="createChatButton" type="submit">Create Chat</button>
         </form>
     </div>
 </body>
 </html>
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+    window.onload = function () {
+        alert("@ViewBag.Message");
+    };
+    </script>
+}

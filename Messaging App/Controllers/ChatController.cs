@@ -83,7 +83,7 @@ namespace MessagingApp.Controllers
 
 
                 MySqlCommand getGroups = conn1.CreateCommand();
-                getGroups.CommandText = "SELECT count(*) FROM topics where category= @chatName"; // the command
+                getGroups.CommandText = "SELECT count(*) FROM topics where topicName= @chatName"; // the command
                 getGroups.Parameters.AddWithValue("@chatName", ctm.topicName);
 
                 int groupExist = Convert.ToInt32(getGroups.ExecuteScalar());

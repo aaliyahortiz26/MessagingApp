@@ -30,6 +30,12 @@ namespace MessagingApp.Models
             m_topiclist = topiclist;
         }
 
+        public static List<string> m_contactsListHomeScreen;
+        public void SetContactListAttr(List<string> contactlist)
+        {
+            m_contactsListHomeScreen = contactlist;
+        }
+
     }
 
 }

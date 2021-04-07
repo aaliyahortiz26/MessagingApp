@@ -103,7 +103,25 @@ namespace MessagingApp.Controllers
             }
             conn.Close();
 
+            // set user contacts to home model contact list for home screen
+            DBManager _manager = new DBManager();
+            List<string> contacts = new List<string>();
+
+            contacts = _manager.GetUserContacts();
+
+            homeMod.SetContactListAttr(contacts);
+
+
+
+
+
+			Dictionary<string, int> topicDictionary = new Dictionary<string, int>();
+            topicDictionary = _manager.GetTopTopics();
+
+            ViewData["topicCount"] = topicDictionary;
+
             return View();
+
         }
         public IActionResult Profile()
         {
