@@ -26,6 +26,7 @@ namespace MessagingApp.Models
         }
 
         public string message { get; set; }
+
     }
 
 }
