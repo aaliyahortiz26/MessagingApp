@@ -10,7 +10,7 @@ footer {
 }
 
 h1 {
-    color: black;
+    color: White;
     text-align: left;
 }
 
@@ -92,13 +92,13 @@ input[type=text], select {
     padding: 50px;
     width: 75%;
     height: 10%;
-    border: 2px solid blue;
+   
 }
 
 .whole {
     width: 150%;
     height: 100%;
-    border: 2px solid green;
+   
     display: block;
 }
 

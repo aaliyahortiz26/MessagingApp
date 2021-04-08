@@ -1,4 +1,8 @@
 ﻿body {
+    background-image: url("~/../../../../../Images/EarthBackground - Copy.jpeg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover; 
     font-family: Arial, Helvetica, sans-serif;
     width: 500px;
     height: 500px;
@@ -10,7 +14,7 @@ footer {
 }
 
 h1 {
-    color: black;
+    color: white;
     text-align: left;
 }
 
@@ -44,17 +48,19 @@ input[type=text], select {
 }
 
 div.b {
+    border-radius: 25px;
     width: 550px;
-    border: 1px solid black;
-   margin: auto;
-  padding: 50px
+  background-color: white;
+   margin: inherit;
+  padding: 10px;
+  left: 50px;
   
 
 }
 div.out {
     width: 800px;
     height: 350px;
-    border: 1px solid black;
+   
     margin: auto;
     padding:140px;
     right: 15px;
