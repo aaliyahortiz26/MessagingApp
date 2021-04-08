@@ -57,17 +57,17 @@
 
             <div class="scrollMessages">
                 @{
-                    <p>
-                        <label>Message</label>
-                    </p>
-                    /* List<Messages> list = new List<Messages>();
+                  
+                           
+                     List<Messages> list = new List<Messages>();
                      list = ViewData["messageobjects"] as List<Messages>;
                      for (int i = 0; i < list.Count(); i++)
                      {
-                         <p>
-                             <label>@list[i].GetUsername() says @list[i].GetMessage() </label>
-                         </p>
-                     }*/
+                                <p>
+                                    <label>@list[i].GetUsername() says @list[i].GetMessage() </label>
+                                    <button type="button" onclick="location.href='@Url.Action("PinnedMessagestopic", "Chat", new {message = @list[i].GetMessage()})'">Pin Message </button>
+                                </p>
+                     }
                 }
                 <p>
                     <label id="messagesLabelNotFromDatabase"></label> <br />
