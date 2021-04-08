@@ -50,6 +50,7 @@
     <div class="RightSide">
         <form class="messageArea" asp-action="TopicTemplate" method="post">
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Home</button>
+            <button value="topic" name="topic" type="submit" onclick="location.href='@Url.Action("removechat", "Chat")'">Leave Topic </button>
             <h1 id="topicName">Group Name: @TopicTemplateModel.m_topicName</h1>
             <h2 id="topicDescription"> Description: </h2>
             <h2 id="topicQuestion"> Question: </h2>

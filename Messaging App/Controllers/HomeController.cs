@@ -207,6 +207,8 @@ namespace MessagingApp.Controllers
             return View("Contacts");
         }
 
+        
+
         public IActionResult PreferencesScreen()
         {
             return View("Preferences");
