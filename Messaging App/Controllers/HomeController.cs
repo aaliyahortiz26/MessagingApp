@@ -399,8 +399,23 @@ namespace MessagingApp.Controllers
             }
         }
 
-        public IActionResult PinnedMessages()
+        public IActionResult PinnedMessages(Messages msg)
         {
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+
+            conn.Open();
+
+            string txtcmd = $"Insert into united_messaging.pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
+            MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
+            cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
+            //cmd.Parameters.AddWithValue("@topicgroupName", DBObject.m_TopicName);
+            //cmd.Parameters.AddWithValue("@pinnedMessages", message);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
             return View();
         }
     }

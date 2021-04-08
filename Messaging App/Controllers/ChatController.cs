@@ -319,10 +319,9 @@ namespace MessagingApp.Controllers
 
             return View();
         }
-            public ActionResult removechat(string topic, string group)
+            public ActionResult removetopic()
             {
-                if (!string.IsNullOrEmpty(topic))
-                {
+
                     const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
                     MySqlConnection conn = new MySqlConnection(connectionstring);
 
@@ -334,23 +333,25 @@ namespace MessagingApp.Controllers
                     removetopic.Prepare();
                     removetopic.ExecuteReader();
                 conn.Close();
-                }
-                if (!string.IsNullOrEmpty(group))
-                {
-                    const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
-                    MySqlConnection conn = new MySqlConnection(connectionstring);
+            ViewBag.message = "Leaving Page";
+            return RedirectToAction("Home", "Home");
+        }
+       public IActionResult removeGroup()
+        {
+             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+              MySqlConnection conn = new MySqlConnection(connectionstring);
 
-                    conn.Open();
+              conn.Open();
 
-                    MySqlCommand removeGroup = conn.CreateCommand();
-                    removeGroup.CommandText = "Delete FROM groupmessage where userID= @userID AND chatName = @chatName"; // the command
-                    removeGroup.Parameters.AddWithValue("@userID", DBObject.m_id);
-                    removeGroup.Parameters.AddWithValue("@chatName", DBObject.m_GroupName);
-                    removeGroup.Prepare();
-                    removeGroup.ExecuteReader();
-                conn.Close();
-                }
-                return View("Home");
-            }
+              MySqlCommand removeGroup = conn.CreateCommand();
+              removeGroup.CommandText = "Delete FROM groupmessage where userID= @userID AND chatName = @chatName"; // the command
+              removeGroup.Parameters.AddWithValue("@userID", DBObject.m_id);
+              removeGroup.Parameters.AddWithValue("@chatName", DBObject.m_GroupName);
+              removeGroup.Prepare();
+              removeGroup.ExecuteReader();
+              conn.Close(); 
+            ViewBag.message = "leaving Page";
+            return RedirectToAction("Home", "Home");
+        }
         }
     }
