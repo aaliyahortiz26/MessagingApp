@@ -24,5 +24,11 @@ namespace MessagingApp.Models
         {
             topicSearchList = topicList;
         }
+
+        public static List<string> topicCategoryList;
+        public void SetCategoryListAttr(List<string> categoryList)
+        {
+            topicCategoryList = categoryList;
+        }
     }
 }

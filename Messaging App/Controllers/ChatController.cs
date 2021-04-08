@@ -25,13 +25,29 @@ namespace MessagingApp.Controllers
         public IActionResult TopicSearch(TopicSearchModel topicSearchMod)
         {
             const string connection2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            const string connection3 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn2 = new MySqlConnection(connection2);
+            MySqlConnection conn3 = new MySqlConnection(connection3);
             MySqlCommand topicSearch = conn2.CreateCommand();
-            MySqlCommand topicCategory = conn2.CreateCommand();
-            //topicCategory.CommandText = "SELECT category FROM topics";
+            MySqlCommand topicCategory = conn3.CreateCommand();
+            
+            topicCategory.CommandText = "SELECT category FROM topics where userid = @userid"; //command for category
+            topicCategory.Parameters.AddWithValue("userid", DBObject.m_id);
 
-            topicSearch.CommandText = "SELECT topicName FROM topics where userid= @userid"; // the command
+            conn3.Open();
+            MySqlDataReader mRead = topicCategory.ExecuteReader();
+            List<string> CategorySearch = new List<string>();
+
+            while (mRead.Read())
+            {
+                CategorySearch.Add(Convert.ToString(mRead[0]));
+            }
+            mRead.Close();
+            conn3.Close();
+
+            topicSearch.CommandText = "SELECT topicName FROM topics where userid = @userid"; // the command for topic name; fix so that it users the dropdown list option to then find the topic name
             topicSearch.Parameters.AddWithValue("@userid", DBObject.m_id);
+            //topicSearch.Parameters.AddWithValue("@category", CategorySearch);
 
             conn2.Open();
             MySqlDataReader lRead = topicSearch.ExecuteReader();
@@ -42,13 +58,17 @@ namespace MessagingApp.Controllers
                 TopicSearch.Add(Convert.ToString(lRead[0]));
             }
             lRead.Close();
-
             conn2.Close();
+
+            topicSearchMod.SetCategoryListAttr(CategorySearch);
             topicSearchMod.SetTopicsListAttr(TopicSearch);
             return View("TopicSearch");
         }
         public IActionResult ViewTopic(HomeModel homeMod)
         {
+            /**
+             Why is the create group code here?? 
+             **/
             const string connection2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn2 = new MySqlConnection(connection2);
             MySqlCommand getContacts = conn2.CreateCommand();
@@ -66,7 +86,7 @@ namespace MessagingApp.Controllers
 
             homeMod.SetcontactsListAttr(ContactsList);
             conn2.Close();
-            return View("CreateTopic");
+            return View("ViewTopic");
         }
         public IActionResult CreateTopicScreen()
         {
@@ -105,11 +125,12 @@ namespace MessagingApp.Controllers
 
                     conn.Open();
 
-                    string txtcmd = $"Insert into united_messaging.topics (userid, topicName, description,privacyOption, topicQuestion, contactName)" + $"values ( @userID, @topicName,@description, @privacyOption, @topicQuestion, @contactName)";
+                    string txtcmd = $"Insert into united_messaging.topics (userid, topicName, category, description,privacyOption, topicQuestion, contactName)" + $"values ( @userID, @topicName, @category, @description, @privacyOption, @topicQuestion, @contactName)";
                     MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
                     cmd.Parameters.AddWithValue("@topicName", ctm.topicName);
+                    cmd.Parameters.AddWithValue("@category", ctm.category);
                     cmd.Parameters.AddWithValue("@description", ctm.description);
                     cmd.Parameters.AddWithValue("@privacyOption", ctm.radioField);
                     cmd.Parameters.AddWithValue("@topicQuestion", ctm.question);
@@ -135,11 +156,12 @@ namespace MessagingApp.Controllers
                     }
                     dRead.Close();
 
-                    string txtcmd2 = $"Insert into united_messaging.topics (userid, topicName, description,privacyOption, topicQuestion, contactName)" + $"values ( @userID2, @topicName2,@description2, @privacyOption2, @topicQuestion2, @contactName2)";
+                    string txtcmd2 = $"Insert into united_messaging.topics (userid, topicName, category, description,privacyOption, topicQuestion, contactName)" + $"values ( @userID2, @topicName2, @category2, @description2, @privacyOption2, @topicQuestion2, @contactName2)";
                     MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn2);
                     cmd2.CommandType = CommandType.Text;
                     cmd2.Parameters.AddWithValue("@userID2", contactID);
                     cmd2.Parameters.AddWithValue("@topicName2", ctm.topicName);
+                    cmd2.Parameters.AddWithValue("@category2", ctm.category);
                     cmd2.Parameters.AddWithValue("@description2", ctm.description);
                     cmd2.Parameters.AddWithValue("@privacyOption2", ctm.radioField);
                     cmd2.Parameters.AddWithValue("@topicQuestion2", ctm.question);
