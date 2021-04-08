@@ -76,9 +76,10 @@
                         topicMessagelist = ViewData["messageobjects"] as List<Messages>;
                         for (int i = 0; i < topicMessagelist.Count(); i++)
                         {
-                            <p>
-                                <label>@topicMessagelist[i].GetUsername() says @topicMessagelist[i].GetMessage() </label>
-                            </p>
+                                        <p>
+                                            <label>@topicMessagelist[i].GetUsername() says @topicMessagelist[i].GetMessage() </label>
+                                            <button type="button" onclick="location.href='@Url.Action("PinnedMessagestopic", "Chat", new {message = @topicMessagelist[i].GetMessage()})'">Pin Message </button>
+                                        </p>
                         }
                     }
                     <p>
