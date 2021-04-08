@@ -16,6 +16,17 @@ namespace MessagingApp.Models
 
 
         public string topicName { get=> m_topicName; set=>m_topicName = value; }
+
+        public static List<string> m_topiclist;
+
+
+        public void SettopicListAttr(List<string> topiclist)
+        {
+            m_topiclist = topiclist;
+        }
+
+        public string message { get; set; }
+
     }
 
 }

@@ -20,24 +20,59 @@
         <button id="ContactsButton" type="submit" onclick="location.href='@Url.Action("Contacts", "Home")'">Contacts</button>
 
         <h2>Joined Groups</h2>
-        <div id="ScrollBox">
+        <div id="ScrollBoxGroup">
             @{
                 for (int i = 0; i < HomeModel.m_grouplist.Count; i++)
                 {
                     <button id="groupButtons" name="button" type="submit" value="@HomeModel.m_grouplist[i]" onclick="location.href='@Url.Action("GroupTemplate", "Chat")?name=@HomeModel.m_grouplist[i]'">@HomeModel.m_grouplist[i]</button>;
                 }
             }
-            <!-- use to display topic name -->
+        </div>
+        <h2>Topic Joined Groups</h2>
+        <div id="ScrollBoxTopic">
             @{
-                <!--  for (int i = 0; i < HomeModel.m_grouplist.Count; i++)-->
-                <!--{-->
-                <button id="topicButtons" name="button" type="submit" value="TopicPage" onclick="location.href='@Url.Action("TopicTemplate", "Chat")?name=topicPage'">Topic Group</button>;
-                <!--}-->
+                for (int j = 0; j < HomeModel.m_topiclist.Count; j++)
+                {
+                    <button id="topicButtons" name="button" type="submit" value="@HomeModel.m_topiclist[j]" onclick="location.href='@Url.Action("TopicTemplate", "Chat")?name=@HomeModel.m_topiclist[j]'">@HomeModel.m_topiclist[j] </button>;
+                }
             }
         </div>
     </div>
     <div class="RightSide">
         <button class="centered" id="LoginScreenButton" type="submit" onclick="location.href='@Url.Action("Index", "Login")'">Log Out</button>
+
+        <div class="contactArea">
+            <h1>Contacts</h1>
+            @{
+                for (int i = 0; i < HomeModel.m_contactsListHomeScreen.Count(); i++)
+                {
+                    <p>
+                        <h3>@HomeModel.m_contactsListHomeScreen[i] </h3>
+                    </p>
+                }
+            }
+
+        </div>
+        <div class="topTopicArea">
+            <h1>Top 3 Topics</h1>
+            @{
+                Dictionary<string, int> topicDictionary = new Dictionary<string, int>();
+                topicDictionary = ViewData["topicCount"] as Dictionary<string, int>;
+                int counter = 1;
+                <p>
+                    @foreach (KeyValuePair<string, int>
+                    topic in topicDictionary)
+                    {
+                        <h3>@counter.  @topic.Key with @topic.Value messages</h3>
+                        <br>
+                        counter = counter + 1;
+
+                    }
+                </p>          
+            }
+
+        </div>
+
     </div>
 </body>
 </html>

@@ -26,15 +26,18 @@
                 <p>
                     <label class="topicLabel">Topic:</label>
                     <select class="topicDropdown">
-                        <option value="none"></option>
+                        @for (int i = 0; i < TopicSearchModel.topicSearchList.Count(); i++)
+                        {
+                            <option value="@TopicSearchModel.topicSearchList[i]">@TopicSearchModel.topicSearchList[i]</option>
+                        }
                     </select>
                     <br>
                     <span asp-validation-for="topicDropdown" class="text-danger"></span>
                 </p>
             </div>
             <button class="viewTopicButton" type="button" onclick="location.href='@Url.Action("ViewTopic", "Chat")'">View Topic</button>
-            <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
-            <button class="createNewTopicButton" type="button" onclick="location.href='@Url.Action("CreateTopic", "Chat")'">Create New Topic</button>
+            <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Home</button>
+            <button class="createNewTopicButton" type="button" onclick="location.href='@Url.Action("CreateTopicScreen", "Chat")'">Create New Topic</button>
         </form>
     </div>
 </body>

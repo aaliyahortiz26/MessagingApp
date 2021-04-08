@@ -15,7 +15,7 @@
     <div class="contactContainer">
         <form>
             <fieldset class="centered contactSearchArea" asp-action="ContactsTemplate">
-                <h1>Contacts</h1>
+                <h1 style="text-align:center; margin-top: 5px;">Contacts</h1>
                 <div class="fields">
                     <p>
                         <label class="addContactLabel">Add contact:</label>
@@ -28,32 +28,35 @@
                     </p>
                 </div>
             </fieldset>
-            </form>
-            <form class="centered viewContactsArea" asp-action="GroupTemplate" method="post">
-               <!-- <fieldset>-->
-                    <div class="fields">
-                        <label class="contactLabel">Contacts:</label>
-                        <br>
+        </form>
+        <form class="centered viewContactsArea" asp-action="GroupTemplate" method="post">
+            <!-- <fieldset>-->
+            <div class="fields">
+                <label class="contactLabel">Your Contacts:</label>
+                <br>
 
-                        <dl>
-                            @for (int i = 0; i < HomeModel.m_contactslist.Count; i++)
-                            {
+                <dl>
+                    @for (int i = 0; i < HomeModel.m_contactslist.Count; i++)
+                    {
+                        <h3>@HomeModel.m_contactslist[i]</h3>
+                    }
+                </dl>
+                <br>
+                <br>
 
-                                <dt>@HomeModel.m_contactslist[i]</dt>
+                <!-- <div class="centered buttonArea">-->
+                <!--  <button class="addContactButton" type="submit">Add Contact</button>-->
+                <!--</div>-->
+            </div>
 
-                            }
-                        </dl>
-                        <br>
-                        <br>
 
-                        <!-- <div class="centered buttonArea">-->
-                        <!--  <button class="addContactButton" type="submit">Add Contact</button>-->
-                        <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
-                        <!--</div>-->
-                    </div>
-               <!-- </fieldset>-->
-            </form>
-</div>
+
+            <!-- </fieldset>-->
+        </form>
+        <div class="homeButton">
+            <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Home</button>
+        </div>
+    </div>
 </body>
 </html>
 @if (ViewBag.Message != null)

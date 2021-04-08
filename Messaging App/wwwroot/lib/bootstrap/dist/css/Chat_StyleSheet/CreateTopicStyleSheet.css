@@ -13,7 +13,7 @@ footer {
 
 .createGroupContainer {
     margin: auto;
-    width: 60%;
+    width: 68%;
     height: 74%;
     /* border: 3px solid red;  */ 
     padding: 0px 0;
@@ -30,6 +30,7 @@ footer {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    overflow: auto;
     /* border: 2px solid #73AD28;  */ 
 }
 
@@ -116,8 +117,8 @@ button {
     border-radius: 6px;  
 }
 
-.previewButton {
-    margin-left: 18%;
+.goHomeButton {
+    margin-left: 30%;
 }
 
 .field-validation-error {
@@ -126,3 +127,4 @@ button {
     position: absolute;
     color: red;
 }
+

@@ -9,6 +9,16 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" language="Javascript">
+        $(document).ready(function () {
+            $("#refreshMessages").load(window.location.href + " #refreshMessages");
+            setInterval(function () {
+                $("#refreshMessages").load(window.location.href + " #refreshMessages");
+            }, 2000);
+        });
+    </script>
 </head>
 <body>
     <style>
@@ -29,50 +39,52 @@
         <button id="ContactsButton" type="submit" onclick="location.href='@Url.Action("Contacts", "Home")'">Contacts</button>
 
         <h2>Joined Groups</h2>
-        <div id="ScrollBox">
+        <div id="ScrollBoxGroup">
             @{
                 for (int i = 0; i < HomeModel.m_grouplist.Count; i++)
                 {
                     <button id="groupButtons" name="button" type="submit" value="@HomeModel.m_grouplist[i]" onclick="location.href='@Url.Action("GroupTemplate", "Chat")?name=@HomeModel.m_grouplist[i]'">@HomeModel.m_grouplist[i]</button>;
                 }
             }
-            <!-- use to display topic name -->
+        </div>
+        <h2>Topic Joined Groups</h2>
+        <div id="ScrollBoxTopic">
             @{
-                <!--  for (int i = 0; i < HomeModel.m_grouplist.Count; i++)-->
-                <!--{-->
-                <button id="topicButtons" name="button" type="submit" value="TopicPage" onclick="location.href='@Url.Action("TopicTemplate", "Chat")?name=topicPage'">Topic Group</button>;
-                <!--}-->
+                for (int j = 0; j < HomeModel.m_topiclist.Count; j++)
+                {
+                    <button id="topicButtons" name="button" type="submit" value="@HomeModel.m_topiclist[j]" onclick="location.href='@Url.Action("TopicTemplate", "Chat")?name=@HomeModel.m_topiclist[j]'">@HomeModel.m_topiclist[j] </button>;
+                }
             }
-
         </div>
     </div>
     <div class="RightSide">
         <form class="messageArea" asp-action="TopicTemplate" method="post">
-            <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Go home</button>
+            <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Home</button>
             <h1 id="topicName">Group Name: @TopicTemplateModel.m_topicName</h1>
-            <h2 id="topicDescription"> Description: </h2>
-            <h2 id="topicQuestion"> Question: </h2>
+
+            @{List<string> discussionAndQuestion = new List<string>();
+                discussionAndQuestion = ViewData["discussionAndQuestion"] as List<string>;
+            }
+            <h2 id="topicDescription">Description: @discussionAndQuestion[0]</h2>
+            <h2 id="topicQuestion">Question: @discussionAndQuestion[1]</h2>
 
             <div class="scrollMessages">
-                @{
+                <div id="refreshMessages">
+                    @{
+                        List<Messages> topicMessagelist = new List<Messages>();
+                        topicMessagelist = ViewData["messageobjects"] as List<Messages>;
+                        for (int i = 0; i < topicMessagelist.Count(); i++)
+                        {
+                            <p>
+                                <label>@topicMessagelist[i].GetUsername() says @topicMessagelist[i].GetMessage() </label>
+                            </p>
+                        }
+                    }
                     <p>
-                        <label>Message</label>
+                        <label id="messagesLabelNotFromDatabase"></label>
                     </p>
-                    /* List<Messages> list = new List<Messages>();
-                     list = ViewData["messageobjects"] as List<Messages>;
-                     for (int i = 0; i < list.Count(); i++)
-                     {
-                         <p>
-                             <label>@list[i].GetUsername() says @list[i].GetMessage() </label>
-                         </p>
-                     }*/
-                }
-                <p>
-                    <label id="messagesLabelNotFromDatabase"></label> <br />
-                </p>
+                </div>
             </div>
-
-
         </form>
 
 
@@ -83,8 +95,17 @@
                     <h2 id="contactAreaLabel">Contacts</h2>
                     <br />
                 </p>
-                <!-- Print Contacts-->
-              
+                @{
+                    List<string> users = new List<string>();
+                    users = ViewData["users"] as List<string>;
+                    for (int i = 0; i < users.Count(); i++)
+                    {
+                        <p>
+                            <h3>@users[i] </h3>
+                        </p>
+                    }
+                }
+
 
                 <dl>
                 </dl>
@@ -94,18 +115,28 @@
 
 
 
-        <form class="centered sendMessageArea" asp-action="TopicTemplate" method="post">
+        <form id="reset" class="centered sendMessageArea" asp-action="TopicTemplate" method="post">
 
 
 
             <div class="fields">
                 <br>
-                <!--<input id="messageInput" asp-for="message" placeholder="Enter Message" />-->
-                <textarea id="messageTextArea" data-emojiable="true" type="text" placeholder="Enter Message"></textarea>
+                <textarea id="messageTextArea" type="text" placeholder="Enter Message"></textarea>
 
-                <button id="sendMessageButton" type="button" value="Send Message">Send Message</button>
+                <button id="sendTopicMessageButton" type="button" value="Send Message" onclick="timeFunction()">Send Message</button>
+
+                <script>
+
+                    function timeFunction() {
+                        var idleInterval = setTimeout("reset()", 30);
+                    }
 
 
+                    function reset() {
+                        document.getElementById("reset").reset()
+                    }
+
+                </script>
             </div>
         </form>
     </div>
@@ -113,5 +144,5 @@
 </body>
 </html>
 
-<!--<script src="~/js/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/chat.js"></script>-->
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/topicChat.js"></script>
