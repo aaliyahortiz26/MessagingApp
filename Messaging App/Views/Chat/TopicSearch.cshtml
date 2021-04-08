@@ -16,14 +16,19 @@
             <h1>Topic Search</h1>
             <div class="fields">
                 <p>
+                    <span asp-validation-for="categoryDropdown" class="text-danger"></span>
                     <label class="categoryLabel">Category:</label>
                     <select class="categoryDropdown">
-                        <option value="all">All categories</option>
+                        @for (int i = 0; i < TopicSearchModel.topicCategoryList.Count(); i++)
+                        {
+                            <option value="@TopicSearchModel.topicCategoryList[i]">@TopicSearchModel.topicCategoryList[i]</option>
+                        }
+                        
                     </select>
                     <br>
-                    <span asp-validation-for="categoryDropdown" class="text-danger"></span>
                 </p>
                 <p>
+                    <span asp-validation-for="topicDropdown" class="text-danger"></span>
                     <label class="topicLabel">Topic:</label>
                     <select class="topicDropdown">
                         @for (int i = 0; i < TopicSearchModel.topicSearchList.Count(); i++)
@@ -32,7 +37,6 @@
                         }
                     </select>
                     <br>
-                    <span asp-validation-for="topicDropdown" class="text-danger"></span>
                 </p>
             </div>
             <button class="viewTopicButton" type="button" onclick="location.href='@Url.Action("ViewTopic", "Chat")'">View Topic</button>
