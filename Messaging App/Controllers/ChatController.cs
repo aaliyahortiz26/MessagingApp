@@ -370,5 +370,41 @@ namespace MessagingApp.Controllers
 
             return View();
         }
+
+        public ActionResult removetopic()
+        {
+
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+
+            conn.Open();
+            MySqlCommand removetopic = conn.CreateCommand();
+            removetopic.CommandText = "Delete FROM topics where userID= @userID AND topicName = @topicName"; // the command
+            removetopic.Parameters.AddWithValue("@userID", DBObject.m_id);
+            removetopic.Parameters.AddWithValue("@topicName", DBObject.m_TopicName);
+            removetopic.Prepare();
+            removetopic.ExecuteReader();
+            conn.Close();
+            ViewBag.message = "Leaving Page";
+            return RedirectToAction("Home", "Home");
+        }
+
+        public IActionResult removeGroup()
+        {
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+
+            conn.Open();
+
+            MySqlCommand removeGroup = conn.CreateCommand();
+            removeGroup.CommandText = "Delete FROM groupmessage where userID= @userID AND chatName = @chatName"; // the command
+            removeGroup.Parameters.AddWithValue("@userID", DBObject.m_id);
+            removeGroup.Parameters.AddWithValue("@chatName", DBObject.m_GroupName);
+            removeGroup.Prepare();
+            removeGroup.ExecuteReader();
+            conn.Close();
+            ViewBag.message = "leaving Page";
+            return RedirectToAction("Home", "Home");
+        }
     }
 }
