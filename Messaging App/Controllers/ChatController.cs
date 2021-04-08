@@ -24,29 +24,56 @@ namespace MessagingApp.Controllers
         }
         public IActionResult TopicSearch(TopicSearchModel topicSearchMod)
         {
+            string privateOption = "public";
+
+
+
             const string connection2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             const string connection3 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            
             MySqlConnection conn2 = new MySqlConnection(connection2);
             MySqlConnection conn3 = new MySqlConnection(connection3);
             MySqlCommand topicSearch = conn2.CreateCommand();
             MySqlCommand topicCategory = conn3.CreateCommand();
             
-            topicCategory.CommandText = "SELECT category FROM topics where userid = @userid"; //command for category
-            topicCategory.Parameters.AddWithValue("userid", DBObject.m_id);
-
+            topicCategory.CommandText = "SELECT category FROM topics where privacyOption = @privacyOption"; //command for category
+            topicCategory.Parameters.AddWithValue("privacyOption", privateOption);
             conn3.Open();
+
             MySqlDataReader mRead = topicCategory.ExecuteReader();
             List<string> CategorySearch = new List<string>();
 
+            int i = 0;
+            bool categoryExist = false;
             while (mRead.Read())
             {
-                CategorySearch.Add(Convert.ToString(mRead[0]));
+                if (i != 0)
+                {
+                    for (int counter = 0; counter < CategorySearch.Count(); counter++)
+                    {
+                        if (Convert.ToString(mRead[0]) == CategorySearch[counter])
+                        {
+                            categoryExist = true;
+                        }
+                    }
+                    if(categoryExist == false)
+                    {
+                        CategorySearch.Add(Convert.ToString(mRead[0]));
+                        i++;
+                    }
+                }
+                else
+                {
+                    CategorySearch.Add(Convert.ToString(mRead[0]));
+                    i++;
+                }
+                categoryExist = false;
             }
             mRead.Close();
-            conn3.Close();
+           // conn3.Close();
 
-            topicSearch.CommandText = "SELECT topicName FROM topics where userid = @userid"; // the command for topic name; fix so that it users the dropdown list option to then find the topic name
-            topicSearch.Parameters.AddWithValue("@userid", DBObject.m_id);
+            topicSearch.CommandText = "SELECT topicName FROM topics where privacyOption = @privacyOption"; // the command for topic name; fix so that it users the dropdown list option to then find the topic name
+            topicSearch.Parameters.AddWithValue("@privacyOption", privateOption);
             //topicSearch.Parameters.AddWithValue("@category", CategorySearch);
 
             conn2.Open();
@@ -210,7 +237,6 @@ namespace MessagingApp.Controllers
 
                 conn1.Open();
 
-
                 MySqlCommand getGroups = conn1.CreateCommand();
                 getGroups.CommandText = "SELECT count(*) FROM groupmessage where chatName= @chatName"; // the command
                 getGroups.Parameters.AddWithValue("@chatName", createGroupMod.groupChatTitle);
@@ -343,6 +369,42 @@ namespace MessagingApp.Controllers
             topicTemplateMod.topicName = name;
 
             return View();
+        }
+
+        public ActionResult removetopic()
+        {
+
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+
+            conn.Open();
+            MySqlCommand removetopic = conn.CreateCommand();
+            removetopic.CommandText = "Delete FROM topics where userID= @userID AND topicName = @topicName"; // the command
+            removetopic.Parameters.AddWithValue("@userID", DBObject.m_id);
+            removetopic.Parameters.AddWithValue("@topicName", DBObject.m_TopicName);
+            removetopic.Prepare();
+            removetopic.ExecuteReader();
+            conn.Close();
+            ViewBag.message = "Leaving Page";
+            return RedirectToAction("Home", "Home");
+        }
+
+        public IActionResult removeGroup()
+        {
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+
+            conn.Open();
+
+            MySqlCommand removeGroup = conn.CreateCommand();
+            removeGroup.CommandText = "Delete FROM groupmessage where userID= @userID AND chatName = @chatName"; // the command
+            removeGroup.Parameters.AddWithValue("@userID", DBObject.m_id);
+            removeGroup.Parameters.AddWithValue("@chatName", DBObject.m_GroupName);
+            removeGroup.Prepare();
+            removeGroup.ExecuteReader();
+            conn.Close();
+            ViewBag.message = "leaving Page";
+            return RedirectToAction("Home", "Home");
         }
     }
 }

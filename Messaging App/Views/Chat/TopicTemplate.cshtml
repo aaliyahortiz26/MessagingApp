@@ -59,6 +59,7 @@
     </div>
     <div class="RightSide">
         <form class="messageArea" asp-action="TopicTemplate" method="post">
+            <button type="button" onclick="location.href='@Url.Action("removeTopic", "Chat")'">Leave Topic </button>
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Home</button>
             <h1 id="topicName">Group Name: @TopicTemplateModel.m_topicName</h1>
 
