@@ -13,10 +13,10 @@ namespace MessagingApp.Models
 
     public class TopicSearchModel
     {
-        [Required(ErrorMessage = "Required Field")]
+        //[Required(ErrorMessage = "Required Field")]
         public string categoryDropdown { get; set; }
 
-        [Required(ErrorMessage = "Required Field")]
+        //[Required(ErrorMessage = "Required Field")]
         public string topicDropdown { get; set; }
 
         public static List<string> topicSearchList;

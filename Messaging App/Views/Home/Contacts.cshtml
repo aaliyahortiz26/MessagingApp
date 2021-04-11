@@ -39,8 +39,9 @@
                     @for (int i = 0; i < HomeModel.m_contactslist.Count; i++)
                     {
                         <h3>@HomeModel.m_contactslist[i]</h3>
-                        <button type="button" dis onclick="location.href='@Url.Action("removeContact", "Home", new {contact = @HomeModel.m_contactslist[i]})'">Remove </button>
-
+                        <button style="display: inline-block; width: 114px; height: 25px; margin-top: 0px; color: darkred; background-color:yellow; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("removeContact", "Home", new {contact = @HomeModel.m_contactslist[i]})'">Remove </button>
+                        <br>
+                        <br>
                     }
                 </dl>
                 <br>

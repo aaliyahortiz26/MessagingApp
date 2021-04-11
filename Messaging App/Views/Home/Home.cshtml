@@ -52,7 +52,29 @@
                 }
             }
 
+
         </div>
+        <div class="topGroupArea">
+            <h1>Top 3 Groups</h1>
+            
+            @{
+                Dictionary<string, int> groupDictionary = new Dictionary<string, int>();
+                groupDictionary = ViewData["groupCount"] as Dictionary<string, int>;
+                int counterGroups = 1;
+                <p>
+                    @foreach (KeyValuePair<string, int>
+                  group in groupDictionary)
+                    {
+                        <h3>@counterGroups.  @group.Key with @group.Value messages</h3>
+                        <br>
+                        counterGroups = counterGroups + 1;
+
+                    }
+                </p>
+            }
+
+        </div>
+
         <div class="topTopicArea">
             <h1>Top 3 Topics</h1>
             @{
@@ -61,17 +83,18 @@
                 int counter = 1;
                 <p>
                     @foreach (KeyValuePair<string, int>
-                    topic in topicDictionary)
+                   topic in topicDictionary)
                     {
                         <h3>@counter.  @topic.Key with @topic.Value messages</h3>
                         <br>
                         counter = counter + 1;
 
                     }
-                </p>          
+                </p>
             }
 
         </div>
+
 
     </div>
 </body>
