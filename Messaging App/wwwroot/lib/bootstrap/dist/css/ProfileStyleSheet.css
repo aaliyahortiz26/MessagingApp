@@ -43,7 +43,7 @@ button {
     background: white;
     border-color: white;
     border-bottom-color: black;
-    border-radius: 12%;
+   /* border-radius: 12%;*/
 }
 
 button:hover {
