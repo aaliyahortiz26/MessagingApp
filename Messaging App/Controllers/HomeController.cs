@@ -210,6 +210,33 @@ namespace MessagingApp.Controllers
             return View("Contacts");
         }
 
+        public IActionResult removeContact(string contact)
+        {
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+
+            conn.Open();
+
+            MySqlCommand removecontact = conn.CreateCommand();
+            removecontact.CommandText = "Delete FROM contacts where userID= @userID AND username_newContact = @Contact"; // the command
+            removecontact.Parameters.AddWithValue("@userID", DBObject.m_id);
+            removecontact.Parameters.AddWithValue("@Contact", contact);
+            removecontact.Prepare();
+            removecontact.ExecuteReader();
+            conn.Close();
+
+            conn.Open();
+            MySqlCommand removecontact2 = conn.CreateCommand();
+            removecontact2.CommandText = "Delete FROM contacts where userName= @userName AND username_newContact = @Contact"; // the command
+            removecontact2.Parameters.AddWithValue("@userName", contact);
+            removecontact2.Parameters.AddWithValue("@Contact", DBObject.m_username);
+            removecontact2.Prepare();
+            removecontact2.ExecuteReader();
+            conn.Close();
+
+            return RedirectToAction("Contacts", "Home"); 
+        }
+
         public IActionResult PreferencesScreen()
         {
             return View("Preferences");

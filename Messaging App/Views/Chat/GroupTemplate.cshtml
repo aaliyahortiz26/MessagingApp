@@ -71,10 +71,10 @@
                         list = ViewData["messageobjects"] as List<Messages>;
                         for (int i = 0; i < list.Count(); i++)
                         {
-                                        <p>
-                                            <label>@list[i].GetUsername() says @list[i].GetMessage() </label>
-                                            <button type="button" dis onclick="location.href='@Url.Action("PinnedMessagesgroup", "Chat", new {message = @list[i].GetMessage()})'">Pin Message </button>
-                                        </p>
+                            <p>
+                                <label>@list[i].GetUsername() says @list[i].GetMessage() </label>
+                                <button type="button" dis onclick="location.href='@Url.Action("PinnedMessagesgroup", "Chat", new {message = @list[i].GetMessage()})'">Pin Message </button>
+                            </p>
                         }
                     }
                     <p>
