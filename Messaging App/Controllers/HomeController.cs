@@ -112,16 +112,19 @@ namespace MessagingApp.Controllers
             homeMod.SetContactListAttr(contacts);
 
 
+            Dictionary<string, int> groupDictionary = new Dictionary<string, int>();
+            groupDictionary = _manager.GetTopGroups();
+
+            ViewData["groupCount"] = groupDictionary;
 
 
 
-			Dictionary<string, int> topicDictionary = new Dictionary<string, int>();
+            Dictionary<string, int> topicDictionary = new Dictionary<string, int>();
             topicDictionary = _manager.GetTopTopics();
 
             ViewData["topicCount"] = topicDictionary;
 
             return View();
-
         }
         public IActionResult Profile()
         {
