@@ -17,6 +17,7 @@
             <div class="fields">
                 <p>
                     <label class="titleLabel" asp-for="groupChatTitle">Title:</label>
+                    <label style="color: red; position:initial">*</label>
                     <input class="usernameInput" asp-for="groupChatTitle" placeholder="Enter name of group chat" />
                     <br>
                     <span asp-validation-for="groupChatTitle" class="text-danger"></span>

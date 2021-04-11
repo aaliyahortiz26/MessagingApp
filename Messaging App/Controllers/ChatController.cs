@@ -117,17 +117,32 @@ namespace MessagingApp.Controllers
         }
         public IActionResult CreateTopicScreen()
         {
+            List<string> ContactsList = new List<string>();
+            DBManager _manager = new DBManager();
+
+            ContactsList = _manager.GetUserContacts();
+
+            ViewData["userContacts"] = ContactsList;
+
             return View("CreateTopic");
         }
         public IActionResult CreateTopic(CreateTopicModel ctm)
         {
             if (ModelState.IsValid)
             {
+                // fill dropdown with user's contact names
+                List<string> ContactsList = new List<string>();
+                DBManager _manager = new DBManager();
+
+                ContactsList = _manager.GetUserContacts();
+
+                ViewData["userContacts"] = ContactsList;
+
+                // check to see if topic exists
                 const string connection1 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
                 MySqlConnection conn1 = new MySqlConnection(connection1);
 
                 conn1.Open();
-
 
                 MySqlCommand getGroups = conn1.CreateCommand();
                 getGroups.CommandText = "SELECT count(*) FROM topics where topicName= @chatName"; // the command
@@ -140,10 +155,14 @@ namespace MessagingApp.Controllers
                 {
                     ViewBag.message = "Topic already exists";
                     return View("CreateTopic");
+                    //return RedirectToAction("CreateTopicScreen", "Chat");
                 }
-                else if (ctm.topicName == "")
+                else if (ctm.radioField == null)
                 {
+                    ViewBag.message = "Please choose Private or Public";
                     return View("CreateTopic");
+                    //return RedirectToAction("CreateTopicScreen", "Chat");
+
                 }
                 else
                 {
@@ -152,7 +171,7 @@ namespace MessagingApp.Controllers
 
                     conn.Open();
 
-                    string txtcmd = $"Insert into united_messaging.topics (userid, topicName, category, description,privacyOption, topicQuestion, contactName)" + $"values ( @userID, @topicName, @category, @description, @privacyOption, @topicQuestion, @contactName)";
+                    string txtcmd = $"Insert into united_messaging.topics (userid, topicName, category, description,privacyOption, topicQuestion, contactName, userName)" + $"values ( @userID, @topicName, @category, @description, @privacyOption, @topicQuestion, @contactName, @userName)";
                     MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
@@ -162,6 +181,7 @@ namespace MessagingApp.Controllers
                     cmd.Parameters.AddWithValue("@privacyOption", ctm.radioField);
                     cmd.Parameters.AddWithValue("@topicQuestion", ctm.question);
                     cmd.Parameters.AddWithValue("@contactName", ctm.inviteContact);
+                    cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
                     cmd.ExecuteNonQuery();
                     conn.Close();
 
@@ -183,7 +203,7 @@ namespace MessagingApp.Controllers
                     }
                     dRead.Close();
 
-                    string txtcmd2 = $"Insert into united_messaging.topics (userid, topicName, category, description,privacyOption, topicQuestion, contactName)" + $"values ( @userID2, @topicName2, @category2, @description2, @privacyOption2, @topicQuestion2, @contactName2)";
+                    string txtcmd2 = $"Insert into united_messaging.topics (userid, topicName, category, description,privacyOption, topicQuestion, contactName, userName)" + $"values ( @userID2, @topicName2, @category2, @description2, @privacyOption2, @topicQuestion2, @contactName2, @userName2)";
                     MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn2);
                     cmd2.CommandType = CommandType.Text;
                     cmd2.Parameters.AddWithValue("@userID2", contactID);
@@ -193,6 +213,7 @@ namespace MessagingApp.Controllers
                     cmd2.Parameters.AddWithValue("@privacyOption2", ctm.radioField);
                     cmd2.Parameters.AddWithValue("@topicQuestion2", ctm.question);
                     cmd2.Parameters.AddWithValue("@contactName2", DBObject.m_username);
+                    cmd2.Parameters.AddWithValue("@userName2", ctm.inviteContact);
                     cmd2.ExecuteNonQuery();
                     conn2.Close();
                 }
@@ -261,13 +282,15 @@ namespace MessagingApp.Controllers
 
                     conn.Open();
 
-                    string txtcmd = $"Insert into united_messaging.groupmessage (userid, chatName, privacyOption, contactName)" + $"values ( @userID, @groupChatTitle,@privacyOption,@inviteContact) ";
+                    string txtcmd = $"Insert into united_messaging.groupmessage (userid, chatName, privacyOption, contactName, userName)" + $"values ( @userID, @groupChatTitle,@privacyOption,@inviteContact, @userName) ";
                     MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@userID", createGroupMod.ID);
                     cmd.Parameters.AddWithValue("@groupChatTitle", createGroupMod.groupChatTitle);
                     cmd.Parameters.AddWithValue("@privacyOption", createGroupMod.radioField);
                     cmd.Parameters.AddWithValue("@inviteContact", createGroupMod.inviteContact);
+                    cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
+
                     cmd.ExecuteNonQuery();
                     conn.Close();
 
@@ -289,13 +312,15 @@ namespace MessagingApp.Controllers
                     }
                     dRead.Close();
 
-                    string txtcmd2 = $"Insert into united_messaging.groupmessage (userid, chatName, privacyOption, contactName)" + $"values ( @contactUserID, @groupChatContactTitle,@privacyContactOption,@inviteUserContact) ";
+                    string txtcmd2 = $"Insert into united_messaging.groupmessage (userid, chatName, privacyOption, contactName, userName)" + $"values ( @contactUserID, @groupChatContactTitle,@privacyContactOption,@inviteUserContact, @userName) ";
                     MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn2);
                     cmd2.CommandType = CommandType.Text;
                     cmd2.Parameters.AddWithValue("@contactUserID", contactID);
                     cmd2.Parameters.AddWithValue("@groupChatContactTitle", createGroupMod.groupChatTitle);
                     cmd2.Parameters.AddWithValue("@privacyContactOption", createGroupMod.radioField);
                     cmd2.Parameters.AddWithValue("@inviteUserContact", DBObject.m_username);
+                    cmd2.Parameters.AddWithValue("@userName", createGroupMod.inviteContact);
+
                     cmd2.ExecuteNonQuery();
                     conn2.Close();
                 }
@@ -378,14 +403,31 @@ namespace MessagingApp.Controllers
             MySqlConnection conn = new MySqlConnection(connectionstring);
 
             conn.Open();
+
+            MySqlCommand getNumMessages = conn.CreateCommand();
+            getNumMessages.CommandText = "SELECT count(*) FROM topics where topicName = @topicName2"; // the command
+            getNumMessages.Parameters.AddWithValue("@topicName2", DBObject.m_TopicName);
+
+            int numUsers = Convert.ToInt32(getNumMessages.ExecuteScalar());
+
+            if (numUsers == 1)
+            {
+                MySqlCommand removeMessages = conn.CreateCommand();
+                removeMessages.CommandText = "Delete FROM messagetopicbase where topicName = @topicName3"; // the command
+                removeMessages.Parameters.AddWithValue("@userID", DBObject.m_id);
+                removeMessages.Parameters.AddWithValue("@topicName3", DBObject.m_TopicName);
+                removeMessages.ExecuteNonQuery();
+            }
+
             MySqlCommand removetopic = conn.CreateCommand();
             removetopic.CommandText = "Delete FROM topics where userID= @userID AND topicName = @topicName"; // the command
             removetopic.Parameters.AddWithValue("@userID", DBObject.m_id);
             removetopic.Parameters.AddWithValue("@topicName", DBObject.m_TopicName);
             removetopic.Prepare();
-            removetopic.ExecuteReader();
-            conn.Close();
+            removetopic.ExecuteNonQuery();
             ViewBag.message = "Leaving Page";
+
+            conn.Close();
             return RedirectToAction("Home", "Home");
         }
 
@@ -395,6 +437,22 @@ namespace MessagingApp.Controllers
             MySqlConnection conn = new MySqlConnection(connectionstring);
 
             conn.Open();
+
+
+            MySqlCommand getNumMessages = conn.CreateCommand();
+            getNumMessages.CommandText = "SELECT count(*) FROM groupmessage where chatName = @chatName1"; // the command
+            getNumMessages.Parameters.AddWithValue("@chatName1", DBObject.m_GroupName);
+
+            int numUsers = Convert.ToInt32(getNumMessages.ExecuteScalar());
+
+            if (numUsers == 1)
+            {
+                MySqlCommand removeMessages = conn.CreateCommand();
+                removeMessages.CommandText = "Delete FROM groupmessagetext where chatName = @chatName2"; // the command
+                removeMessages.Parameters.AddWithValue("@userID", DBObject.m_id);
+                removeMessages.Parameters.AddWithValue("@chatName2", DBObject.m_GroupName);
+                removeMessages.ExecuteNonQuery();
+            }
 
             MySqlCommand removeGroup = conn.CreateCommand();
             removeGroup.CommandText = "Delete FROM groupmessage where userID= @userID AND chatName = @chatName"; // the command

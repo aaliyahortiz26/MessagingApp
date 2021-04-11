@@ -80,3 +80,8 @@ h2 {
     right: 0;
     /*  border: 3px solid red;  */
 }
+
+.pinnedMessagesButton {
+    width: 10%;
+    height: 10%;
+}

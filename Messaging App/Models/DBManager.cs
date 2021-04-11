@@ -49,7 +49,7 @@ namespace MessagingApp.Models
 				conn.Open();
 
 				MySqlCommand getMessagesGroup = conn.CreateCommand();
-				getMessagesGroup.CommandText = "SELECT contactName FROM groupmessage where chatName = @chatName"; // the command
+				getMessagesGroup.CommandText = "SELECT userName FROM groupmessage where chatName = @chatName"; // the command
 				getMessagesGroup.Parameters.AddWithValue("@chatName", name);
 
 				// Execute the SQL command against the DB:
@@ -132,8 +132,8 @@ namespace MessagingApp.Models
 				conn.Open();
 
 				MySqlCommand getMessagestopic = conn.CreateCommand();
-				getMessagestopic.CommandText = "SELECT contactName FROM topics where topicName = @chatName"; // the command
-				getMessagestopic.Parameters.AddWithValue("@chatName", name2);
+				getMessagestopic.CommandText = "SELECT userName FROM topics where topicName = @topicName"; // the command
+				getMessagestopic.Parameters.AddWithValue("@topicName", name2);
 
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = getMessagestopic.ExecuteReader();
@@ -291,5 +291,7 @@ namespace MessagingApp.Models
 			Dictionary<string, int> sortedDict = (from entry in groupDictionary orderby entry.Value descending select entry).Take(3).ToDictionary(pair => pair.Key, pair => pair.Value);
 			return sortedDict;
 		}
+
+
 	}
 }
