@@ -14,7 +14,7 @@ footer {
 .createGroupContainer {
     margin: auto;
     width: 60%;
-    height: 35%;
+    height: 28%;
   /*  border: 3px solid red;   */
     padding: 0px 0;
     position: absolute;
@@ -37,7 +37,7 @@ footer {
     background-color: white;
     border-radius: 12px;
     width: 450px;
-    height: 330px;
+    height: 93%;
 }
 
 

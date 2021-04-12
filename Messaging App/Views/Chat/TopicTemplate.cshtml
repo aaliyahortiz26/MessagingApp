@@ -78,6 +78,7 @@
                         {
                             <p>
                                 <label>@topicMessagelist[i].GetUsername() says @topicMessagelist[i].GetMessage() </label>
+                                <button style="width: 114px; height: 25px; margin-top: 0px; color: darkred; background-color:yellow; font-size: 16px;" type="button" onclick="location.href='@Url.Action("PinnedMessagestopic", "Chat", new {message = @topicMessagelist[i].GetMessage()})'">Pin Message </button>
                             </p>
                         }
                     }

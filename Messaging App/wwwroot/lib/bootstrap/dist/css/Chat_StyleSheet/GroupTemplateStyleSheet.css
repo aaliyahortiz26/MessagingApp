@@ -87,8 +87,6 @@ h1 {
 
 
 
-
-
 .sendMessageArea button {
     margin-top: 5px;
     justify-content: center;
@@ -177,7 +175,7 @@ h1 {
     background: white;
     border-color: white;
     border-bottom-color: black;
-    border-radius: 12%;
+  /*  border-radius: 12%;  */
 }
 
 #ProfileButton {

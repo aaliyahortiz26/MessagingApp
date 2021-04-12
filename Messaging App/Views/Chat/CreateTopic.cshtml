@@ -17,29 +17,35 @@
             <div class="fields">
                 <p>
                     <label class="topicNameLabel">Topic Name:</label>
+                    <label style="color: red; position:initial">*</label>
                     <textarea class="topicNameTextArea" asp-for="topicName" placeholder="Enter name of topic" required></textarea>
                     <br>
                     <span asp-validation-for="topicName" class="text-danger"></span>
                 </p>
                 <p>
                     <label class="descriptionLabel">Description:</label>
+                    <label style="color: red; position:initial">*</label>
                     <textarea type="text" class="descriptionTextArea" asp-for="description" placeholder="Enter description of topic" required></textarea>
                     <br>
                     <span asp-validation-for="description" class="text-danger"></span>
                 </p>
                 <p>
                     <label class="questionLabel">Question:</label>
+                    <label style="color: red; position:initial">*</label>
                     <textarea class="questionTextArea" asp-for="question" placeholder="Enter question for topic" required></textarea>
                     <br>
                     <span asp-validation-for="question" class="text-danger"></span>
                 </p>
                 <p>
                     <label class="categoryLabel">Type in Category (Ex. sports, SNHU):</label>
+                    <label style="color: red; position:initial">*</label>
                     <textarea class="categoryTextArea" asp-for="category" placeholder="Enter category name" required></textarea>
                     <br>
                     <span asp-validation-for="category" class="text-danger"></span>
                 </p>
                 <p>
+                    <label class="privacyOptionLabel">Choose Privacy Option:</label>
+                    <label style="color: red; position:initial">*</label>
                     <input type="radio" class="privateRadioContainer" name="radioField" value="private">
                     <label for="private">Private</label><br>
                     <br>
@@ -48,10 +54,20 @@
                 </p>
                 <br>
                 <label class="inviteContactLabel">Invite Contacts:</label>
-                <textarea class="inviteContactTextArea" asp-for="inviteContact" placeholder="Enter a username"></textarea>
-
+                <!--<textarea class="inviteContactTextArea" asp-for="inviteContact" placeholder="Enter a username"></textarea>-->
+                <select asp-for=inviteContact class="inviteContactDropdown">
+                    @{
+                        List<string> contactList = new List<string>();
+                        contactList = ViewData["userContacts"] as List<string>;
+                        for (int i = 0; i < contactList.Count(); i++)
+                        {
+                            <p>
+                            <option value="@contactList[i]">@contactList[i]</option>
+                            </p>
+                        }
+                    }
+                </select>
             </div>
-            <!-- <button class="previewButton" type="submit">Preview</button> -->
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Home</button>
             <button class="createChatButton" type="submit">Create Chat</button>
         </form>

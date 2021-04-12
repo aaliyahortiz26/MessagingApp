@@ -49,7 +49,7 @@ namespace MessagingApp.Models
 				conn.Open();
 
 				MySqlCommand getMessagesGroup = conn.CreateCommand();
-				getMessagesGroup.CommandText = "SELECT contactName FROM groupmessage where chatName = @chatName"; // the command
+				getMessagesGroup.CommandText = "SELECT userName FROM groupmessage where chatName = @chatName"; // the command
 				getMessagesGroup.Parameters.AddWithValue("@chatName", name);
 
 				// Execute the SQL command against the DB:
@@ -132,8 +132,8 @@ namespace MessagingApp.Models
 				conn.Open();
 
 				MySqlCommand getMessagestopic = conn.CreateCommand();
-				getMessagestopic.CommandText = "SELECT contactName FROM topics where topicName = @chatName"; // the command
-				getMessagestopic.Parameters.AddWithValue("@chatName", name2);
+				getMessagestopic.CommandText = "SELECT userName FROM topics where topicName = @topicName"; // the command
+				getMessagestopic.Parameters.AddWithValue("@topicName", name2);
 
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = getMessagestopic.ExecuteReader();
@@ -177,7 +177,6 @@ namespace MessagingApp.Models
 			string privacyOption = "public";
 			List<string> userContactList = new List<string>();
 			List<string> topicsList = new List<string>();
-			List<string> sortedTopicList = new List<string>();
 			Dictionary<string, int> topicDictionary = new Dictionary<string, int>();
 			int i = 0;
 
@@ -232,5 +231,67 @@ namespace MessagingApp.Models
 			Dictionary<string, int> sortedDict = (from entry in topicDictionary orderby entry.Value descending select entry).Take(3).ToDictionary(pair => pair.Key, pair => pair.Value);
 			return sortedDict;
 		}
+
+		public Dictionary<string, int> GetTopGroups()
+		{
+		//	string privacyOption = "public";
+			List<string> userContactList = new List<string>();
+			List<string> groupsList = new List<string>();
+			Dictionary<string, int> groupDictionary = new Dictionary<string, int>();
+			int i = 0;
+
+			const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+			using (MySqlConnection conn = new MySqlConnection(connectionstring))
+			{
+				conn.Open();
+
+				MySqlCommand getGroups = conn.CreateCommand();
+				getGroups.CommandText = "SELECT chatName FROM groupmessage where userId = @userID";
+				getGroups.Parameters.AddWithValue("@userID", DBObject.m_id);
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = getGroups.ExecuteReader();
+				while (reader.Read())
+				{
+					if (i != 0)
+					{
+						if (Convert.ToString(reader[0]) == groupsList[i - 1])
+						{
+						}
+						else
+						{
+							groupsList.Add(Convert.ToString(reader[0]));
+							i++;
+						}
+					}
+					else
+					{
+						groupsList.Add(Convert.ToString(reader[0]));
+						i++;
+					}
+				}
+				reader.Close();
+
+
+
+
+				for (int counter = 0; counter < groupsList.Count(); counter++)
+				{
+					MySqlCommand getNumMessages = conn.CreateCommand();
+					getNumMessages.CommandText = "SELECT count(*) FROM groupmessagetext where chatName= @groupName"; // the command
+					getNumMessages.Parameters.AddWithValue("@groupName", groupsList[counter]);
+
+					int numMessages = Convert.ToInt32(getNumMessages.ExecuteScalar());
+					groupDictionary.Add(groupsList[counter], numMessages);
+				}
+
+				conn.Close();
+			}
+
+			Dictionary<string, int> sortedDict = (from entry in groupDictionary orderby entry.Value descending select entry).Take(3).ToDictionary(pair => pair.Key, pair => pair.Value);
+			return sortedDict;
+		}
+
+
 	}
 }
