@@ -91,18 +91,18 @@ namespace MessagingApp.Controllers
             topicSearchMod.SetTopicsListAttr(TopicSearch);
             return View("TopicSearch");
         }
-        public IActionResult ViewTopic(HomeModel homeMod)
+        public IActionResult ViewTopic(TopicTemplateModel topicViewMod)
         {
-            /**
-             Why is the create group code here?? 
-             **/
-            const string connection2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
-            MySqlConnection conn2 = new MySqlConnection(connection2);
-            MySqlCommand getContacts = conn2.CreateCommand();
-            getContacts.CommandText = "SELECT username_newContact FROM contacts where userID= @userID"; // the command
-            getContacts.Parameters.AddWithValue("@userID", DBObject.m_id);
-            conn2.Open();
-            MySqlDataReader lRead = getContacts.ExecuteReader();
+            //look at create gorup screen
+            const string connection4 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn4 = new MySqlConnection(connection4);
+            MySqlCommand viewTopic = conn4.CreateCommand();
+            viewTopic.CommandText = "SELECT topicName, description, topicQuestion FROM topics where userID= @userID"; // the command
+            viewTopic.Parameters.AddWithValue("@userID", DBObject.m_id);
+            conn4.Open();
+            MySqlDataReader vRead = viewTopic.ExecuteReader();
+
+            /*
             List<string> ContactsList = new List<string>();
 
             while (lRead.Read())
@@ -112,7 +112,10 @@ namespace MessagingApp.Controllers
             lRead.Close();
 
             homeMod.SetcontactsListAttr(ContactsList);
-            conn2.Close();
+
+            */
+
+            conn4.Close();
             return View("ViewTopic");
         }
         public IActionResult CreateTopicScreen()
