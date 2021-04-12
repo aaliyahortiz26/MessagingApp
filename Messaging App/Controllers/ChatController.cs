@@ -91,31 +91,28 @@ namespace MessagingApp.Controllers
             topicSearchMod.SetTopicsListAttr(TopicSearch);
             return View("TopicSearch");
         }
-        public IActionResult ViewTopic(TopicTemplateModel topicViewMod)
+        public IActionResult ViewTopic(TopicSearchModel tSM)
         {
-            //look at create gorup screen
             const string connection4 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn4 = new MySqlConnection(connection4);
             MySqlCommand viewTopic = conn4.CreateCommand();
-            viewTopic.CommandText = "SELECT topicName, description, topicQuestion FROM topics where userID= @userID"; // the command
+            viewTopic.CommandText = "SELECT description, topicQuestion FROM topics where userID= @userID AND category= @category AND topicName= @topicName"; // the command
             viewTopic.Parameters.AddWithValue("@userID", DBObject.m_id);
+            viewTopic.Parameters.AddWithValue("@category", tSM.categoryDropdown);
+            viewTopic.Parameters.AddWithValue("@topicName", tSM.topicDropdown);
             conn4.Open();
             MySqlDataReader vRead = viewTopic.ExecuteReader();
 
-            /*
-            List<string> ContactsList = new List<string>();
-
-            while (lRead.Read())
+            while (vRead.Read())
             {
-                ContactsList.Add(Convert.ToString(lRead[0]));
+                TopicSearchModel.description = vRead[0].ToString();
+                TopicSearchModel.question = vRead[1].ToString();
             }
-            lRead.Close();
+            TopicSearchModel.topic = tSM.topicDropdown;
 
-            homeMod.SetcontactsListAttr(ContactsList);
-
-            */
-
+            vRead.Close();
             conn4.Close();
+
             return View("ViewTopic");
         }
         public IActionResult CreateTopicScreen()
