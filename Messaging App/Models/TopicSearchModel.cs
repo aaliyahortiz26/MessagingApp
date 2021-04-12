@@ -16,7 +16,13 @@ namespace MessagingApp.Models
         public static string topic;
         public static string description;
         public static string question;
+        public static string category;
 
+        public string m_category
+        {
+            get => category;
+            set => category = value;
+        }
         public string m_topic
         {
             get => topic;

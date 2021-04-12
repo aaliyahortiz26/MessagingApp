@@ -16,7 +16,7 @@
             <h1>Topic Search</h1>
             <div class="fields">
                 <p>
-                   <span asp-validation-for="categoryDropdown"></span>
+                    <span asp-validation-for="categoryDropdown"></span>
                     <label class="categoryLabel">Category:</label>
                     <label style="color: red; position:initial">*</label>
                     <select asp-for="categoryDropdown" class="categoryDropdown">
@@ -28,7 +28,7 @@
                     <br>
                 </p>
                 <p>
-                    <span asp-validation-for="topicDropdown"></span> 
+                    <span asp-validation-for="topicDropdown"></span>
                     <label class="topicLabel">Topic:</label>
                     <label style="color: red; position:initial">*</label>
                     <select asp-for="topicDropdown" class="topicDropdown">
@@ -40,7 +40,7 @@
                     <br>
                 </p>
             </div>
-            <button class="viewTopicButton" type="button" onclick="location.href='@Url.Action("ViewTopic", "Chat")'">View Topic</button>
+            <button class="viewTopicButton" type="submit" onclick="location.href='@Url.Action("ViewTopic", "Chat")'">View Topic</button>
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Home</button>
             <button class="createNewTopicButton" type="button" onclick="location.href='@Url.Action("CreateTopicScreen", "Chat")'">Create New Topic</button>
         </form>

@@ -96,19 +96,20 @@ namespace MessagingApp.Controllers
             const string connection4 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn4 = new MySqlConnection(connection4);
             MySqlCommand viewTopic = conn4.CreateCommand();
-            viewTopic.CommandText = "SELECT description, topicQuestion FROM topics where userID= @userID AND category= @category AND topicName= @topicName"; // the command
-            viewTopic.Parameters.AddWithValue("@userID", DBObject.m_id);
-            viewTopic.Parameters.AddWithValue("@category", tSM.categoryDropdown);
-            viewTopic.Parameters.AddWithValue("@topicName", tSM.topicDropdown);
+            tSM.m_topic = tSM.topicDropdown;
+            tSM.m_category = tSM.categoryDropdown;
+
+            viewTopic.CommandText = "SELECT description, topicQuestion FROM topics where category= @category AND topicName= @topicName"; // the command
+            viewTopic.Parameters.AddWithValue("@category", tSM.m_category);
+            viewTopic.Parameters.AddWithValue("@topicName", tSM.m_topic);
             conn4.Open();
             MySqlDataReader vRead = viewTopic.ExecuteReader();
 
             while (vRead.Read())
             {
-                TopicSearchModel.description = vRead[0].ToString();
-                TopicSearchModel.question = vRead[1].ToString();
+                tSM.m_description = vRead[0].ToString();
+                tSM.m_question = vRead[1].ToString();
             }
-            TopicSearchModel.topic = tSM.topicDropdown;
 
             vRead.Close();
             conn4.Close();
