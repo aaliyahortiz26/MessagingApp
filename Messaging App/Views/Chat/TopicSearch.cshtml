@@ -12,14 +12,14 @@
 </head>
 <body>
     <div class="topicSearchContainer">
-        <form class="centered topicSearchArea" asp-action="Login" method="post">
+        <form class="centered topicSearchArea" asp-action="ViewTopic" method="post">
             <h1>Topic Search</h1>
             <div class="fields">
                 <p>
-                   <!-- <span asp-validation-for="categoryDropdown" class="text-danger"></span> -->
+                   <span asp-validation-for="categoryDropdown"></span>
                     <label class="categoryLabel">Category:</label>
                     <label style="color: red; position:initial">*</label>
-                    <select class="categoryDropdown">
+                    <select asp-for="categoryDropdown" class="categoryDropdown">
                         @for (int i = 0; i < TopicSearchModel.topicCategoryList.Count(); i++)
                         {
                             <option value="@TopicSearchModel.topicCategoryList[i]">@TopicSearchModel.topicCategoryList[i]</option>
@@ -28,10 +28,10 @@
                     <br>
                 </p>
                 <p>
-                    <!--<span asp-validation-for="topicDropdown" class="text-danger"></span> -->
+                    <span asp-validation-for="topicDropdown"></span> 
                     <label class="topicLabel">Topic:</label>
                     <label style="color: red; position:initial">*</label>
-                    <select class="topicDropdown">
+                    <select asp-for="topicDropdown" class="topicDropdown">
                         @for (int i = 0; i < TopicSearchModel.topicSearchList.Count(); i++)
                         {
                             <option value="@TopicSearchModel.topicSearchList[i]">@TopicSearchModel.topicSearchList[i]</option>

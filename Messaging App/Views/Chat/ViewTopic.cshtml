@@ -26,9 +26,9 @@
             <button class="searchTopicButton" type="button" onclick="location.href='@Url.Action("TopicSearch", "Chat")'">Topic Search</button>
             <button class="joinButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Join Topic</button>
 
-            <h1 id="topicName">View @TopicTemplateModel.m_topicName</h1>
-            <h2 id="topicDescription"> Description: </h2>
-            <h2 id="topicQuestion"> Question: </h2>
+            <h1 id="topicName">Topic: @TopicSearchModel.topic</h1>
+            <h2 id="topicDescription"> Description:  @TopicSearchModel.description</h2>
+            <h2 id="topicQuestion"> Question: @TopicSearchModel.question</h2>
 
             <div class="scrollMessages">
                 @{

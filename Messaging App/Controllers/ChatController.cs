@@ -91,28 +91,28 @@ namespace MessagingApp.Controllers
             topicSearchMod.SetTopicsListAttr(TopicSearch);
             return View("TopicSearch");
         }
-        public IActionResult ViewTopic(HomeModel homeMod)
+        public IActionResult ViewTopic(TopicSearchModel tSM)
         {
-            /**
-             Why is the create group code here?? 
-             **/
-            const string connection2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
-            MySqlConnection conn2 = new MySqlConnection(connection2);
-            MySqlCommand getContacts = conn2.CreateCommand();
-            getContacts.CommandText = "SELECT username_newContact FROM contacts where userID= @userID"; // the command
-            getContacts.Parameters.AddWithValue("@userID", DBObject.m_id);
-            conn2.Open();
-            MySqlDataReader lRead = getContacts.ExecuteReader();
-            List<string> ContactsList = new List<string>();
+            const string connection4 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn4 = new MySqlConnection(connection4);
+            MySqlCommand viewTopic = conn4.CreateCommand();
+            viewTopic.CommandText = "SELECT description, topicQuestion FROM topics where userID= @userID AND category= @category AND topicName= @topicName"; // the command
+            viewTopic.Parameters.AddWithValue("@userID", DBObject.m_id);
+            viewTopic.Parameters.AddWithValue("@category", tSM.categoryDropdown);
+            viewTopic.Parameters.AddWithValue("@topicName", tSM.topicDropdown);
+            conn4.Open();
+            MySqlDataReader vRead = viewTopic.ExecuteReader();
 
-            while (lRead.Read())
+            while (vRead.Read())
             {
-                ContactsList.Add(Convert.ToString(lRead[0]));
+                TopicSearchModel.description = vRead[0].ToString();
+                TopicSearchModel.question = vRead[1].ToString();
             }
-            lRead.Close();
+            TopicSearchModel.topic = tSM.topicDropdown;
 
-            homeMod.SetcontactsListAttr(ContactsList);
-            conn2.Close();
+            vRead.Close();
+            conn4.Close();
+
             return View("ViewTopic");
         }
         public IActionResult CreateTopicScreen()
