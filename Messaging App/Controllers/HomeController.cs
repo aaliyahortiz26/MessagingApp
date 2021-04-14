@@ -120,9 +120,11 @@ namespace MessagingApp.Controllers
 
 
             Dictionary<string, int> topicDictionary = new Dictionary<string, int>();
-            topicDictionary = _manager.GetTopTopics();
+            List<string> categoryList = new List<string>();
+            (topicDictionary, categoryList) = _manager.GetTopTopics();
 
             ViewData["topicCount"] = topicDictionary;
+            ViewData["topicCategory"] = categoryList;
 
             return View();
         }
