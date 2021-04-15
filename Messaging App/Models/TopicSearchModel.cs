@@ -17,7 +17,20 @@ namespace MessagingApp.Models
         public static string description;
         public static string question;
         public static string category;
+        public static string contactName;
+        public static string otherUserContactName;
+        public string radioField { get; set; }
 
+        public string m_contactName
+        {
+            get => contactName;
+            set => contactName = value;
+        }
+        public string m_otherUserContactName
+        {
+            get => otherUserContactName;
+            set => otherUserContactName = value;
+        }
         public string m_category
         {
             get => category;
