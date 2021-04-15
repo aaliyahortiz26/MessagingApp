@@ -56,7 +56,32 @@ namespace MessagingApp.Controllers
 
             homeMod.SetttopicListAttr(topicList);
 
+            MySqlCommand getPinned = conn.CreateCommand();
+            getPinned.CommandText = "SELECT pinnedMessages FROM pinnedMessages where userId= @userID"; // the command
+            getPinned.Parameters.AddWithValue("@userID", DBObject.m_id);
+            MySqlDataReader aRead = getPinned.ExecuteReader();
+            List<string> PinnedList = new List<string>();
 
+            while (aRead.Read())
+            {
+                PinnedList.Add(Convert.ToString(aRead[0]));
+            }
+            aRead.Close();
+
+            MySqlCommand getuserPinned = conn.CreateCommand();
+            getuserPinned.CommandText = "SELECT userName FROM pinnedMessages where userId= @userID"; // the command
+            getuserPinned.Parameters.AddWithValue("@userID", DBObject.m_id);
+            MySqlDataReader bRead = getuserPinned.ExecuteReader();
+            List<string> userPinnedList = new List<string>();
+
+            while (bRead.Read())
+            {
+                userPinnedList.Add(Convert.ToString(bRead[0]));
+            }
+            bRead.Close();
+
+            homeMod.SetPinnedListAttr(PinnedList);
+            homeMod.SetuserPinnedListAttr(userPinnedList);
 
             // set background color and textcolor that user selected
             MySqlCommand getContacts = conn.CreateCommand();
