@@ -76,14 +76,15 @@
                         topicMessagelist = ViewData["messageobjects"] as List<Messages>;
                         for (int i = 0; i < topicMessagelist.Count(); i++)
                         {
-                            <p>
-                                <label>@topicMessagelist[i].GetUsername() says @topicMessagelist[i].GetMessage() </label>
-                                <button style="width: 114px; height: 25px; margin-top: 0px; color: darkred; background-color:yellow; font-size: 16px;" type="button" onclick="location.href='@Url.Action("PinnedMessagestopic", "Chat", new {message = @topicMessagelist[i].GetMessage()})'">Pin Message </button>
-                                @if (topicMessagelist[i].GetUsername() == DBObject.m_username)
-                                {
-                                    <button style="width: 66px; height: 45px; margin-top: 0px; color: white; background-color:crimson; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("RemoveMessagesTopic", "Chat", new {message = @topicMessagelist[i].GetMessage(), messageID = topicMessagelist[i].GetMessageID()})'">Delete</button>
-                                }
-                            </p>
+                                        <p>
+                                            <label>@topicMessagelist[i].GetUsername() says @topicMessagelist[i].GetMessage() </label>
+                                            <button style="width: 114px; height: 25px; margin-top: 0px; color: darkred; background-color:yellow; font-size: 16px;" type="button" onclick="location.href='@Url.Action("PinnedMessagestopic", "Chat", new {message = @topicMessagelist[i].GetMessage()})'">Pin Message </button>
+                                            <button style="width: 114px; height: 25px; margin-top: 0px; color: darkred; background-color:yellow; font-size: 16px;" type="button" onclick="location.href='@Url.Action("RemovePinnedMessagestopic", "Chat", new {message = @topicMessagelist[i].GetMessage()})'"> Remove Pinned Message </button>
+                                            @if (topicMessagelist[i].GetUsername() == DBObject.m_username)
+                                            {
+                                                <button style="width: 66px; height: 45px; margin-top: 0px; color: white; background-color:crimson; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("RemoveMessagesTopic", "Chat", new {message = @topicMessagelist[i].GetMessage(), messageID = topicMessagelist[i].GetMessageID()})'">Delete</button>
+                                            }
+                                        </p>
                         }
                     }
                     <p>
