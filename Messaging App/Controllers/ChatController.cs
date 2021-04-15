@@ -26,8 +26,6 @@ namespace MessagingApp.Controllers
         {
             string privateOption = "public";
 
-
-
             const string connection2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             const string connection3 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             
@@ -70,11 +68,10 @@ namespace MessagingApp.Controllers
                 categoryExist = false;
             }
             mRead.Close();
-           // conn3.Close();
+            // conn3.Close();
 
-            topicSearch.CommandText = "SELECT topicName FROM topics where privacyOption = @privacyOption"; // the command for topic name; fix so that it users the dropdown list option to then find the topic name
+            topicSearch.CommandText = "SELECT topicName FROM topics where privacyOption = @privacyOption";
             topicSearch.Parameters.AddWithValue("@privacyOption", privateOption);
-            //topicSearch.Parameters.AddWithValue("@category", CategorySearch);
 
             conn2.Open();
             MySqlDataReader lRead = topicSearch.ExecuteReader();
@@ -91,7 +88,45 @@ namespace MessagingApp.Controllers
             topicSearchMod.SetTopicsListAttr(TopicSearch);
             return View("TopicSearch");
         }
-        public IActionResult ViewTopic(TopicSearchModel tSM)
+        public IActionResult GetTopicList(TopicSearchModel TopSerMod, string category)
+        {
+            /**
+             
+             WAS TRYING SOMETHING OUT HERE
+             */
+            string privateOption = "public";
+
+            const string connection7 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn7 = new MySqlConnection(connection7);
+            MySqlCommand topicSearch = conn7.CreateCommand();
+
+            if(category == "")
+            {
+                topicSearch.CommandText = "SELECT topicName FROM topics where privacyOption = @privacyOption";
+                topicSearch.Parameters.AddWithValue("@privacyOption", privateOption);
+            } 
+            else
+            {
+                topicSearch.CommandText = "SELECT topicName FROM topics where privacyOption = @privacyOption AND category = @category";
+                topicSearch.Parameters.AddWithValue("@privacyOption", privateOption);
+                topicSearch.Parameters.AddWithValue("@category", category);
+            }
+
+            conn7.Open();
+            MySqlDataReader lRead = topicSearch.ExecuteReader();
+            List<string> TopicSearch = new List<string>();
+
+            while (lRead.Read())
+            {
+                TopicSearch.Add(Convert.ToString(lRead[0]));
+            }
+            lRead.Close();
+            conn7.Close();
+
+            TopSerMod.SetTopicsListAttr(TopicSearch);
+            return View("GetTopicList");
+        }
+            public IActionResult ViewTopic(TopicSearchModel tSM)
         {
             const string connection4 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn4 = new MySqlConnection(connection4);
@@ -117,17 +152,14 @@ namespace MessagingApp.Controllers
             return View("ViewTopic");
         }
 
-        public IActionResult JoinTopic(TopicSearchModel topicSearchM, string? name2)
+        public IActionResult JoinTopic(TopicSearchModel topicSearchM)
         {
-            //DBManager _manager = new DBManager();
-            //List<string> usersTop = new List<string>();
-            //usersTop = _manager.GettopicUsers(name2);
-            //ViewData["usersTop"] = usersTop;
-
             const string connection6 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn6 = new MySqlConnection(connection6);
-            string txtCmd = $"SELECT (privacyOption, username, contactName) FROM topics WHERE topicName= @topicName2";
-            MySqlCommand joinTopic = new MySqlCommand(txtCmd, conn6);
+
+            //string txtCmd = $"SELECT (privacyOption, username, contactName) FROM topics WHERE topicName= @topicName2";
+            MySqlCommand joinTopic = conn6.CreateCommand();
+            joinTopic.CommandText = $"SELECT privacyOption, contactName FROM topics WHERE topicName= @topicName2";
             joinTopic.Parameters.AddWithValue("@topicName2", topicSearchM.m_topic);
             conn6.Open();
             MySqlDataReader jRead = joinTopic.ExecuteReader();
@@ -136,15 +168,14 @@ namespace MessagingApp.Controllers
             {
                 topicSearchM.radioField = jRead[0].ToString();
                 topicSearchM.m_contactName = jRead[1].ToString();
-                //topicSearchM.m_otherUserContactName = jRead[2].ToString();
             }
             jRead.Close();
 
             int userIdTopic = 0;
             string txtCmd3 = $"SELECT id FROM users where username='" + topicSearchM.m_contactName + "'"; // the command
-            MySqlCommand cmd1 = new MySqlCommand(txtCmd3, conn6);
+            MySqlCommand cmd3 = new MySqlCommand(txtCmd3, conn6);
             MySqlDataReader hRead;
-            using (hRead = cmd1.ExecuteReader()) // executes the search command
+            using (hRead = cmd3.ExecuteReader()) // executes the search command
             {
                 if (hRead.Read())
                 {
@@ -166,22 +197,6 @@ namespace MessagingApp.Controllers
             joinTop.Parameters.AddWithValue("@contactName3", topicSearchM.m_contactName);
             joinTop.Parameters.AddWithValue("@userName3", DBObject.m_username);
             joinTop.ExecuteNonQuery();
-
-
-
-            //for it to be added on the contact sides
-            string txtCmd4 = $"Insert into united_messaging.topics (userid, topicName, category, description,privacyOption, topicQuestion, contactName, userName)" + $"values ( @userID4, @topicName4, @category4, @description4, @privacyOption4, @topicQuestion4, @contactName4, @userName4)";
-            MySqlCommand joinTop2 = new MySqlCommand(txtCmd4, conn6);
-            joinTop2.CommandType = CommandType.Text;
-            joinTop2.Parameters.AddWithValue("@userID4", userIdTopic);
-            joinTop2.Parameters.AddWithValue("@topicName4", topicSearchM.m_topic);
-            joinTop2.Parameters.AddWithValue("@category4", topicSearchM.m_category);
-            joinTop2.Parameters.AddWithValue("@description4", topicSearchM.m_description);
-            joinTop2.Parameters.AddWithValue("@privacyOption4", topicSearchM.radioField);
-            joinTop2.Parameters.AddWithValue("@topicQuestion4", topicSearchM.m_question);
-            joinTop2.Parameters.AddWithValue("@contactName4", DBObject.m_username);
-            joinTop2.Parameters.AddWithValue("@userName4", topicSearchM.m_contactName);
-            joinTop2.ExecuteNonQuery();
 
             conn6.Close();
             return RedirectToAction("Home", "Home");
