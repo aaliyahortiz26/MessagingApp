@@ -9,13 +9,16 @@ namespace MessagingApp.Models
     {
         private string userName;
         private string message;
+        private string messageID;
 
-    
-		public Messages(List<string> messageData)
+
+
+        public Messages(List<string> messageData)
 		{
             userName = messageData[0];
             message = messageData[1];
-		}
+            messageID = messageData[2];
+        }
         public string GetUsername()
         {
             return userName;
@@ -23,6 +26,10 @@ namespace MessagingApp.Models
         public string GetMessage()
         {
             return message;
+        }
+        public string GetMessageID()
+        {
+            return messageID;
         }
     }
 }
