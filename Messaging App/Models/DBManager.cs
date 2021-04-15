@@ -20,7 +20,7 @@ namespace MessagingApp.Models
 				conn.Open();
 
 				MySqlCommand getMessagesGroup = conn.CreateCommand();
-				getMessagesGroup.CommandText = "SELECT userName, groupmessage FROM groupmessagetext where chatName = @chatName"; // the command
+				getMessagesGroup.CommandText = "SELECT userName, groupmessage, Documentid FROM groupmessagetext where chatName = @chatName"; // the command
 				getMessagesGroup.Parameters.AddWithValue("@chatName", name);
 				getMessagesGroup.ExecuteNonQuery();
 
@@ -31,6 +31,7 @@ namespace MessagingApp.Models
 					messageDataList.Clear();
 					messageDataList.Add(Convert.ToString(reader[0]));
 					messageDataList.Add(Convert.ToString(reader[1]));
+					messageDataList.Add(Convert.ToString(reader[2]));
 					messageData.Add(new Messages(messageDataList));
 				}
 				reader.Close();
@@ -103,7 +104,7 @@ namespace MessagingApp.Models
 				conn.Open();
 
 				MySqlCommand getMessagestopic = conn.CreateCommand();
-				getMessagestopic.CommandText = "SELECT userName, topicMessage FROM messagetopicbase where topicName = @chatName";
+				getMessagestopic.CommandText = "SELECT userName, topicMessage, documentId FROM messagetopicbase where topicName = @chatName";
 				getMessagestopic.Parameters.AddWithValue("@chatName", name2);
 				getMessagestopic.ExecuteNonQuery();
 
@@ -114,6 +115,7 @@ namespace MessagingApp.Models
 					messageDataList.Clear();
 					messageDataList.Add(Convert.ToString(reader[0]));
 					messageDataList.Add(Convert.ToString(reader[1]));
+					messageDataList.Add(Convert.ToString(reader[2]));
 					messageData.Add(new Messages(messageDataList));
 				}
 				reader.Close();
@@ -172,12 +174,17 @@ namespace MessagingApp.Models
 			}
 			return userContactList;
 		}
-		public Dictionary<string, int> GetTopTopics()
+
+		public (Dictionary<string, int>, List<string>) GetTopTopics()
 		{
 			string privacyOption = "public";
 			List<string> userContactList = new List<string>();
 			List<string> topicsList = new List<string>();
+			List<string> categoryList = new List<string>();
+
 			Dictionary<string, int> topicDictionary = new Dictionary<string, int>();
+			Dictionary<string, int> sortedDict; 
+
 			int i = 0;
 
 			const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
@@ -192,11 +199,11 @@ namespace MessagingApp.Models
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = getTopics.ExecuteReader();
 				while (reader.Read())
-				{	
+				{
 					if (i != 0)
-                    {
+					{
 						if (Convert.ToString(reader[0]) == topicsList[i - 1])
-						{							
+						{
 						}
 						else
 						{
@@ -205,7 +212,7 @@ namespace MessagingApp.Models
 						}
 					}
 					else
-                    {
+					{
 						topicsList.Add(Convert.ToString(reader[0]));
 						i++;
 					}
@@ -215,8 +222,8 @@ namespace MessagingApp.Models
 
 
 
-				for (int counter= 0; counter < topicsList.Count(); counter++)
-                {
+				for (int counter = 0; counter < topicsList.Count(); counter++)
+				{
 					MySqlCommand getNumMessages = conn.CreateCommand();
 					getNumMessages.CommandText = "SELECT count(*) FROM messagetopicbase where topicName= @topicName"; // the command
 					getNumMessages.Parameters.AddWithValue("@topicName", topicsList[counter]);
@@ -225,11 +232,35 @@ namespace MessagingApp.Models
 					topicDictionary.Add(topicsList[counter], numMessages);
 				}
 
+				sortedDict = (from entry in topicDictionary orderby entry.Value descending select entry).Take(3).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+
+				foreach (KeyValuePair<string, int> topic in sortedDict)
+				{
+					MySqlCommand getCategory = conn.CreateCommand();
+					getCategory.CommandText = "SELECT category FROM topics where topicName = @topicName2"; // the command
+					getCategory.Parameters.AddWithValue("@topicName2", topic.Key);
+
+					// Execute the SQL command against the DB:
+					MySqlDataReader reader2 = getCategory.ExecuteReader();
+					int counter = 0;
+					while (reader2.Read())
+					{
+						if (counter== 0)
+                        {
+							categoryList.Add(Convert.ToString(reader2[0]));
+						}
+						else
+                        {
+							break;
+                        }
+						counter++;
+					}
+					reader2.Close();
+				}
 				conn.Close();
 			}
-
-			Dictionary<string, int> sortedDict = (from entry in topicDictionary orderby entry.Value descending select entry).Take(3).ToDictionary(pair => pair.Key, pair => pair.Value);
-			return sortedDict;
+			return (sortedDict, categoryList);
 		}
 
 		public Dictionary<string, int> GetTopGroups()

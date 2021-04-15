@@ -36,6 +36,17 @@ namespace MessagingApp.Models
             m_contactsListHomeScreen = contactlist;
         }
 
+        public static List<string> m_Pinnedlist;
+        public void SetPinnedListAttr(List<string> Pinnedlist)
+        {
+            m_Pinnedlist = Pinnedlist;
+        }
+        public static List<string> m_userPinnedlist;
+        public void SetuserPinnedListAttr(List<string> userPinnedlist)
+        {
+            m_userPinnedlist = userPinnedlist;
+        }
+
     }
 
 }

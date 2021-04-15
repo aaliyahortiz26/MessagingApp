@@ -373,7 +373,6 @@ namespace MessagingApp.Controllers
                }*/
             groupTemplateMod.groupName = name;
 
-
             return View();
         }
         public IActionResult TopicTemplate(TopicTemplateModel topicTemplateMod, string? name)
@@ -471,19 +470,80 @@ namespace MessagingApp.Controllers
 
             conn.Open();
 
-            string txtcmd = $"Insert into united_messaging.pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
-            MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
-            cmd.CommandType = CommandType.Text;
-            cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
-            cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
-            cmd.Parameters.AddWithValue("@topicgroupName", DBObject.m_TopicName);
-            cmd.Parameters.AddWithValue("@pinnedMessages", message);
-            cmd.ExecuteNonQuery();
-            conn.Close();
+            string txtcmd1 = "select userName FROM pinnedMessages where userId = @userID and userName = @userName and topicgroupName = @topicgroupName";
+            MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
+            cmd1.CommandType = CommandType.Text;
+            cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
+            cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+            cmd1.Parameters.AddWithValue("@topicgroupName", DBObject.m_TopicName);
+            MySqlDataReader mRead;
+            using (mRead = cmd1.ExecuteReader()) // executes the search command
+            {
+                if (mRead.Read())
+                {
+                    conn.Close();
+                    return RedirectToAction("TopicTemplate", new { name = DBObject.m_TopicName });
 
-            return RedirectToAction("TopicTemplate", "Chat");
+                }
+                else
+                {
+
+                    string txtcmd = $"Insert into united_messaging.pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
+                    MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
+                    cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
+                    cmd.Parameters.AddWithValue("@topicgroupName", DBObject.m_TopicName);
+                    cmd.Parameters.AddWithValue("@pinnedMessages", message);
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    return RedirectToAction("TopicTemplate", new { name = DBObject.m_TopicName });
+                }
+            }
         }
         public IActionResult PinnedMessagesgroup(string message)
+        {
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+
+            conn.Open();
+
+            string txtcmd1 = "select userName FROM pinnedMessages where userId = @userID and userName = @userName and topicgroupName = @topicgroupName";
+            MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
+            cmd1.CommandType = CommandType.Text;
+            cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
+            cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+            cmd1.Parameters.AddWithValue("@topicgroupName", DBObject.m_GroupName);
+            MySqlDataReader mRead;
+            using (mRead = cmd1.ExecuteReader()) // executes the search command
+            {
+                if (mRead.Read())
+                {
+                    conn.Close();
+                    return RedirectToAction("GroupTemplate", new { name = DBObject.m_GroupName });
+
+                }
+                else
+                {
+
+                    string txtcmd = $"Insert into united_messaging.pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
+                    MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+                    cmd.CommandType = CommandType.Text;
+
+                    cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
+                    cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
+                    cmd.Parameters.AddWithValue("@topicgroupName", DBObject.m_GroupName);
+                    cmd.Parameters.AddWithValue("@pinnedMessages", message);
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    return RedirectToAction("GroupTemplate", new { name = DBObject.m_GroupName });
+                }
+            }
+        }
+
+        public IActionResult RemovePinnedMessagesgroup(string message)
         {
 
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
@@ -491,7 +551,7 @@ namespace MessagingApp.Controllers
 
             conn.Open();
 
-            string txtcmd = $"Insert into united_messaging.pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
+            string txtcmd = "Delete FROM pinnedMessages where userId = @userID and userName = @userName and topicgroupName = @topicgroupName and pinnedMessages = @pinnedMessages";
             MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
             cmd.CommandType = CommandType.Text;
 
@@ -502,8 +562,62 @@ namespace MessagingApp.Controllers
             cmd.ExecuteNonQuery();
             conn.Close();
 
+            return RedirectToAction("GroupTemplate", new { name = DBObject.m_GroupName });
+        }
 
-            return RedirectToAction("GroupTemplate", "Chat");
+        public IActionResult RemovePinnedMessagestopic(string message)
+        {
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+
+            conn.Open();
+            string txtcmd = "Delete FROM pinnedMessages where userId = @userID and userName = @userName and topicgroupName = @topicgroupName and pinnedMessages = @pinnedMessages";
+            MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
+            cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
+            cmd.Parameters.AddWithValue("@topicgroupName", DBObject.m_TopicName);
+            cmd.Parameters.AddWithValue("@pinnedMessages", message);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            return RedirectToAction("TopicTemplate", new { name = DBObject.m_TopicName });
+
+        }
+
+        public ActionResult RemoveMessagesgroup(string message, string messageID)
+        {
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+
+            conn.Open();
+            MySqlCommand deleteMessage = conn.CreateCommand();
+            deleteMessage.CommandText = "Delete FROM groupmessagetext where chatName = @chatName and groupmessage = @groupMessage and Documentid = @documentID "; // the command
+            deleteMessage.Parameters.AddWithValue("@chatName", DBObject.m_GroupName);
+            deleteMessage.Parameters.AddWithValue("@groupMessage", message);
+            deleteMessage.Parameters.AddWithValue("@documentID", messageID);
+
+            deleteMessage.ExecuteNonQuery();
+            conn.Close();
+
+            return RedirectToAction("GroupTemplate", new {name = DBObject.m_GroupName });
+        }
+
+        public ActionResult RemoveMessagesTopic(string message, string messageID)
+        {
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+
+            conn.Open();
+            MySqlCommand deleteMessage = conn.CreateCommand();
+            deleteMessage.CommandText = "Delete FROM messagetopicbase where topicName = @topicName and topicMessage = @topicMessage and Documentid = @documentID "; // the command
+            deleteMessage.Parameters.AddWithValue("@topicName", DBObject.m_TopicName);
+            deleteMessage.Parameters.AddWithValue("@topicMessage", message);
+            deleteMessage.Parameters.AddWithValue("@documentID", messageID);
+
+            deleteMessage.ExecuteNonQuery();
+            conn.Close();
+
+            return RedirectToAction("TopicTemplate", new { name = DBObject.m_TopicName });
         }
     }
 }

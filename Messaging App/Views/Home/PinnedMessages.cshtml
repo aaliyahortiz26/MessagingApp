@@ -11,6 +11,16 @@
 <body>
     <div class="test">
         <h1>Pinned Messages</h1>
+        @{
+            List<string> pinnedList = new List<string>();
+            //pinnedList = ViewData["userobjects"] as List<string>;
+            for (int k = 0; k < HomeModel.m_Pinnedlist.Count(); k++)
+            {
+                <p>
+                    <h3>@HomeModel.m_username[k] says:@HomeModel.m_Pinnedlist[k] </h3>
+                </p>
+            }
+        }
     </div>
     <div class="a">
 
