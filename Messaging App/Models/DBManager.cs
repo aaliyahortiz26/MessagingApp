@@ -20,7 +20,7 @@ namespace MessagingApp.Models
 				conn.Open();
 
 				MySqlCommand getMessagesGroup = conn.CreateCommand();
-				getMessagesGroup.CommandText = "SELECT userName, groupmessage, Documentid FROM groupmessagetext where chatName = @chatName"; // the command
+				getMessagesGroup.CommandText = "SELECT userName, groupmessage, Documentid, userId FROM groupmessagetext where chatName = @chatName"; // the command
 				getMessagesGroup.Parameters.AddWithValue("@chatName", name);
 				getMessagesGroup.ExecuteNonQuery();
 
@@ -32,6 +32,7 @@ namespace MessagingApp.Models
 					messageDataList.Add(Convert.ToString(reader[0]));
 					messageDataList.Add(Convert.ToString(reader[1]));
 					messageDataList.Add(Convert.ToString(reader[2]));
+					messageDataList.Add(Convert.ToString(reader[3]));
 					messageData.Add(new Messages(messageDataList));
 				}
 				reader.Close();
@@ -104,7 +105,7 @@ namespace MessagingApp.Models
 				conn.Open();
 
 				MySqlCommand getMessagestopic = conn.CreateCommand();
-				getMessagestopic.CommandText = "SELECT userName, topicMessage, documentId FROM messagetopicbase where topicName = @chatName";
+				getMessagestopic.CommandText = "SELECT userName, topicMessage, documentId, userId FROM messagetopicbase where topicName = @chatName";
 				getMessagestopic.Parameters.AddWithValue("@chatName", name2);
 				getMessagestopic.ExecuteNonQuery();
 
@@ -116,6 +117,7 @@ namespace MessagingApp.Models
 					messageDataList.Add(Convert.ToString(reader[0]));
 					messageDataList.Add(Convert.ToString(reader[1]));
 					messageDataList.Add(Convert.ToString(reader[2]));
+					messageDataList.Add(Convert.ToString(reader[3]));
 					messageData.Add(new Messages(messageDataList));
 				}
 				reader.Close();

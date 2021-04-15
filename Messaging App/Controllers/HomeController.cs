@@ -456,7 +456,7 @@ namespace MessagingApp.Controllers
 
         public IActionResult PinnedMessages()
         {
-            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+          /*  const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
 
             conn.Open();
@@ -470,7 +470,7 @@ namespace MessagingApp.Controllers
             //cmd.Parameters.AddWithValue("@pinnedMessages", message);
             cmd.ExecuteNonQuery();
             conn.Close();
-
+          */
             return View();
         }
     }
