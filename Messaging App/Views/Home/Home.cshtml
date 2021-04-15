@@ -79,13 +79,16 @@
             <h1>Top 3 Topics</h1>
             @{
                 Dictionary<string, int> topicDictionary = new Dictionary<string, int>();
+                List<string> categoryList = new List<string>();
                 topicDictionary = ViewData["topicCount"] as Dictionary<string, int>;
+                categoryList = ViewData["topicCategory"] as List<string>;
                 int counter = 1;
                 <p>
                     @foreach (KeyValuePair<string, int>
-                   topic in topicDictionary)
+                  topic in topicDictionary)
                     {
-                        <h3>@counter.  @topic.Key with @topic.Value messages</h3>
+                        <h3>@counter.  @topic.Key in the category @categoryList[counter-1] 
+                    with @topic.Value messages</h3>
                         <br>
                         counter = counter + 1;
 
