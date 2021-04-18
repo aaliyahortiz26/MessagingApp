@@ -11,14 +11,14 @@
     <meta name="viewport" content="width=device-width" />
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" language="Javascript">
+   <!-- <script type="text/javascript" language="Javascript">
         $(document).ready(function () {
             $("#refreshMessages").load(window.location.href + " #refreshMessages");
             setInterval(function () {
                 $("#refreshMessages").load(window.location.href + " #refreshMessages");
             }, 2000);
         });
-    </script>
+    </script>-->
 </head>
 <body>
     <style>
@@ -83,8 +83,7 @@
                             <div class="message">
                             <label style="color: black; font-size: 18px;" > @topicMessagelist[i].GetUsername():</label>
                             <label style="font-size: 17px;">@topicMessagelist[i].GetMessage() </label>
-
-                        </div>
+                            </div>
                         <div class="messageButtons">
                             <button style="width: 114px; height: 25px; margin-top: 0px; color: darkred; background-color:yellow; font-size: 16px;" type="button" onclick="location.href='@Url.Action("PinnedMessagestopic", "Chat", new {message = @topicMessagelist[i].GetMessage()})'">Pin Message </button>
                             @if (topicMessagelist[i].GetUsername() == DBObject.m_username)

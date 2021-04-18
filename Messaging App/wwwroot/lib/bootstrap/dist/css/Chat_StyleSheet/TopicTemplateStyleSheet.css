@@ -183,6 +183,8 @@ h3 {
     margin-top: 7%;
     text-align: center;
     font-size: 16px;
+    font-family: Arial,Arial, Helvetica, sans-serif;
+    font-weight: bold;
 }
 
 #ScrollBoxGroup {
@@ -259,9 +261,6 @@ h3 {
     word-wrap: break-word;
     padding: .5%;
     display: block;
-}
-
-#refreshMessages {
 }
 
 .messageButtons {
