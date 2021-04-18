@@ -64,7 +64,15 @@ namespace MessagingApp.Models
         public static List<string> topicCategoryList;
         public void SetCategoryListAttr(List<string> categoryList)
         {
+            if (topicCategoryList != null)
+            {
+                topicCategoryList.Clear();
+            }
             topicCategoryList = categoryList;
+        }
+        public List<string> GetCategoryList()
+        {
+            return topicCategoryList;
         }
     }
 }
