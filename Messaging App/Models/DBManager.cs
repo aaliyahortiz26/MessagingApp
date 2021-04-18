@@ -231,10 +231,28 @@ namespace MessagingApp.Models
 					getNumMessages.Parameters.AddWithValue("@topicName", topicsList[counter]);
 
 					int numMessages = Convert.ToInt32(getNumMessages.ExecuteScalar());
-					topicDictionary.Add(topicsList[counter], numMessages);
+					try
+					{
+						topicDictionary.Add(topicsList[counter], numMessages);
+					}
+					catch (ArgumentException e)
+                    {
+
+                    }
 				}
 
-				sortedDict = (from entry in topicDictionary orderby entry.Value descending select entry).Take(3).ToDictionary(pair => pair.Key, pair => pair.Value);
+					/*HashSet<string> knownValues = new HashSet<string>();
+					Dictionary<string, int> uniqueValues = new Dictionary<string, int>();
+
+					foreach (var pair in topicDictionary)
+					{
+						if (knownValues.Add(pair.Key))
+						{
+							uniqueValues.Add(pair.Key, pair.Value);
+						}
+					}*/
+
+					sortedDict = (from entry in topicDictionary orderby entry.Value descending select entry).Take(3).ToDictionary(pair => pair.Key, pair => pair.Value);
 
 
 				foreach (KeyValuePair<string, int> topic in sortedDict)

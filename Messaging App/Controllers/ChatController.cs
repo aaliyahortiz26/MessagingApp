@@ -22,61 +22,104 @@ namespace MessagingApp.Controllers
         {
             return View();
         }
-        public IActionResult TopicSearch(TopicSearchModel topicSearchMod)
+        public IActionResult TopicSearch(TopicSearchModel topicSearchMod, bool? bResetList)
         {
-            string privateOption = "public";
-
-
-
-            const string connection2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
-            const string connection3 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
-            
-            MySqlConnection conn2 = new MySqlConnection(connection2);
-            MySqlConnection conn3 = new MySqlConnection(connection3);
-            MySqlCommand topicSearch = conn2.CreateCommand();
-            MySqlCommand topicCategory = conn3.CreateCommand();
-            
-            topicCategory.CommandText = "SELECT category FROM topics where privacyOption = @privacyOption"; //command for category
-            topicCategory.Parameters.AddWithValue("privacyOption", privateOption);
-            conn3.Open();
-
-            MySqlDataReader mRead = topicCategory.ExecuteReader();
-            List<string> CategorySearch = new List<string>();
-
-            int i = 0;
-            bool categoryExist = false;
-            while (mRead.Read())
+            if (bResetList == null)
             {
-                if (i != 0)
+                string privateOption = "public";
+
+                const string connection2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                const string connection3 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+
+                MySqlConnection conn2 = new MySqlConnection(connection2);
+                MySqlConnection conn3 = new MySqlConnection(connection3);
+                MySqlCommand topicSearch = conn2.CreateCommand();
+                MySqlCommand topicCategory = conn3.CreateCommand();
+
+                topicCategory.CommandText = "SELECT category FROM topics where privacyOption = @privacyOption"; //command for category
+                topicCategory.Parameters.AddWithValue("privacyOption", privateOption);
+                conn3.Open();
+
+                MySqlDataReader mRead = topicCategory.ExecuteReader();
+                List<string> CategorySearch = new List<string>();
+
+                int i = 0;
+                bool categoryExist = false;
+                while (mRead.Read())
                 {
-                    for (int counter = 0; counter < CategorySearch.Count(); counter++)
+                    if (i != 0)
                     {
-                        if (Convert.ToString(mRead[0]) == CategorySearch[counter])
+                        for (int counter = 0; counter < CategorySearch.Count(); counter++)
                         {
-                            categoryExist = true;
+                            if (Convert.ToString(mRead[0]) == CategorySearch[counter])
+                            {
+                                categoryExist = true;
+                            }
+                        }
+                        if (categoryExist == false)
+                        {
+                            CategorySearch.Add(Convert.ToString(mRead[0]));
+                            i++;
                         }
                     }
-                    if(categoryExist == false)
+                    else
                     {
                         CategorySearch.Add(Convert.ToString(mRead[0]));
                         i++;
                     }
+                    categoryExist = false;
                 }
-                else
-                {
-                    CategorySearch.Add(Convert.ToString(mRead[0]));
-                    i++;
-                }
-                categoryExist = false;
+                mRead.Close();
+                topicSearchMod.SetCategoryListAttr(CategorySearch);
+               conn3.Close();
+
             }
-            mRead.Close();
-           // conn3.Close();
+            // conn3.Close();
 
-            topicSearch.CommandText = "SELECT topicName FROM topics where privacyOption = @privacyOption"; // the command for topic name; fix so that it users the dropdown list option to then find the topic name
-            topicSearch.Parameters.AddWithValue("@privacyOption", privateOption);
-            //topicSearch.Parameters.AddWithValue("@category", CategorySearch);
+            /*  topicSearch.CommandText = "SELECT topicName FROM topics where privacyOption = @privacyOption";
+              topicSearch.Parameters.AddWithValue("@privacyOption", privateOption);
 
-            conn2.Open();
+              conn2.Open();
+              MySqlDataReader lRead = topicSearch.ExecuteReader();
+              List<string> TopicSearch = new List<string>();
+
+              while (lRead.Read())
+              {
+                  TopicSearch.Add(Convert.ToString(lRead[0]));
+              }
+              lRead.Close();
+              conn2.Close();*/
+
+            //topicSearchMod.SetCategoryListAttr(CategorySearch);
+            // topicSearchMod.SetTopicsListAttr(TopicSearch);
+            return View("TopicSearch");
+        }
+
+        public IActionResult GetTopicList(TopicSearchModel TopSerMod, string category)
+        {
+            /**
+             
+             WAS TRYING SOMETHING OUT HERE
+             */
+            string privateOption = "public";
+
+            const string connection7 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn7 = new MySqlConnection(connection7);
+            MySqlCommand topicSearch = conn7.CreateCommand();
+
+            if(category == "")
+            {
+                topicSearch.CommandText = "SELECT topicName FROM topics where privacyOption = @privacyOption";
+                topicSearch.Parameters.AddWithValue("@privacyOption", privateOption);
+            } 
+            else
+            {
+                topicSearch.CommandText = "SELECT topicName FROM topics where privacyOption = @privacyOption AND category = @category";
+                topicSearch.Parameters.AddWithValue("@privacyOption", privateOption);
+                topicSearch.Parameters.AddWithValue("@category", category);
+            }
+
+            conn7.Open();
             MySqlDataReader lRead = topicSearch.ExecuteReader();
             List<string> TopicSearch = new List<string>();
 
@@ -85,35 +128,85 @@ namespace MessagingApp.Controllers
                 TopicSearch.Add(Convert.ToString(lRead[0]));
             }
             lRead.Close();
-            conn2.Close();
+            conn7.Close();
 
-            topicSearchMod.SetCategoryListAttr(CategorySearch);
-            topicSearchMod.SetTopicsListAttr(TopicSearch);
-            return View("TopicSearch");
+            TopSerMod.SetTopicsListAttr(TopicSearch);
+            return View("GetTopicList");
         }
         public IActionResult ViewTopic(TopicSearchModel tSM)
         {
             const string connection4 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn4 = new MySqlConnection(connection4);
             MySqlCommand viewTopic = conn4.CreateCommand();
-            viewTopic.CommandText = "SELECT description, topicQuestion FROM topics where userID= @userID AND category= @category AND topicName= @topicName"; // the command
-            viewTopic.Parameters.AddWithValue("@userID", DBObject.m_id);
-            viewTopic.Parameters.AddWithValue("@category", tSM.categoryDropdown);
-            viewTopic.Parameters.AddWithValue("@topicName", tSM.topicDropdown);
+            tSM.m_topic = tSM.topicDropdown;
+            tSM.m_category = tSM.categoryDropdown;
+
+            viewTopic.CommandText = "SELECT description, topicQuestion FROM topics where category= @category AND topicName= @topicName"; // the command
+            viewTopic.Parameters.AddWithValue("@category", tSM.m_category);
+            viewTopic.Parameters.AddWithValue("@topicName", tSM.m_topic);
             conn4.Open();
             MySqlDataReader vRead = viewTopic.ExecuteReader();
 
             while (vRead.Read())
             {
-                TopicSearchModel.description = vRead[0].ToString();
-                TopicSearchModel.question = vRead[1].ToString();
+                tSM.m_description = vRead[0].ToString();
+                tSM.m_question = vRead[1].ToString();
             }
-            TopicSearchModel.topic = tSM.topicDropdown;
 
             vRead.Close();
             conn4.Close();
 
             return View("ViewTopic");
+        }
+
+        public IActionResult JoinTopic(TopicSearchModel topicSearchM)
+        {
+            const string connection6 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn6 = new MySqlConnection(connection6);
+
+            //string txtCmd = $"SELECT (privacyOption, username, contactName) FROM topics WHERE topicName= @topicName2";
+            MySqlCommand joinTopic = conn6.CreateCommand();
+            joinTopic.CommandText = $"SELECT privacyOption, contactName FROM topics WHERE topicName= @topicName2";
+            joinTopic.Parameters.AddWithValue("@topicName2", topicSearchM.m_topic);
+            conn6.Open();
+            MySqlDataReader jRead = joinTopic.ExecuteReader();
+
+            while (jRead.Read())
+            {
+                topicSearchM.radioField = jRead[0].ToString();
+                topicSearchM.m_contactName = jRead[1].ToString();
+            }
+            jRead.Close();
+
+            int userIdTopic = 0;
+            string txtCmd3 = $"SELECT id FROM users where username='" + topicSearchM.m_contactName + "'"; // the command
+            MySqlCommand cmd3 = new MySqlCommand(txtCmd3, conn6);
+            MySqlDataReader hRead;
+            using (hRead = cmd3.ExecuteReader()) // executes the search command
+            {
+                if (hRead.Read())
+                {
+                    userIdTopic = Convert.ToInt32(hRead[0]);
+                }
+            }
+            hRead.Close();
+
+            //for adding user on one end
+            string txtCmd2 = $"Insert into united_messaging.topics (userid, topicName, category, description,privacyOption, topicQuestion, contactName, userName)" + $"values ( @userID3, @topicName3, @category3, @description3, @privacyOption3, @topicQuestion3, @contactName3, @userName3)";
+            MySqlCommand joinTop = new MySqlCommand(txtCmd2, conn6);
+            joinTop.CommandType = CommandType.Text;
+            joinTop.Parameters.AddWithValue("@userID3", DBObject.m_id);
+            joinTop.Parameters.AddWithValue("@topicName3", topicSearchM.m_topic);
+            joinTop.Parameters.AddWithValue("@category3", topicSearchM.m_category);
+            joinTop.Parameters.AddWithValue("@description3", topicSearchM.m_description);
+            joinTop.Parameters.AddWithValue("@privacyOption3", topicSearchM.radioField);
+            joinTop.Parameters.AddWithValue("@topicQuestion3", topicSearchM.m_question);
+            joinTop.Parameters.AddWithValue("@contactName3", topicSearchM.m_contactName);
+            joinTop.Parameters.AddWithValue("@userName3", DBObject.m_username);
+            joinTop.ExecuteNonQuery();
+
+            conn6.Close();
+            return RedirectToAction("Home", "Home");
         }
         public IActionResult CreateTopicScreen()
         {
@@ -618,6 +711,61 @@ namespace MessagingApp.Controllers
             conn.Close();
 
             return RedirectToAction("TopicTemplate", new { name = DBObject.m_TopicName });
+        }
+
+        public ActionResult fillTopicDropdown(TopicSearchModel topicSearchMod, string? categoryName)
+        {
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);             
+
+            conn.Open();
+            MySqlCommand topicDropdown = conn.CreateCommand();
+            topicDropdown.CommandText = "SELECT topicName FROM topics where category = @category";
+            topicDropdown.Parameters.AddWithValue("@category", categoryName);
+
+            MySqlDataReader lRead = topicDropdown.ExecuteReader();
+            List<string> topicDropdownList = new List<string>();
+
+            while (lRead.Read())
+            {
+                bool found = false;
+                for (int i = 0; i < topicDropdownList.Count(); i++)
+                {
+                    if (Convert.ToString(lRead[0]) == topicDropdownList[i])
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found != true)
+                {
+                    topicDropdownList.Add(Convert.ToString(lRead[0]));
+                }
+            }
+            lRead.Close();
+            topicSearchMod.SetTopicsListAttr(topicDropdownList);
+
+
+            // put category in front of list
+            List<string> resetCategoryList = new List<string>();
+            List<string> categoryList = new List<string>();
+
+            categoryList = topicSearchMod.GetCategoryList();
+
+            resetCategoryList.Add(categoryName);
+            for (int counter = 0; counter < categoryList.Count(); counter++)
+            {
+                if (categoryName != categoryList[counter])
+                {
+                    resetCategoryList.Add(categoryList[counter]);
+                }
+            }
+            topicSearchMod.SetCategoryListAttr(resetCategoryList);
+
+            topicDropdown.ExecuteNonQuery();
+            conn.Close();
+
+            return RedirectToAction("TopicSearch", new { bResetList = true });
         }
     }
 }

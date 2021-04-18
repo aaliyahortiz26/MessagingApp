@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width" />
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" language="Javascript">
+   <script type="text/javascript" language="Javascript">
         $(document).ready(function () {
             $("#refreshMessages").load(window.location.href + " #refreshMessages");
             setInterval(function () {
@@ -27,7 +27,7 @@
         body{
             background-image: @DBObject.Bcolor;
         }
-        p {
+        label {
             color:@DBObject.Tcolor;
         }
 
@@ -63,7 +63,7 @@
         <form class="messageArea" asp-action="GroupTemplate" method="post">
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Home</button>
             <button type="button" onclick="location.href='@Url.Action("removeGroup", "Chat")'">Leave Topic </button>
-            <h1 id="groupName">Group Name: @GroupTemplateModel.m_groupName</h1>
+            <h1 id="groupName">@GroupTemplateModel.m_groupName</h1>
             <div class="scrollMessages">
                 <div id="refreshMessages">
                     @{
@@ -71,28 +71,35 @@
                         list = ViewData["messageobjects"] as List<Messages>;
                         for (int i = 0; i < list.Count(); i++)
                         {
-                            <p>
-                                <label>@list[i].GetUsername() says @list[i].GetMessage() </label>
-                                <button style="width: 58px; height: 25px; margin-top: 0px; color: darkred; background-color:yellow; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("PinnedMessagesgroup", "Chat", new {message = @list[i].GetMessage()})'">Pin</button>
-                                <button action style="width: 114px; height: 25px; margin-top: 0px; color: darkred; background-color:yellow; font-size: 16px;" type="button" onclick="location.href='@Url.Action("RemovePinnedMessagesgroup", "Chat", new { message = @list[i].GetMessage() })'">Remove Pin</button>
+                            <div class="messageAndButtons">
+                                <div class="message">
+                                    <label style="color: black; font-size: 18px;"> @list[i].GetUsername():</label>
+                                    <label style="font-size: 17px;">@list[i].GetMessage() </label>
+                                </div>
+                            <div class="messageButtons">
+                                <button style="width: 58px; height: 25px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("PinnedMessagesgroup", "Chat", new { message = @list[i].GetMessage() })'">Save</button>
+                                <!--<button action style="width: 114px; height: 25px; margin-top: 0px; color: darkred; background-color:yellow; font-size: 16px;" type="button" onclick="location.href='@Url.Action("RemovePinnedMessagesgroup", "Chat", new { message = @list[i].GetMessage() })'">Remove Pin</button>-->
                                 @if (Convert.ToInt64(list[i].GetUserID()) == DBObject.m_id)
                                 {
-                                    <button style="width: 66px; height: 45px; margin-top: 0px; color: white; background-color:crimson; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("RemoveMessagesgroup", "Chat", new {message = @list[i].GetMessage(), messageID = list[i].GetMessageID()})'">Delete</button>
+                                    <button style="width: 36px; height: 36px; margin-top: 0px; color: white; background: url(../../Images/trashCan.jpg); background-size: cover;" type="button" dis onclick="location.href='@Url.Action("RemoveMessagesgroup", "Chat", new { message = @list[i].GetMessage(), messageID = list[i].GetMessageID() })'"></button>
                                 }
-                            </p>
+                            </div>
+                            </div>
+                            <br>
+                            <br>
                         }
                     }
                     <p>
                         <label id="messagesLabelNotFromDatabase"></label>
                     </p>
                 </div>
-            </div>
+                </div>
         </form>
 
         <form class="right contactArea" asp-action="GroupTemplate" method="post">
             <div class="fields">
                 <p>
-                    <h2 id="contactAreaLabel">Contacts</h2>
+                    <h2 id="contactAreaLabel" style="font-weight: bold;">Contacts</h2>
                     <br />
                 </p>
                 @{
