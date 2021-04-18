@@ -27,7 +27,7 @@ footer {
     /*   border: 3px solid red;  */
 }
 
- iframe {
+iframe {
     height: 100%;
     width: 100%;
     /* border: 3px solid green; */
@@ -37,7 +37,7 @@ button {
     justify-content: center;
     vertical-align: middle;
     width: 100%;
-    height: 90px;
+    height: 9%;
     color: black;
     font-size: 18px;
     background: white;
@@ -56,7 +56,7 @@ button:hover {
 }
 
 h1 {
-    color: blue;
+    color: dodgerblue;
     margin-top: 30px;
     text-align: center;
 }

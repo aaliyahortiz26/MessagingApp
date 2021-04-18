@@ -34,7 +34,7 @@ footer {
 }
 
 .topicSearchArea {
-    background-color: white;
+    background: rgba(255,255,255,.8);
     border-radius: 12px;
     width: 480px;
     height: 260px;
