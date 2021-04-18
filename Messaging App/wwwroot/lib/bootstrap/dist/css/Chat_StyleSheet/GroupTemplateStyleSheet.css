@@ -29,15 +29,15 @@ footer {
 }
 
 .right {
-    top: 7%;
-    margin-left: 65%;
+    top: 20%;
+    margin-left: 69%;
 }
 
 .messageArea {
     background-color: white;
     border-radius: 12px;
     width: 72%;
-    height: 68%;
+    height: 73%;
     margin-left: 3%;
 }
 
@@ -51,15 +51,30 @@ footer {
 
 .contactArea {
     background-color: lightgray;
-    width: 20%;
-    height: 60%;
+    width: 15%;
+    height: 33%;
     position: fixed;
     border-radius: 12px;
 }
 
+
 h1 {
     margin-top: -4%;
     text-align: center;
+    font-weight: bold;
+    font-family: 'Times New Roman';
+    color: crimson;
+
+}
+
+h2 {
+    text-align: center;
+    font-weight: normal;
+}
+
+/* Contact Name */
+h3 {
+    font-weight: normal;
 }
 
 .fields {

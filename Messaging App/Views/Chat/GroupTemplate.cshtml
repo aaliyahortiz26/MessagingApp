@@ -63,7 +63,7 @@
         <form class="messageArea" asp-action="GroupTemplate" method="post">
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Home</button>
             <button type="button" onclick="location.href='@Url.Action("removeGroup", "Chat")'">Leave Topic </button>
-            <h1 id="groupName">Group Name: @GroupTemplateModel.m_groupName</h1>
+            <h1 id="groupName">@GroupTemplateModel.m_groupName</h1>
             <div class="scrollMessages">
                 <div id="refreshMessages">
                     @{
@@ -91,7 +91,7 @@
         <form class="right contactArea" asp-action="GroupTemplate" method="post">
             <div class="fields">
                 <p>
-                    <h2 id="contactAreaLabel">Contacts</h2>
+                    <h2 id="contactAreaLabel" style="font-weight: bold;">Contacts</h2>
                     <br />
                 </p>
                 @{
