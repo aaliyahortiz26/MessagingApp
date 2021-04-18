@@ -26,8 +26,6 @@ namespace MessagingApp.Controllers
         {
             string privateOption = "public";
 
-
-
             const string connection2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             const string connection3 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             
@@ -70,11 +68,10 @@ namespace MessagingApp.Controllers
                 categoryExist = false;
             }
             mRead.Close();
-           // conn3.Close();
+            // conn3.Close();
 
-            topicSearch.CommandText = "SELECT topicName FROM topics where privacyOption = @privacyOption"; // the command for topic name; fix so that it users the dropdown list option to then find the topic name
+            topicSearch.CommandText = "SELECT topicName FROM topics where privacyOption = @privacyOption";
             topicSearch.Parameters.AddWithValue("@privacyOption", privateOption);
-            //topicSearch.Parameters.AddWithValue("@category", CategorySearch);
 
             conn2.Open();
             MySqlDataReader lRead = topicSearch.ExecuteReader();
@@ -91,29 +88,118 @@ namespace MessagingApp.Controllers
             topicSearchMod.SetTopicsListAttr(TopicSearch);
             return View("TopicSearch");
         }
-        public IActionResult ViewTopic(TopicSearchModel tSM)
+        public IActionResult GetTopicList(TopicSearchModel TopSerMod, string category)
+        {
+            /**
+             
+             WAS TRYING SOMETHING OUT HERE
+             */
+            string privateOption = "public";
+
+            const string connection7 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn7 = new MySqlConnection(connection7);
+            MySqlCommand topicSearch = conn7.CreateCommand();
+
+            if(category == "")
+            {
+                topicSearch.CommandText = "SELECT topicName FROM topics where privacyOption = @privacyOption";
+                topicSearch.Parameters.AddWithValue("@privacyOption", privateOption);
+            } 
+            else
+            {
+                topicSearch.CommandText = "SELECT topicName FROM topics where privacyOption = @privacyOption AND category = @category";
+                topicSearch.Parameters.AddWithValue("@privacyOption", privateOption);
+                topicSearch.Parameters.AddWithValue("@category", category);
+            }
+
+            conn7.Open();
+            MySqlDataReader lRead = topicSearch.ExecuteReader();
+            List<string> TopicSearch = new List<string>();
+
+            while (lRead.Read())
+            {
+                TopicSearch.Add(Convert.ToString(lRead[0]));
+            }
+            lRead.Close();
+            conn7.Close();
+
+            TopSerMod.SetTopicsListAttr(TopicSearch);
+            return View("GetTopicList");
+        }
+            public IActionResult ViewTopic(TopicSearchModel tSM)
         {
             const string connection4 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn4 = new MySqlConnection(connection4);
             MySqlCommand viewTopic = conn4.CreateCommand();
-            viewTopic.CommandText = "SELECT description, topicQuestion FROM topics where userID= @userID AND category= @category AND topicName= @topicName"; // the command
-            viewTopic.Parameters.AddWithValue("@userID", DBObject.m_id);
-            viewTopic.Parameters.AddWithValue("@category", tSM.categoryDropdown);
-            viewTopic.Parameters.AddWithValue("@topicName", tSM.topicDropdown);
+            tSM.m_topic = tSM.topicDropdown;
+            tSM.m_category = tSM.categoryDropdown;
+
+            viewTopic.CommandText = "SELECT description, topicQuestion FROM topics where category= @category AND topicName= @topicName"; // the command
+            viewTopic.Parameters.AddWithValue("@category", tSM.m_category);
+            viewTopic.Parameters.AddWithValue("@topicName", tSM.m_topic);
             conn4.Open();
             MySqlDataReader vRead = viewTopic.ExecuteReader();
 
             while (vRead.Read())
             {
-                TopicSearchModel.description = vRead[0].ToString();
-                TopicSearchModel.question = vRead[1].ToString();
+                tSM.m_description = vRead[0].ToString();
+                tSM.m_question = vRead[1].ToString();
             }
-            TopicSearchModel.topic = tSM.topicDropdown;
 
             vRead.Close();
             conn4.Close();
 
             return View("ViewTopic");
+        }
+
+        public IActionResult JoinTopic(TopicSearchModel topicSearchM)
+        {
+            const string connection6 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn6 = new MySqlConnection(connection6);
+
+            //string txtCmd = $"SELECT (privacyOption, username, contactName) FROM topics WHERE topicName= @topicName2";
+            MySqlCommand joinTopic = conn6.CreateCommand();
+            joinTopic.CommandText = $"SELECT privacyOption, contactName FROM topics WHERE topicName= @topicName2";
+            joinTopic.Parameters.AddWithValue("@topicName2", topicSearchM.m_topic);
+            conn6.Open();
+            MySqlDataReader jRead = joinTopic.ExecuteReader();
+
+            while (jRead.Read())
+            {
+                topicSearchM.radioField = jRead[0].ToString();
+                topicSearchM.m_contactName = jRead[1].ToString();
+            }
+            jRead.Close();
+
+            int userIdTopic = 0;
+            string txtCmd3 = $"SELECT id FROM users where username='" + topicSearchM.m_contactName + "'"; // the command
+            MySqlCommand cmd3 = new MySqlCommand(txtCmd3, conn6);
+            MySqlDataReader hRead;
+            using (hRead = cmd3.ExecuteReader()) // executes the search command
+            {
+                if (hRead.Read())
+                {
+                    userIdTopic = Convert.ToInt32(hRead[0]);
+                }
+            }
+            hRead.Close();
+
+            //for adding user on one end
+            string txtCmd2 = $"Insert into united_messaging.topics (userid, topicName, category, description,privacyOption, topicQuestion, contactName, userName)" + $"values ( @userID3, @topicName3, @category3, @description3, @privacyOption3, @topicQuestion3, @contactName3, @userName3)";
+            MySqlCommand joinTop = new MySqlCommand(txtCmd2, conn6);
+            joinTop.CommandType = CommandType.Text;
+            joinTop.Parameters.AddWithValue("@userID3", DBObject.m_id);
+            joinTop.Parameters.AddWithValue("@topicName3", topicSearchM.m_topic);
+            joinTop.Parameters.AddWithValue("@category3", topicSearchM.m_category);
+            joinTop.Parameters.AddWithValue("@description3", topicSearchM.m_description);
+            joinTop.Parameters.AddWithValue("@privacyOption3", topicSearchM.radioField);
+            joinTop.Parameters.AddWithValue("@topicQuestion3", topicSearchM.m_question);
+            joinTop.Parameters.AddWithValue("@contactName3", topicSearchM.m_contactName);
+            joinTop.Parameters.AddWithValue("@userName3", DBObject.m_username);
+            joinTop.ExecuteNonQuery();
+
+            conn6.Close();
+            return RedirectToAction("Home", "Home");
         }
         public IActionResult CreateTopicScreen()
         {
@@ -470,17 +556,37 @@ namespace MessagingApp.Controllers
 
             conn.Open();
 
-            string txtcmd = $"Insert into united_messaging.pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
-            MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
-            cmd.CommandType = CommandType.Text;
-            cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
-            cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
-            cmd.Parameters.AddWithValue("@topicgroupName", DBObject.m_TopicName);
-            cmd.Parameters.AddWithValue("@pinnedMessages", message);
-            cmd.ExecuteNonQuery();
-            conn.Close();
+            string txtcmd1 = "select userName FROM pinnedMessages where userId = @userID and userName = @userName and topicgroupName = @topicgroupName";
+            MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
+            cmd1.CommandType = CommandType.Text;
+            cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
+            cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+            cmd1.Parameters.AddWithValue("@topicgroupName", DBObject.m_TopicName);
+            MySqlDataReader mRead;
+            using (mRead = cmd1.ExecuteReader()) // executes the search command
+            {
+                if (mRead.Read())
+                {
+                    conn.Close();
+                    return RedirectToAction("TopicTemplate", new { name = DBObject.m_TopicName });
 
-            return RedirectToAction("TopicTemplate", "Chat");
+                }
+                else
+                {
+
+                    string txtcmd = $"Insert into united_messaging.pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
+                    MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
+                    cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
+                    cmd.Parameters.AddWithValue("@topicgroupName", DBObject.m_TopicName);
+                    cmd.Parameters.AddWithValue("@pinnedMessages", message);
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    return RedirectToAction("TopicTemplate", new { name = DBObject.m_TopicName });
+                }
+            }
         }
         public IActionResult PinnedMessagesgroup(string message)
         {
@@ -489,7 +595,49 @@ namespace MessagingApp.Controllers
 
             conn.Open();
 
-            string txtcmd = $"Insert into united_messaging.pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
+            string txtcmd1 = "select userName FROM pinnedMessages where userId = @userID and userName = @userName and topicgroupName = @topicgroupName";
+            MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
+            cmd1.CommandType = CommandType.Text;
+            cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
+            cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+            cmd1.Parameters.AddWithValue("@topicgroupName", DBObject.m_GroupName);
+            MySqlDataReader mRead;
+            using (mRead = cmd1.ExecuteReader()) // executes the search command
+            {
+                if (mRead.Read())
+                {
+                    conn.Close();
+                    return RedirectToAction("GroupTemplate", new { name = DBObject.m_GroupName });
+
+                }
+                else
+                {
+
+                    string txtcmd = $"Insert into united_messaging.pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
+                    MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+                    cmd.CommandType = CommandType.Text;
+
+                    cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
+                    cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
+                    cmd.Parameters.AddWithValue("@topicgroupName", DBObject.m_GroupName);
+                    cmd.Parameters.AddWithValue("@pinnedMessages", message);
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    return RedirectToAction("GroupTemplate", new { name = DBObject.m_GroupName });
+                }
+            }
+        }
+
+        public IActionResult RemovePinnedMessagesgroup(string message)
+        {
+
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+
+            conn.Open();
+
+            string txtcmd = "Delete FROM pinnedMessages where userId = @userID and userName = @userName and topicgroupName = @topicgroupName and pinnedMessages = @pinnedMessages";
             MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
             cmd.CommandType = CommandType.Text;
 
@@ -500,7 +648,26 @@ namespace MessagingApp.Controllers
             cmd.ExecuteNonQuery();
             conn.Close();
 
-            return RedirectToAction("GroupTemplate", "Chat");
+            return RedirectToAction("GroupTemplate", new { name = DBObject.m_GroupName });
+        }
+
+        public IActionResult RemovePinnedMessagestopic(string message)
+        {
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+
+            conn.Open();
+            string txtcmd = "Delete FROM pinnedMessages where userId = @userID and userName = @userName and topicgroupName = @topicgroupName and pinnedMessages = @pinnedMessages";
+            MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
+            cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
+            cmd.Parameters.AddWithValue("@topicgroupName", DBObject.m_TopicName);
+            cmd.Parameters.AddWithValue("@pinnedMessages", message);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            return RedirectToAction("TopicTemplate", new { name = DBObject.m_TopicName });
+
         }
 
         public ActionResult RemoveMessagesgroup(string message, string messageID)

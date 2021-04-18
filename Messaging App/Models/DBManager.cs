@@ -20,7 +20,7 @@ namespace MessagingApp.Models
 				conn.Open();
 
 				MySqlCommand getMessagesGroup = conn.CreateCommand();
-				getMessagesGroup.CommandText = "SELECT userName, groupmessage, Documentid FROM groupmessagetext where chatName = @chatName"; // the command
+				getMessagesGroup.CommandText = "SELECT userName, groupmessage, Documentid, userId FROM groupmessagetext where chatName = @chatName"; // the command
 				getMessagesGroup.Parameters.AddWithValue("@chatName", name);
 				getMessagesGroup.ExecuteNonQuery();
 
@@ -32,6 +32,7 @@ namespace MessagingApp.Models
 					messageDataList.Add(Convert.ToString(reader[0]));
 					messageDataList.Add(Convert.ToString(reader[1]));
 					messageDataList.Add(Convert.ToString(reader[2]));
+					messageDataList.Add(Convert.ToString(reader[3]));
 					messageData.Add(new Messages(messageDataList));
 				}
 				reader.Close();
@@ -104,7 +105,7 @@ namespace MessagingApp.Models
 				conn.Open();
 
 				MySqlCommand getMessagestopic = conn.CreateCommand();
-				getMessagestopic.CommandText = "SELECT userName, topicMessage, documentId FROM messagetopicbase where topicName = @chatName";
+				getMessagestopic.CommandText = "SELECT userName, topicMessage, documentId, userId FROM messagetopicbase where topicName = @chatName";
 				getMessagestopic.Parameters.AddWithValue("@chatName", name2);
 				getMessagestopic.ExecuteNonQuery();
 
@@ -116,6 +117,7 @@ namespace MessagingApp.Models
 					messageDataList.Add(Convert.ToString(reader[0]));
 					messageDataList.Add(Convert.ToString(reader[1]));
 					messageDataList.Add(Convert.ToString(reader[2]));
+					messageDataList.Add(Convert.ToString(reader[3]));
 					messageData.Add(new Messages(messageDataList));
 				}
 				reader.Close();
@@ -229,10 +231,28 @@ namespace MessagingApp.Models
 					getNumMessages.Parameters.AddWithValue("@topicName", topicsList[counter]);
 
 					int numMessages = Convert.ToInt32(getNumMessages.ExecuteScalar());
-					topicDictionary.Add(topicsList[counter], numMessages);
+					try
+					{
+						topicDictionary.Add(topicsList[counter], numMessages);
+					}
+					catch (ArgumentException e)
+                    {
+
+                    }
 				}
 
-				sortedDict = (from entry in topicDictionary orderby entry.Value descending select entry).Take(3).ToDictionary(pair => pair.Key, pair => pair.Value);
+					/*HashSet<string> knownValues = new HashSet<string>();
+					Dictionary<string, int> uniqueValues = new Dictionary<string, int>();
+
+					foreach (var pair in topicDictionary)
+					{
+						if (knownValues.Add(pair.Key))
+						{
+							uniqueValues.Add(pair.Key, pair.Value);
+						}
+					}*/
+
+					sortedDict = (from entry in topicDictionary orderby entry.Value descending select entry).Take(3).ToDictionary(pair => pair.Key, pair => pair.Value);
 
 
 				foreach (KeyValuePair<string, int> topic in sortedDict)
