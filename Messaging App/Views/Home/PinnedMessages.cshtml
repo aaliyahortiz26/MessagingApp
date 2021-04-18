@@ -11,6 +11,25 @@
 <body>
     <div class="test">
         <h1>Pinned Messages</h1>
+        @{
+            for (int k = 0; k < HomeModel.m_Pinnedlist.Count(); k++)
+            {
+                <p>
+                    <h3>@HomeModel.m_userPinnedlist[k] says:@HomeModel.m_Pinnedlist[k] </h3>
+                </p>
+            }
+        }
+    </div>
+    <div class="a">
+
+        <h2>     Pinned Messages                   </h2>
+        <h3>  UserName:    </h3>
+        <h4>  Message:       </h4>
+        <h5>  Name of group:   </h5>
+      
+
+
+
     </div>
 </body>
 </html>

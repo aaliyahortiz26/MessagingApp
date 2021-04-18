@@ -10,7 +10,7 @@ namespace MessagingApp.Models
         private string userName;
         private string message;
         private string messageID;
-
+        private string userID;
 
 
         public Messages(List<string> messageData)
@@ -18,6 +18,7 @@ namespace MessagingApp.Models
             userName = messageData[0];
             message = messageData[1];
             messageID = messageData[2];
+            userID = messageData[3];
         }
         public string GetUsername()
         {
@@ -30,6 +31,10 @@ namespace MessagingApp.Models
         public string GetMessageID()
         {
             return messageID;
+        }
+        public string GetUserID()
+        {
+            return userID;
         }
     }
 }

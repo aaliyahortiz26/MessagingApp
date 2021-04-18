@@ -13,88 +13,94 @@
     <div class="test">
         <h1>Preferences</h1>
     </div>
-
+   
     <form asp-action="Preferences" method="post">
-        <div class=" b">
+        <div class="out">
+            <div class=" b">
+                <div class="in">
+                    <p2> Text Color </p2>
+                    <select asp-for="TxtColor" id="tcolor">
+                        @if (DBObject.Tcolor == "red")
+                        {
+                            <option value="red" selected>Red</option>
+                            <option value="green">Green</option>
+                            <option value="blue">Blue</option>
+                            <option value="black">Black</option>
+                        }
+                        @if (DBObject.Tcolor == "green")
+                        {
+                            <option value="red">Red</option>
+                            <option value="green" selected>Green</option>
+                            <option value="blue">Blue</option>
+                            <option value="black">Black</option>
+                        }
+                        @if (DBObject.Tcolor == "blue")
+                        {
+                            <option value="red">Red</option>
+                            <option value="green">Green</option>
+                            <option value="blue" selected>Blue</option>
+                            <option value="black">Black</option>
+                        }
+                        @if (DBObject.Tcolor == "black")
+                        {
+                            <option value="red">Red</option>
+                            <option value="green">Green</option>
+                            <option value="blue">Blue</option>
+                            <option value="black" selected>Black</option>
+                        }
 
-            <p2> Text Color </p2>
-            <select asp-for="TxtColor" id="tcolor">
-                @if (DBObject.Tcolor == "red")
-                {
-                    <option value="red" selected>Red</option>
-                    <option value="green">Green</option>
-                    <option value="blue">Blue</option>
-                    <option value="black">Black</option>
-                }
-                @if (DBObject.Tcolor == "green")
-                {
-                    <option value="red">Red</option>
-                    <option value="green" selected>Green</option>
-                    <option value="blue">Blue</option>
-                    <option value="black">Black</option>
-                }
-                @if (DBObject.Tcolor == "blue")
-                {
-                    <option value="red">Red</option>
-                    <option value="green">Green</option>
-                    <option value="blue" selected>Blue</option>
-                    <option value="black">Black</option>
-                }
-                @if (DBObject.Tcolor == "black")
-                {
-                    <option value="red">Red</option>
-                    <option value="green">Green</option>
-                    <option value="blue">Blue</option>
-                    <option value="black" selected>Black</option>
-                }
 
+                    </select>
+                    <br>
+                    <p2>Current Color: @DBObject.Tcolor</p2>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
 
-            </select>
-            <br>
-            <p2>Current Color: @DBObject.Tcolor</p2>
-            <br />
-            <br />
-            <br />
-            <br />
+                    <p3> Background Theme </p3>
+                    <select asp-for="Baccolor" id="theme">
+                        @if (DBObject.Bcolor == "linear-gradient(blue, red)")
+                        {
+                            <option value="linear-gradient(blue, red)" selected>Blue and Red</option>
+                            <option value="linear-gradient(blue, orange)">Blue and Orange</option>
+                            <option value="linear-gradient(blue, purple)">Blue and Purple</option>
+                            <option value="linear-gradient(blue, green)">Blue and Green</option>
+                        }
+                        @if (DBObject.Bcolor == "linear-gradient(blue, orange)")
+                        {
+                            <option value="linear-gradient(blue, red)">Blue and Red</option>
+                            <option value="linear-gradient(blue, orange)" selected>Blue and Orange</option>
+                            <option value="linear-gradient(blue, purple)">Blue and Purple</option>
+                            <option value="linear-gradient(blue, green)">Blue and Green</option>
+                        }
+                        @if (DBObject.Bcolor == "linear-gradient(blue, purple)")
+                        {
+                            <option value="linear-gradient(blue, red)">Blue and Red</option>
+                            <option value="linear-gradient(blue, orange)">Blue and Orange</option>
+                            <option value="linear-gradient(blue, purple)" selected>Blue and Purple</option>
+                            <option value="linear-gradient(blue, green)">Blue and Green</option>
+                        }
+                        @if (DBObject.Bcolor == "linear-gradient(blue, green)")
+                        {
+                            <option value="linear-gradient(blue, red)">Blue and Red</option>
+                            <option value="linear-gradient(blue, orange)">Blue and Orange</option>
+                            <option value="linear-gradient(blue, purple)">Blue and Purple</option>
+                            <option value="linear-gradient(blue, green)" selected>Blue and Green</option>
+                        }
 
-            <p3> Background Theme </p3>
-            <select asp-for="Baccolor" id="theme">
-                @if (DBObject.Bcolor == "linear-gradient(blue, red)")
-                {
-                    <option value="linear-gradient(blue, red)" selected>Blue and Red</option>
-                    <option value="linear-gradient(blue, orange)">Blue and Orange</option>
-                    <option value="linear-gradient(blue, purple)">Blue and Purple</option>
-                    <option value="linear-gradient(blue, green)">Blue and Green</option>
-                }
-                @if (DBObject.Bcolor == "linear-gradient(blue, orange)")
-                {
-                    <option value="linear-gradient(blue, red)">Blue and Red</option>
-                    <option value="linear-gradient(blue, orange)" selected>Blue and Orange</option>
-                    <option value="linear-gradient(blue, purple)">Blue and Purple</option>
-                    <option value="linear-gradient(blue, green)">Blue and Green</option>
-                }
-                @if (DBObject.Bcolor == "linear-gradient(blue, purple)")
-                {
-                    <option value="linear-gradient(blue, red)">Blue and Red</option>
-                    <option value="linear-gradient(blue, orange)">Blue and Orange</option>
-                    <option value="linear-gradient(blue, purple)" selected>Blue and Purple</option>
-                    <option value="linear-gradient(blue, green)">Blue and Green</option>
-                }
-                @if (DBObject.Bcolor == "linear-gradient(blue, green)")
-                {
-                    <option value="linear-gradient(blue, red)">Blue and Red</option>
-                    <option value="linear-gradient(blue, orange)">Blue and Orange</option>
-                    <option value="linear-gradient(blue, purple)">Blue and Purple</option>
-                    <option value="linear-gradient(blue, green)" selected>Blue and Green</option>
-                }
+                    </select>
+                    <br>
 
-            </select>
-            <br>
-            <p2>Current Color: @DBObject.Bcolor</p2>
+                    <p2>Current Color: @DBObject.Bcolor</p2>
 
-            <button class="button button1" type="submit" onclick="location.href='@Url.Action("PreferencesScreen", "Home")'">Apply Changes</button>
+                    <button class="button button1" type="submit" onclick="location.href='@Url.Action("PreferencesScreen", "Home")'">Apply Changes</button>
+                </div>
+                </div>
         </div>
+        
     </form>
+
 </body>
 </html>
 @if (ViewBag.Message != null)
