@@ -66,6 +66,7 @@
                             <option value="linear-gradient(blue, orange)">Blue and Orange</option>
                             <option value="linear-gradient(blue, purple)">Blue and Purple</option>
                             <option value="linear-gradient(blue, green)">Blue and Green</option>
+                            <option value="url(../../Images/EarthBackground.jpeg)">Earth Image</option>
                         }
                         @if (DBObject.Bcolor == "linear-gradient(blue, orange)")
                         {
@@ -73,6 +74,7 @@
                             <option value="linear-gradient(blue, orange)" selected>Blue and Orange</option>
                             <option value="linear-gradient(blue, purple)">Blue and Purple</option>
                             <option value="linear-gradient(blue, green)">Blue and Green</option>
+                            <option value="url(../../Images/EarthBackground.jpeg)">Earth Image</option>
                         }
                         @if (DBObject.Bcolor == "linear-gradient(blue, purple)")
                         {
@@ -80,6 +82,7 @@
                             <option value="linear-gradient(blue, orange)">Blue and Orange</option>
                             <option value="linear-gradient(blue, purple)" selected>Blue and Purple</option>
                             <option value="linear-gradient(blue, green)">Blue and Green</option>
+                            <option value="url(../../Images/EarthBackground.jpeg)">Earth Image</option>
                         }
                         @if (DBObject.Bcolor == "linear-gradient(blue, green)")
                         {
@@ -87,16 +90,43 @@
                             <option value="linear-gradient(blue, orange)">Blue and Orange</option>
                             <option value="linear-gradient(blue, purple)">Blue and Purple</option>
                             <option value="linear-gradient(blue, green)" selected>Blue and Green</option>
+                            <option value="url(../../Images/EarthBackground.jpeg)">Earth Image</option>
+                        }
+                        @if (DBObject.Bcolor == "url(../../Images/EarthBackground.jpeg)")
+                        {
+                            <option value="linear-gradient(blue, red)">Blue and Red</option>
+                            <option value="linear-gradient(blue, orange)">Blue and Orange</option>
+                            <option value="linear-gradient(blue, purple)">Blue and Purple</option>
+                            <option value="linear-gradient(blue, green)">Blue and Green</option>
+                            <option value="url(../../Images/EarthBackground.jpeg)" selected>Earth Image</option>
                         }
 
                     </select>
                     <br>
 
-                    <p2>Current Color: @DBObject.Bcolor</p2>
-
+                    @if (DBObject.Bcolor == "linear-gradient(blue, red)")
+                    {
+                        <p2>Current Color: Blue and Red</p2>
+                    }
+                    @if (DBObject.Bcolor == "linear-gradient(blue, orange)")
+                    {
+                        <p2>Current Color: Blue and Orange</p2>
+                    }
+                    @if (DBObject.Bcolor == "linear-gradient(blue, purple)")
+                    {
+                        <p2>Current Color: Blue and Purple</p2>
+                    }
+                    @if (DBObject.Bcolor == "linear-gradient(blue, green)")
+                    {
+                        <p2>Current Color: Blue and Green</p2>
+                    }
+                    @if (DBObject.Bcolor == "url(../../Images/EarthBackground.jpeg)")
+                    {
+                        <p2>Current Color: Earth Image</p2>
+                    }
                     <button class="button button1" type="submit" onclick="location.href='@Url.Action("PreferencesScreen", "Home")'">Apply Changes</button>
                 </div>
-                </div>
+            </div>
         </div>
         
     </form>

@@ -77,11 +77,11 @@
                                     <label style="font-size: 17px;">@list[i].GetMessage() </label>
                                 </div>
                             <div class="messageButtons">
-                                <button style="width: 58px; height: 25px; margin-top: 0px; color: darkred; background-color:yellow; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("PinnedMessagesgroup", "Chat", new { message = @list[i].GetMessage() })'">Pin</button>
-                                <button action style="width: 114px; height: 25px; margin-top: 0px; color: darkred; background-color:yellow; font-size: 16px;" type="button" onclick="location.href='@Url.Action("RemovePinnedMessagesgroup", "Chat", new { message = @list[i].GetMessage() })'">Remove Pin</button>
+                                <button style="width: 58px; height: 25px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("PinnedMessagesgroup", "Chat", new { message = @list[i].GetMessage() })'">Save</button>
+                                <!--<button action style="width: 114px; height: 25px; margin-top: 0px; color: darkred; background-color:yellow; font-size: 16px;" type="button" onclick="location.href='@Url.Action("RemovePinnedMessagesgroup", "Chat", new { message = @list[i].GetMessage() })'">Remove Pin</button>-->
                                 @if (Convert.ToInt64(list[i].GetUserID()) == DBObject.m_id)
                                 {
-                                    <button style="width: 66px; height: 45px; margin-top: 0px; color: white; background-color:crimson; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("RemoveMessagesgroup", "Chat", new { message = @list[i].GetMessage(), messageID = list[i].GetMessageID() })'">Delete</button>
+                                    <button style="width: 36px; height: 36px; margin-top: 0px; color: white; background: url(../../Images/trashCan.jpg); background-size: cover;" type="button" dis onclick="location.href='@Url.Action("RemoveMessagesgroup", "Chat", new { message = @list[i].GetMessage(), messageID = list[i].GetMessageID() })'"></button>
                                 }
                             </div>
                             </div>

@@ -21,20 +21,20 @@ footer {
 }
 
 .messageArea {
-    background-color: white;
+    background: rgba(255, 255, 255, 0.8);
     border-radius: 12px;
-    width: 72%;
+    width: 54%;
     height: 73%;
-    margin-left: 6%;
+    margin-left: 23%;
     position: relative;
 }
 
 .sendMessageArea {
-    background-color: white;
+    background: rgba(255,255,255,.8);
     border-radius: 12px;
-    width: 66%;
+    width: 49%;
     height: 13%;
-    margin-top: 4%;
+    margin-top: 3%;
 }
 
 .contactArea {
@@ -50,7 +50,7 @@ h1 {
     text-align: center;
     font-weight: bold;
     font-family: 'Times New Roman';
-    color: crimson;
+    color: black;
 }
 
 h2 {
@@ -255,7 +255,7 @@ h3 {
     width: 40%;
     margin-left: 24%;
     height: auto;
-    border: 1px solid black;
+    border: .5px solid black;
     background: lightgrey;
     border-radius: 10px;
     word-wrap: break-word;
