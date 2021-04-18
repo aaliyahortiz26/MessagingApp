@@ -47,6 +47,11 @@ namespace MessagingApp.Models
             m_userPinnedlist = userPinnedlist;
         }
 
+        public static List<string> m_groupPinnedlist;
+        public void SetgroupPinnedListAttr(List<string> groupPinnedlist)
+        {
+            m_groupPinnedlist = groupPinnedlist;
+        }
     }
 
 }

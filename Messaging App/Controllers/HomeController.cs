@@ -17,7 +17,7 @@ namespace MessagingApp.Controllers
         {
             return View("Home");
         }
-        public IActionResult Home(HomeModel homeMod, Preferences pc)
+        public IActionResult Home(HomeModel homeMod, Preferences pc, string chat)
         {
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
@@ -80,7 +80,21 @@ namespace MessagingApp.Controllers
             }
             bRead.Close();
 
+            MySqlCommand getgroupPinned = conn.CreateCommand();
+            getgroupPinned.CommandText = "SELECT topicgroupName FROM pinnedMessages where userId= @userID"; // the command
+            getgroupPinned.Parameters.AddWithValue("@userID", DBObject.m_id);
+            MySqlDataReader cRead = getgroupPinned.ExecuteReader();
+            List<string> groupPinnedList = new List<string>();
+
+            while (cRead.Read())
+            {
+                groupPinnedList.Add(Convert.ToString(cRead[0]));
+            }
+            cRead.Close();
+
+
             homeMod.SetPinnedListAttr(PinnedList);
+            homeMod.SetgroupPinnedListAttr(groupPinnedList);
             homeMod.SetuserPinnedListAttr(userPinnedList);
 
             // set background color and textcolor that user selected
@@ -150,7 +164,19 @@ namespace MessagingApp.Controllers
 
             ViewData["topicCount"] = topicDictionary;
             ViewData["topicCategory"] = categoryList;
+            conn.Open();
+            MySqlCommand getmember = conn.CreateCommand();
+            getmember.CommandText = "SELECT userName FROM topics where topicName= @topicName"; // the command
+            getmember.Parameters.AddWithValue("@topicName", chat);
+            MySqlDataReader zRead = getPinned.ExecuteReader();
+            List<string> memberList = new List<string>();
 
+            while (zRead.Read())
+            {
+                memberList.Add(Convert.ToString(zRead[0]));
+            }
+            zRead.Close();
+            TopicSearchModel.m_memberlist = memberList;
             return View();
         }
         public IActionResult Profile()
@@ -196,15 +222,28 @@ namespace MessagingApp.Controllers
                         int id = Convert.ToInt32(cRead.GetValue(0));
 
                         MySqlCommand cmd = new MySqlCommand(null, conn);
-                        cmd.CommandText = $"Insert into contacts (UserId,id_newContact,username, username_newContact)" + $"values ( @UserId, @id_newContact,@username,@username_newContact) ";
+                        cmd.CommandText = $"Insert into contacts (UserId,id_newContact,username, username_newContact, FriendRequest)" + $"values ( @UserId, @id_newContact,@username,@username_newContact, @FriendRequest) ";
                         cmd.Parameters.AddWithValue("@UserId", DBObject.m_id);
                         cmd.Parameters.AddWithValue("@id_newContact", id);
                         cmd.Parameters.AddWithValue("@username", DBObject.m_username);
                         cmd.Parameters.AddWithValue("@username_newContact", username);
-
+                        cmd.Parameters.AddWithValue("@FriendRequest", 0);
                         cRead.Close();
                         cmd.Prepare();
                         cmd.ExecuteReader();
+                        conn.Close();
+
+                        conn.Open();
+                        MySqlCommand cmd4 = new MySqlCommand(null, conn);
+                        cmd4.CommandText = $"Insert into contacts (UserId,id_newContact,username, username_newContact, FriendRequest)" + $"values ( @UserId, @id_newContact,@username,@username_newContact, @FriendRequest) ";
+                        cmd4.Parameters.AddWithValue("@UserId", id);
+                        cmd4.Parameters.AddWithValue("@id_newContact", DBObject.m_id);
+                        cmd4.Parameters.AddWithValue("@username", username);
+                        cmd4.Parameters.AddWithValue("@username_newContact", DBObject.m_username);
+                        cmd4.Parameters.AddWithValue("@FriendRequest", 0);
+                        cmd4.Prepare();
+                        cmd4.ExecuteReader();
+
                         conn.Close();
                     }
                     else
@@ -454,24 +493,25 @@ namespace MessagingApp.Controllers
             }
         }
 
-        public IActionResult PinnedMessages()
+        public IActionResult RemovePinnedMessagesgroup(string message, string user, string chatname)
         {
-          /*  const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
 
             conn.Open();
 
-            string txtcmd = $"Insert into united_messaging.pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
+            string txtcmd = "Delete FROM pinnedMessages where userId = @userID and userName = @userName and topicgroupName = @topicgroupName and pinnedMessages = @pinnedMessages";
             MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
             cmd.CommandType = CommandType.Text;
+
             cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
-            cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
-            //cmd.Parameters.AddWithValue("@topicgroupName", DBObject.m_TopicName);
-            //cmd.Parameters.AddWithValue("@pinnedMessages", message);
+            cmd.Parameters.AddWithValue("@userName", user);
+            cmd.Parameters.AddWithValue("@topicgroupName", chatname);
+            cmd.Parameters.AddWithValue("@pinnedMessages", message);
             cmd.ExecuteNonQuery();
             conn.Close();
-          */
-            return View();
+
+            return View("~/Home/PinnedMessages");
         }
     }
 }

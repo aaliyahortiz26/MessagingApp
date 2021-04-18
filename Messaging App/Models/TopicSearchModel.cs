@@ -66,5 +66,17 @@ namespace MessagingApp.Models
         {
             topicCategoryList = categoryList;
         }
+
+        public static List<string> m_memberlist;
+        public void SetPinnedListAttr(List<string> memberlist)
+        {
+            m_memberlist = memberlist;
+        }
+
+        public static List<string> m_descriptionlist;
+        public void SetuserPinnedListAttr(List<string> descriptionlist)
+        {
+            m_descriptionlist = descriptionlist;
+        }
     }
 }

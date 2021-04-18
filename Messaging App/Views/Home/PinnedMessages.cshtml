@@ -11,14 +11,7 @@
 <body>
     <div class="test">
         <h1>Pinned Messages</h1>
-        @{
-            for (int k = 0; k < HomeModel.m_Pinnedlist.Count(); k++)
-            {
-                <p>
-                    <h3>@HomeModel.m_userPinnedlist[k] says:@HomeModel.m_Pinnedlist[k] </h3>
-                </p>
-            }
-        }
+
     </div>
     <div class="a">
 
@@ -26,7 +19,17 @@
         <h3>  UserName:    </h3>
         <h4>  Message:       </h4>
         <h5>  Name of group:   </h5>
-      
+        @{
+            for (int k = 0; k < HomeModel.m_Pinnedlist.Count(); k++)
+            {
+                <p>
+                    <h3>@HomeModel.m_userPinnedlist[k]  </h3>
+                    <h4>@HomeModel.m_Pinnedlist[k]</h4>
+                    <h5>@HomeModel.m_groupPinnedlist[k]</h5>
+                    <h5> <button action style="width: 114px; height: 25px; margin-top: 0px; color: darkred; background-color:yellow; font-size: 16px;" type="button" onclick="location.href='@Url.Action("RemovePinnedMessagesgroup", "Home", new { message = @HomeModel.m_Pinnedlist[k], user = @HomeModel.m_userPinnedlist[k], chatname = @HomeModel.m_groupPinnedlist[k] })'">Remove Pin</button></h5>
+                </p>
+            }
+        }
 
 
 
