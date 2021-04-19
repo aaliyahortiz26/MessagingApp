@@ -573,7 +573,7 @@ namespace MessagingApp.Controllers
                 }
                 else
                 {
-
+                    mRead.Close();
                     string txtcmd = $"Insert into united_messaging.pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
                     MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
                     cmd.CommandType = CommandType.Text;
@@ -612,7 +612,7 @@ namespace MessagingApp.Controllers
                 }
                 else
                 {
-
+                    mRead.Close();
                     string txtcmd = $"Insert into united_messaging.pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
                     MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
                     cmd.CommandType = CommandType.Text;
