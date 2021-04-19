@@ -60,6 +60,15 @@
                 
                 <!--Print contact-->
 
+                @*List<Members> MembersList = new List<Members>();
+                    MembersList = ViewData["MembersList"] as List<Members>;
+                    for (int i = 0; i < MembersList.Count(); i++)
+                    {
+                        <p>
+                            <label>@MembersList[i].GetUsername() says @MembersList[i].GetMessage() </label>
+                        </p>
+                    }*@
+
                 <dl>
                 </dl>
             </div>

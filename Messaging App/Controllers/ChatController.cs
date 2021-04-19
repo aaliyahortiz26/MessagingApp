@@ -164,6 +164,9 @@ namespace MessagingApp.Controllers
             List<string> MembersList = new List<string>();
             DBManager _manager = new DBManager();
 
+            MembersList = _manager.GetGroupUsers(topicN);
+            ViewData["MembersList"] = MembersList;
+
             return View("GetMembers");
         }
 
