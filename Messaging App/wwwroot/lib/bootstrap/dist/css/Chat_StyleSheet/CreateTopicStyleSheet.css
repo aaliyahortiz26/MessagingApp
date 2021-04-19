@@ -35,7 +35,7 @@ footer {
 }
 
 .createGroupArea {
-    background-color: white;
+    background: rgba(255,255,255,.8);
     border-radius: 12px;
     width: 46%;
     height: 98%;

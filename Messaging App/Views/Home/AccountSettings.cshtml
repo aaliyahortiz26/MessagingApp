@@ -11,45 +11,73 @@
     <meta name="viewport" content="width=device-width" />
 </head>
 <body class="AccountSettings">
-   <form asp-action="AccountSettings" method="post">
-        <div class="whole">
-
-            <h1>Account Settings</h1>
-
-            <div class="c">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                @{
-                        <label class="userNameLabel" asp-for="userName"> Username: </label>
-                        <input type="text" class="trigger" id="userNameInput" asp-for="userName" />
-                        <br>
-                        <span asp-validation-for="userName" class="text-danger"></span>
-
-                    <br />
-                    <br />
-                }
-                    <label class="EmailLabel" asp-for="Email"> Email: </label>
-                    <input type="text" class="trigger" id="EmailInput" asp-for="Email" />
-                    <br>
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                <br />
-                <br />
-                <br />
-
-            <p4>Profile Picture:</p4>
-            <br />
-            <br />
-            <br />
-            <div id="profile-container">
-                <image id="profileImage" src="" />
-                <input id="imageUpload" class="fileUpload" type="file" name="profile_photo" placeholder="Photo" require="" capture onclick="location.href='@Url.Action("savePicture", "Home")'" />
-            </div>        
-        </div>
-
-            <div class="second">
-                    <button class="button button1" id="ApplyButton" type="submit" onclick="location.href='@Url.Action("AccountSettings", "Home")'"> Apply Changes</button>
-                  <!--  <button class="button button2">Cancel</button>-->
-                    <button class="button button3" type="button" onclick="location.href='@Url.Action("ChangePasswordScreen", "Home")'">Change Password</button>
+    <form asp-action="AccountSettings" method="post">
+        <div class=" surr">
+           <div class=" k">
+            
+            
+            <div class=" test">
+                <h1>Account Settings</h1>
             </div>
+
+            <div class=" out">
+
+
+                <!--<div asp-validation-summary="ModelOnly" class="text-danger"></div>-->
+                    
+
+                <div class=" d">
+                    <p9>UserName:</p9>
+                </div>
+
+                
+                    <input type="text" class="trigger" id="userNameInput" asp-for="userName" />
+                    <br>
+                    <span asp-validation-for="userName" class="text-danger"></span>
+               
+                <br />
+
+                <br />
+                
+                <div class=" r">
+                    <p10>Email:</p10>
+                </div>
+
+
+
+
+                <input type="text" class="trigger" id="EmailInput" asp-for="Email" />
+                <br>
+                <span asp-validation-for="Email" class="text-danger"></span>
+                <br />
+
+                <br />
+                <br />
+                <!--
+                 <p4>Profile Picture:</p4>
+      <br />
+      <br />
+      <br />
+
+
+
+      <div id="profile-container">
+          <image id="profileImage" src="" />
+          <input id="imageUpload" class="fileUpload" type="file" name="profile_photo" placeholder="Photo" require="" capture onclick="location.href='@Url.Action("savePicture", "Home")'" />
+      </div>
+
+    -->
+
+                <div class="second">
+                    <button class="button button1" id="ApplyButton" type="submit" onclick="location.href='@Url.Action(" AccountSettings", "Home" )'"> Apply Changes</button>
+                    <!--  <button class="button button2">Cancel</button>-->
+                    <button class="button button3" type="button" onclick="location.href='@Url.Action(" ChangePasswordScreen", "Home" )'">Change Password</button>
+                </div>
+            </div>
+            
+            </div>
+
+
         </div>
     </form>
 </body>

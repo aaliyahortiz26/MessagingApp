@@ -18,26 +18,30 @@ div.test {
     text-align: center;
     position: absolute;
     text-align: center;
+    color:black;
 }
 h1 {
-    margin-top: 83%;
-    margin-left: -4%;
-    color: black;
+    margin-top: -21%;
+    margin-left: -43%;
     text-align: left;
+    color:Black;
+  
+
 }
 
 p2 {
-    padding: 90px;
+    margin-top:4px;
+    margin-left:-124px;
+    padding:167px;
     color: black;
     text-align: left;
-    margin-left: 28px;
     font-size: 16px;
-    right: 15px;
+ 
 }
 
 p3 {
     padding: 100px;
-    color: black;
+    color: Black;
     text-align: left;
     margin-left: -60px;
     font-size: 16px;
@@ -62,7 +66,7 @@ input[type=text], select {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin-left: 36%;
+    margin-left: 8%;
     margin-top: 5%;
     cursor: pointer;
 }
@@ -71,15 +75,22 @@ div.out {
     height: 350px;
     margin: auto;
     padding: 140px;
-    right: 15px;
+   
+   
+      
 }
-div.b {
+div.b{
     border-radius: 25px;
     width: 550px;
-    height:375px;
+    height: 375px;
     background-color: white;
     background: rgba(255,255,255,.8);
-    margin-top: 9%;
+    /*background-image: url("~/../../../../../Images/Blue Galaxy.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    opacity:.65;*/
+    margin-top: 2%;
     margin-left: 20%;
     text-align: center;
     position: absolute;
@@ -88,7 +99,7 @@ div.b {
 div.in{
 
     margin-left:-8%;
-    margin-top:10%;
+    margin-top:8%;
 
 
 }
@@ -105,5 +116,36 @@ div.in{
 
 }
     */
+p6 {
+    margin-top: 4px;
+    margin-left: 200px;
+    padding: 90px;
+    color: Black;
+    text-align: left;
+    font-size: 16px;
+}
 
-
+p7 {
+    margin-top: 4px;
+    margin-left: 218px;
+    
+    color: black;
+    text-align: left;
+    font-size: 16px;
+}
+.circle {
+  
+    background-image: url("~/../../../../../Images/Blue Galaxy.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    height: 633px;
+    width: 636px;
+    border-radius: 50%;
+    margin-top: -7%;
+    margin-left: 17%;
+    text-align: center;
+    position: absolute;
+    text-align: center;
+    opacity:.65;
+}

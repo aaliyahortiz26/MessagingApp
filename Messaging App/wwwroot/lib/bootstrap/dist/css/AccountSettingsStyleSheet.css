@@ -12,33 +12,90 @@
 footer {
     background-color: white;
 }
-
-h1 {
-    color: White;
-    text-align: left;
+div.test {
+    margin-top: 9%;
+    margin-left: 49%;
+    text-align: center;
+    position: absolute;
+    text-align: center;
+    color: black;
 }
 
-.userNameLabel {
-    padding: 30px;
+h1 {
+    margin-top: -20%;
+    margin-left: -43%;
+    text-align: left;
+    color: Black;
+}
+div.out {
+    margin-left: -8%;
+    margin-top: 8%;
+}
+div.surr {
+    width: 800px;
+    height: 350px;
+    margin: auto;
+    padding: 140px;
+}
+div.k {
+    border-radius: 25px;
+    width: 550px;
+    height: 375px;
+    background-color: white;
+    background: rgba(255,255,255,.8);
+    margin-top: 2%;
+    margin-left: 20%;
+    text-align: center;
+    position: absolute;
+    text-align: center;
+}
+div.d {
+    margin-top: 9%;
+    margin-left: -194%;
     color: black;
     text-align: left;
-    margin-left: 37px;
+    font-size: 16px;
+}
+div.r {
+    margin-top: 17%;
+    margin-left: 12%;
+    color: black;
+    text-align: left;
+    font-size: 16px;
+}
+/*.userNameLabel {
+    color: black;
+    text-align: left;
+    margin-top: 25%;
+    margin-left: 80%;
     font-size: 16px;
 }
 
 .EmailLabel {
-    padding: 30px;
+   
     color: black;
     text-align: left;
-    margin-left: 71px;
+    margin-top: 15%;
+    margin-left: 40%;
     font-size: 16px;
-}
+}*/
 
 p4 {
-    padding: 30px;
+    color: white;
+    margin-top: 45%;
+    margin-left: 70%;
+    font-size: 16px;
+}
+p9 {
     color: black;
-    text-align: left;
-    margin-left: 10px;
+    margin-top: 75%;
+    margin-left: 70%;
+    font-size: 16px;
+}
+p11 {
+    color: white;
+    margin-top: 55px;
+    margin-left: 7px;
     font-size: 16px;
 }
 
@@ -57,16 +114,14 @@ p4 {
 
 input {
     width: 50%;
-    padding: 12px 20px;
-    margin-left: 8px 0;
+    margin-top: -3%;
+    margin-left: 41%;
     display: inline-block;
-   /* border: 1px solid #ccc;*/
+    /* border: 1px solid #ccc;*/
     border-radius: 4px;
     box-sizing: border-box;
-    
-    
 }
-    
+/*   
 #profile-container img {
     width: 150px;  
     height: 150px;
@@ -79,7 +134,7 @@ file {
     margin-left: 37px;
     font-size: 16px;
 }
-
+     */
 .button1 {
     margin-left: 16%; 
     border-radius: 2px;
@@ -94,28 +149,26 @@ file {
 }
 
 .c {
-    
+    border:dashed;
+    width:525px;
+    height:325px;
+    margin-top: 4%;
+    margin-left: -2%;
+   
 }
 
-.first {
-    width: 50%;
-    height: 20%;
-    border: 2px solid orange;
-}
 
-.second {
-    margin-top: 50px;
-    padding: 50px;
-    width: 75%;
-    height: 10%;
-    /*border: 2px solid blue;*/
-}
 
-.whole {
-    width: 150%;
-    height: 100%;
-   /* border: 2px solid green;*/
-    display: block;
+div.box {
+    border-radius: 25px;
+    width: 550px;
+    height: 375px;
+    background-color: white;
+    background: rgba(255,255,255,.8);
+    margin-top: 2%;
+    margin-left: 20%;
+    text-align: center;
+    position: absolute;
+    text-align: center;
 }
-
 

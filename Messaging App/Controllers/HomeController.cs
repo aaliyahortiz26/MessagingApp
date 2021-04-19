@@ -104,11 +104,11 @@ namespace MessagingApp.Controllers
                     
             }
 
-            reader.Close();
+            reader2.Close();
             if (txtBackgroundColorList.Count() == 0)
             {
                 pc.TxtColor = "black";
-                pc.Baccolor = "linear-gradient(blue, orange)";
+                pc.Baccolor = "url(../../Images/EarthBackground.jpeg)";
 
                 string txtcmd = $"Insert into preferences (id,fontColor,backgroundColor)" + $"values ( @id, @TextColor,@BackgroundColor) ";
                 MySqlCommand cmd = new MySqlCommand(txtcmd, conn);

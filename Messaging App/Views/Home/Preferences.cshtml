@@ -10,13 +10,15 @@
     <meta name="viewport" content="width=device-width" />
 </head>
 <body>
-    <div class="test">
-        <h1>Preferences</h1>
-    </div>
+   
    
     <form asp-action="Preferences" method="post">
         <div class="out">
             <div class=" b">
+                
+                <div class="test">
+                    <h1>Preferences</h1>
+                </div>
                 <div class="in">
                     <p2> Text Color </p2>
                     <select asp-for="TxtColor" id="tcolor">
@@ -52,7 +54,7 @@
 
                     </select>
                     <br>
-                    <p2>Current Color: @DBObject.Tcolor</p2>
+                    <p6>Current Color: @DBObject.Tcolor</p6>
                     <br />
                     <br />
                     <br />
@@ -92,11 +94,12 @@
                     </select>
                     <br>
 
-                    <p2>Current Color: @DBObject.Bcolor</p2>
+                    <p7>Current Color: @DBObject.Bcolor</p7>
 
                     <button class="button button1" type="submit" onclick="location.href='@Url.Action("PreferencesScreen", "Home")'">Apply Changes</button>
                 </div>
-                </div>
+            </div>
+           
         </div>
         
     </form>
