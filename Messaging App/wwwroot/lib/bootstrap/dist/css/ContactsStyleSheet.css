@@ -34,21 +34,21 @@ footer {
 }
 
 .contactSearchArea {
-    background-color: white;
+    background: rgba(255,255,255,.8);
     width: 38%;
     height: 18%;
 }
 
 .viewContactsArea {
-    background-color: white;
+    background: rgba(255,255,255,.8);
     width: 40%;
     height: 66%;
-   /* border: 2px solid orange; */
-     overflow: auto;
+    /* border: 2px solid orange; */
+    overflow: auto;
 }
 
 .homeButton {
-    background-color: white;
+    background: rgba(255,255,255,.8);
     width: 40%;
     height: 7%;
     margin-left: auto;
@@ -70,9 +70,10 @@ h1 {
 
 h3 {
     font-family:'Times New Roman', Times, serif;
-    font-size: 19px;
+    font-size: 21px;
     display: inline;
     margin-left: 24%;
+    font-weight: normal;
 }
 
 .fields {
@@ -139,4 +140,25 @@ button {
 
 .goHomeButton {
     margin-left: 10px;
+}
+
+
+
+
+
+.contacts {
+    width: 24%;
+    margin-left: 20%;
+    height: 0%;
+    margin-top: 4.3%;
+}
+
+.removeContactButton {
+    margin-left: 14%;
+    display: block;
+    margin-top: 3%;
+}
+
+.contactAndButtons {
+    display: flex;
 }

@@ -16,30 +16,31 @@ footer {
 }
 
 .right {
-    top: 7%;
-    margin-left: 65%;
+    top: 20%;
+    margin-left: 69%;
 }
 
 .messageArea {
-    background-color: white;
+    background: rgba(255, 255, 255, 0.8);
     border-radius: 12px;
-    width: 72%;
-    height: 68%;
-    margin-left: 3%;
+    width: 54%;
+    height: 73%;
+    margin-left: 23%;
+    position: relative;
 }
 
 .sendMessageArea {
-    background-color: white;
+    background: rgba(255,255,255,.8);
     border-radius: 12px;
-    width: 66%;
+    width: 49%;
     height: 13%;
-    margin-top: 4%;
+    margin-top: 3%;
 }
 
 .contactArea {
     background-color: lightgray;
-    width: 20%;
-    height: 60%;
+    width: 15%;
+    height: 33%;
     position: fixed;
     border-radius: 12px;
 }
@@ -47,10 +48,19 @@ footer {
 h1 {
     margin-top: -4%;
     text-align: center;
+    font-weight: bold;
+    font-family: 'Times New Roman';
+    color: black;
 }
 
 h2 {
     text-align: center;
+    font-weight: normal;
+}
+
+/* Contact Name */
+h3 {
+    font-weight: normal;
 }
 
 .fields {
@@ -62,13 +72,7 @@ h2 {
     font-size: 18px;
 }
 
-.scrollMessages {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 18px;
-    overflow: auto;
-    height: 83%;
-}
+
 
 
 
@@ -160,7 +164,7 @@ h2 {
     justify-content: center;
     vertical-align: middle;
     width: 100%;
-    height: 11%;
+    height: 9%;
     color: black;
     font-size: 18px;
     background: white;
@@ -175,10 +179,12 @@ h2 {
 }
 
 .LeftSideButton h2 {
-    color: blue;
-    margin-top: 7%;
+    color: dodgerblue;
+    margin-top: 8%;
     text-align: center;
     font-size: 16px;
+    font-family: Arial,Arial, Helvetica, sans-serif;
+    font-weight: bold;
 }
 
 #ScrollBoxGroup {
@@ -229,4 +235,48 @@ h2 {
 
 #topicButtons:hover {
     color: green;
+}
+
+
+
+/*.message {
+    width: 40%;
+    margin-left: 24%;
+    height: auto;
+    border: 1px solid black;
+    position: absolute;
+    background: lightgrey;
+    border-radius: 10px;
+    word-wrap: break-word;
+    padding: .5%;
+}*/
+
+.message {
+    width: 40%;
+    margin-left: 24%;
+    height: auto;
+    border: .5px solid black;
+    background: lightgrey;
+    border-radius: 10px;
+    word-wrap: break-word;
+    padding: .5%;
+    display: block;
+}
+
+.messageButtons {
+    margin-left: 67%;
+    display: block;
+    position: absolute;
+}
+
+.scrollMessages {
+    overflow: auto;
+    height: 70%;
+    position: inherit;
+    margin-right: 7%;
+    width: 95%;
+}
+
+.messageAndButtons {
+  display: flex;
 }
