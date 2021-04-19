@@ -10,38 +10,34 @@
 <head>
     <meta name="viewport" content="width=device-width" />
 </head>
-<body class="AccountSettings">
+<!--<body class="AccountSettings">-->
+<body>
     <form asp-action="AccountSettings" method="post">
         <div class=" surr">
-           <div class=" k">
-            
-            
-            <div class=" test">
+            <div class=" k">
+
+
+                <!--   <div class=" test">-->
                 <h1>Account Settings</h1>
-            </div>
-
-            <div class=" out">
-
-
+                <!-- </div>-->
+                <!-- <div class=" out">-->
                 <!--<div asp-validation-summary="ModelOnly" class="text-danger"></div>-->
-                    
+                <!-- <div class=" d">-->
+                <p9>UserName:</p9>
+                <!--</div>-->
 
-                <div class=" d">
-                    <p9>UserName:</p9>
-                </div>
 
-                
-                    <input type="text" class="trigger" id="userNameInput" asp-for="userName" />
-                    <br>
-                    <span asp-validation-for="userName" class="text-danger"></span>
-               
-                <br />
+                <input type="text" class="trigger" id="userNameInput" asp-for="userName" />
+                <br>
+                <span asp-validation-for="userName" class="text-danger"></span>
 
                 <br />
-                
-                <div class=" r">
-                    <p10>Email:</p10>
-                </div>
+
+                <br />
+
+                <!--<div class=" r">-->
+                <p10>Email:</p10>
+                <!-- </div>-->
 
 
 
@@ -54,39 +50,39 @@
                 <br />
                 <br />
                 <!--
-                 <p4>Profile Picture:</p4>
-      <br />
-      <br />
-      <br />
+                         <p4>Profile Picture:</p4>
+              <br />
+              <br />
+              <br />
 
 
 
-      <div id="profile-container">
-          <image id="profileImage" src="" />
-          <input id="imageUpload" class="fileUpload" type="file" name="profile_photo" placeholder="Photo" require="" capture onclick="location.href='@Url.Action("savePicture", "Home")'" />
-      </div>
+              <div id="profile-container">
+                  <image id="profileImage" src="" />
+                  <input id="imageUpload" class="fileUpload" type="file" name="profile_photo" placeholder="Photo" require="" capture onclick="location.href='@Url.Action("savePicture", "Home")'" />
+              </div>
 
-    -->
+            -->
 
-                <div class="second">
+               <!-- <div class="second">-->
                     <button class="button button1" id="ApplyButton" type="submit" onclick="location.href='@Url.Action(" AccountSettings", "Home" )'"> Apply Changes</button>
                     <!--  <button class="button button2">Cancel</button>-->
                     <button class="button button3" type="button" onclick="location.href='@Url.Action(" ChangePasswordScreen", "Home" )'">Change Password</button>
-                </div>
+               <!-- </div>-->
             </div>
-            
-            </div>
-
 
         </div>
-    </form>
-</body>
-</html>
-@if (ViewBag.Message != null)
-{
-    <script type="text/javascript">
-    window.onload = function () {
-        alert("@ViewBag.Message");
-    };
-    </script>
-}
+
+
+        <!--</div>-->
+        </form>
+    </body>
+    </html>
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+        window.onload = function () {
+            alert("@ViewBag.Message");
+        };
+        </script>
+    }
