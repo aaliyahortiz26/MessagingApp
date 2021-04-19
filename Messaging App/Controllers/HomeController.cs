@@ -54,34 +54,7 @@ namespace MessagingApp.Controllers
             }
             reader1.Close();
 
-            homeMod.SetttopicListAttr(topicList);
-
-            MySqlCommand getPinned = conn.CreateCommand();
-            getPinned.CommandText = "SELECT pinnedMessages FROM pinnedMessages where userId= @userID"; // the command
-            getPinned.Parameters.AddWithValue("@userID", DBObject.m_id);
-            MySqlDataReader aRead = getPinned.ExecuteReader();
-            List<string> PinnedList = new List<string>();
-
-            while (aRead.Read())
-            {
-                PinnedList.Add(Convert.ToString(aRead[0]));
-            }
-            aRead.Close();
-
-            MySqlCommand getuserPinned = conn.CreateCommand();
-            getuserPinned.CommandText = "SELECT userName FROM pinnedMessages where userId= @userID"; // the command
-            getuserPinned.Parameters.AddWithValue("@userID", DBObject.m_id);
-            MySqlDataReader bRead = getuserPinned.ExecuteReader();
-            List<string> userPinnedList = new List<string>();
-
-            while (bRead.Read())
-            {
-                userPinnedList.Add(Convert.ToString(bRead[0]));
-            }
-            bRead.Close();
-
-            homeMod.SetPinnedListAttr(PinnedList);
-            homeMod.SetuserPinnedListAttr(userPinnedList);
+            homeMod.SetttopicListAttr(topicList);      
 
             // set background color and textcolor that user selected
             MySqlCommand getContacts = conn.CreateCommand();
@@ -264,7 +237,78 @@ namespace MessagingApp.Controllers
             return RedirectToAction("Contacts", "Home"); 
         }
 
-        public IActionResult PreferencesScreen()
+
+        public IActionResult RemovePinnedMessagesgroup(string message, string user, string chatname)
+        {
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+
+            conn.Open();
+
+            string txtcmd = "Delete FROM pinnedMessages where userId = @userID and userName = @userName and topicgroupName = @topicgroupName and pinnedMessages = @pinnedMessages";
+            MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+            cmd.CommandType = CommandType.Text;
+
+            cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
+            cmd.Parameters.AddWithValue("@userName", user);
+            cmd.Parameters.AddWithValue("@topicgroupName", chatname);
+            cmd.Parameters.AddWithValue("@pinnedMessages", message);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            return RedirectToAction("PinnedMessages", "Home");
+        }
+        public IActionResult PinnedMessages(HomeModel homeMod)
+        {
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+
+            conn.Open();
+
+            MySqlCommand getPinned = conn.CreateCommand();
+            getPinned.CommandText = "SELECT pinnedMessages FROM pinnedMessages where userId= @userID"; // the command
+            getPinned.Parameters.AddWithValue("@userID", DBObject.m_id);
+            MySqlDataReader aRead = getPinned.ExecuteReader();
+            List<string> PinnedList = new List<string>();
+
+            while (aRead.Read())
+            {
+                PinnedList.Add(Convert.ToString(aRead[0]));
+            }
+            aRead.Close();
+
+            MySqlCommand getuserPinned = conn.CreateCommand();
+            getuserPinned.CommandText = "SELECT userName FROM pinnedMessages where userId= @userID"; // the command
+            getuserPinned.Parameters.AddWithValue("@userID", DBObject.m_id);
+            MySqlDataReader bRead = getuserPinned.ExecuteReader();
+            List<string> userPinnedList = new List<string>();
+
+            while (bRead.Read())
+            {
+                userPinnedList.Add(Convert.ToString(bRead[0]));
+            }
+            bRead.Close();
+
+            MySqlCommand getgroupPinned = conn.CreateCommand();
+            getgroupPinned.CommandText = "SELECT topicgroupName FROM pinnedMessages where userId= @userID"; // the command
+            getgroupPinned.Parameters.AddWithValue("@userID", DBObject.m_id);
+            MySqlDataReader cRead = getgroupPinned.ExecuteReader();
+            List<string> groupPinnedList = new List<string>();
+
+            while (cRead.Read())
+            {
+                groupPinnedList.Add(Convert.ToString(cRead[0]));
+            }
+            cRead.Close();
+            homeMod.SetPinnedListAttr(PinnedList);
+            homeMod.SetgroupPinnedListAttr(groupPinnedList);
+            homeMod.SetuserPinnedListAttr(userPinnedList);
+
+
+            return View();
+        }
+    
+
+         public IActionResult PreferencesScreen()
         {
             return View("Preferences");
         }
@@ -454,9 +498,9 @@ namespace MessagingApp.Controllers
             }
         }
 
-        public IActionResult PinnedMessages()
+      /*  public IActionResult PinnedMessages()
         {
-          /*  const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
 
             conn.Open();
@@ -470,8 +514,8 @@ namespace MessagingApp.Controllers
             //cmd.Parameters.AddWithValue("@pinnedMessages", message);
             cmd.ExecuteNonQuery();
             conn.Close();
-          */
+          
             return View();
-        }
+        }*/
     }
 }

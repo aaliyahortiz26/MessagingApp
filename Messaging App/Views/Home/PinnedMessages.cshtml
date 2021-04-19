@@ -10,15 +10,7 @@
 </head>
 <body>
     <div class="test">
-        <h1>Pinned Messages</h1>
-        @{
-            for (int k = 0; k < HomeModel.m_Pinnedlist.Count(); k++)
-            {
-                <p>
-                    <h3>@HomeModel.m_userPinnedlist[k] says:@HomeModel.m_Pinnedlist[k] </h3>
-                </p>
-            }
-        }
+        <h1>Pinned Messages</h1>       
     </div>
     <div class="a">
 
@@ -26,10 +18,23 @@
         <h3>  UserName:    </h3>
         <h4>  Message:       </h4>
         <h5>  Name of group:   </h5>
-      
 
-
-
-    </div>
+        <div class="displayPinnedMessages">
+            @if (HomeModel.m_Pinnedlist != null)
+            {
+                 for (int k = 0; k < HomeModel.m_Pinnedlist.Count(); k++)
+                    {
+                        <p>
+                            <h3 style="font-weight: normal">@HomeModel.m_userPinnedlist[k]  </h3>
+                            <h4 style="font-weight: normal; text-align: center;">    @HomeModel.m_Pinnedlist[k]</h4>
+                            <h5 style="font-weight: normal">
+                                @HomeModel.m_groupPinnedlist[k]
+                                                        <button action style="margin-left: 2%; width: 36px; height: 36px; margin-top: 0px; color: white; background: url(../../Images/trashCan.jpg); background-size: cover;" type="button" onclick="location.href='@Url.Action("RemovePinnedMessagesgroup", "Home", new { message = @HomeModel.m_Pinnedlist[k], user = @HomeModel.m_userPinnedlist[k], chatname = @HomeModel.m_groupPinnedlist[k] })'"></button>
+                                                    </h5>
+                            </p>
+                    }             
+             }
+        </div>
+        </div>
 </body>
 </html>
