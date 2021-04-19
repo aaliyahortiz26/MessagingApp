@@ -18,32 +18,35 @@ div.test {
     text-align: center;
     position: absolute;
     text-align: center;
+    color:black;
 }
 h1 {
-    margin-top: 83%;
-    margin-left: -4%;
-    color: black;
-    text-align: left;
+    margin-top: 0%;
+    /*    margin-left: -43%;*/
+    margin-bottom: 0%;
+    text-align: center;
+    color: Black;
 }
 
 p2 {
-    padding: 90px;
+    /* margin-top:4px;*/
+    /* margin-left:-124px;*/
+    /* padding:167px;*/
+     margin-left: 13%;
     color: black;
     text-align: left;
-    margin-left: 28px;
-    font-size: 16px;
-    right: 15px;
+    font-size: 18px;
 }
 
 p3 {
-    padding: 100px;
-    color: black;
-    text-align: left;
-    margin-left: -60px;
+   /* padding: 100px;*/
+    color: Black;
+    /*text-align: left;*/
+   /* margin-left: -60px;*/
     font-size: 16px;
 }
 
-input[type=text], select {
+/*input[type=text], select {
     width: 40%;
     padding: 12px 15px;
     margin: 15px 0;
@@ -51,10 +54,33 @@ input[type=text], select {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+}*/
+
+.textColorDropdown {
+    width: 40%;
+    padding: 12px 15px;
+    margin: 15px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-left: 22%;
+}
+
+.backgroundColorDropdown {
+    width: 40%;
+    padding: 12px 15px;
+    margin: 15px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-left: 10%;
 }
 
 .button {
-    background-color: #4CAF50;
+    background-color: #2196F3;
+    border-radius: 6px;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -62,35 +88,73 @@ input[type=text], select {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin-left: 36%;
-    margin-top: 5%;
+    margin-left: 34%;
     cursor: pointer;
+    margin-top: 3%;
 }
-div.out {
+/*div.out {
     width: 800px;
     height: 350px;
     margin: auto;
     padding: 140px;
-    right: 15px;
+   
+   
+      
+}*/
+.out {
+    margin-right: auto;
+    margin-left:auto;
+    width: 33%;
+    height: 41%;
+    /*  border: 3px solid red;   */
+    padding: 0px 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
-div.b {
+
+/*div.b {
     border-radius: 25px;
     width: 550px;
-    height:375px;
+    height: 375px;
     background-color: white;
     background: rgba(255,255,255,.8);
-    margin-top: 9%;
+    /*background-image: url("~/../../../../../Images/Blue Galaxy.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    opacity:.65;
+    margin-top: 2%;
     margin-left: 20%;
     text-align: center;
     position: absolute;
     text-align: center;
+}*/
+
+/*div.b {
+    background-color: white;
+    background: rgba(255,255,255,.8);
+    border-radius: 12px;
+    width: 550px;
+    height: 375px;
+}*/
+
+div.b {
+    background: rgba(255,255,255,.8);
+    border-radius: 12px;
+    width: 550px;
+    height: 375px;
+    margin-top: 50%;
+    margin-bottom: 50%;
 }
+
+
+
 div.in{
-
     margin-left:-8%;
-    margin-top:10%;
-
-
+    margin-top:8%;
 }
 /*p{
 
@@ -105,5 +169,36 @@ div.in{
 
 }
     */
+p6 {
+    margin-top: 4px;
+    margin-left: 200px;
+    padding: 90px;
+    color: Black;
+    text-align: left;
+    font-size: 16px;
+}
 
-
+p7 {
+    margin-top: 4px;
+    margin-left: 218px;
+    
+    color: black;
+    text-align: left;
+    font-size: 16px;
+}
+.circle {
+  
+    background-image: url("~/../../../../../Images/Blue Galaxy.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    height: 633px;
+    width: 636px;
+    border-radius: 50%;
+    margin-top: -7%;
+    margin-left: 17%;
+    text-align: center;
+    position: absolute;
+    text-align: center;
+    opacity:.65;
+}
