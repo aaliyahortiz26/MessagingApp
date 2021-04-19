@@ -22,7 +22,7 @@
     </style>
    
     <div class="MessageContainer">
-        <form class="messageArea" asp-action="TopicTemplate" method="post">
+        <form class="messageArea" asp-action="GetMembers" method="post">
             <button class="searchTopicButton" type="button" onclick="location.href='@Url.Action("TopicSearch", "Chat")'">Topic Search</button>
             <button class="joinButton" type="button" onclick="location.href='@Url.Action("JoinTopic", "Chat")'">Join Topic</button>
 
@@ -31,16 +31,16 @@
             <h2 id="topicQuestion"> Question: @TopicSearchModel.question</h2>
 
             <div class="scrollMessages">
-                @*@{
-                    List<Messages> topicMessagelist = new List<Messages>();
-                    topicMessagelist = ViewData["messageobjects"] as List<Messages>;
-                    for (int i = 0; i < topicMessagelist.Count(); i++)
-                    {
-                        <p>
-                            <label>@topicMessagelist[i].GetUsername() says @topicMessagelist[i].GetMessage() </label>
-                        </p>
-                    }
-                }*@
+                @{
+                    List<Messages> topicMessages = new List<Messages>();
+                    topicMessages = ViewData["messageobjects"] as List<Messages>;
+                    for (int i = 0; i < topicMessages.Count(); i++)
+                        {
+                            <p>
+                                <label>@topicMessages[i].GetUsername() says @topicMessages[i].GetMessage() </label>
+                            </p>
+                        }
+                 }
                 <p>
                     <label id="messagesLabelNotFromDatabase"></label> <br />
                 </p>
@@ -51,23 +51,34 @@
 
 
 
-        <form class="right contactArea" asp-action="TopicTemplate" method="post">
+        <form class="right contactArea" asp-action="GetMembers" method="post">
             <div class="fields">
                 <p>
                     <h2 id="contactAreaLabel">Members</h2>
                     <br />
                 </p>
-                
-                <!--Print contact-->
 
+                <!--Print contact-->
                 @*List<Members> MembersList = new List<Members>();
-                    MembersList = ViewData["MembersList"] as List<Members>;
+        MembersList = ViewData["MembersList"] as List<Members>;
+        for (int i = 0; i < MembersList.Count(); i++)
+        {
+            <p>
+                <label>@MembersList[i].GetUsername() says @MembersList[i].GetMessage() </label>
+            </p>
+        }*@
+
+
+                @{
+                    List<string> MembersList = new List<string>();
+                    MembersList = ViewData["MembersList"] as List<string>;
                     for (int i = 0; i < MembersList.Count(); i++)
                     {
                         <p>
-                            <label>@MembersList[i].GetUsername() says @MembersList[i].GetMessage() </label>
+                            <h3>@MembersList[i] </h3>
                         </p>
-                    }*@
+                    }
+                }
 
                 <dl>
                 </dl>

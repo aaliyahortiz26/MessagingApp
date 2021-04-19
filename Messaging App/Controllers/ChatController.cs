@@ -161,13 +161,21 @@ namespace MessagingApp.Controllers
 
         public IActionResult GetMembers(TopicSearchModel tSM2, string topicN)
         {
-            List<string> MembersList = new List<string>();
             DBManager _manager = new DBManager();
+            List<string> MembersList = new List<string>();
 
-            MembersList = _manager.GetGroupUsers(topicN);
+            List<Messages> topicMessages = new List<Messages>();
+            List<string> users = new List<string>();
+
+            topicMessages = _manager.GetMessagesTopic(topicN);
+            ViewData["messageobjects"] = topicMessages;
+
+            MembersList = _manager.GettopicUsers(topicN);
             ViewData["MembersList"] = MembersList;
+            
+            tSM2.m_topic = topicN;
 
-            return View("GetMembers");
+            return View();
         }
 
         public IActionResult JoinTopic(TopicSearchModel topicSearchM)
