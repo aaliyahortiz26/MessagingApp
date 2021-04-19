@@ -15,7 +15,7 @@
         body{
             background-image: @DBObject.Bcolor;
         }
-        p {
+        label {
             color:@DBObject.Tcolor;
         }
 
@@ -26,7 +26,7 @@
             <button class="searchTopicButton" type="button" onclick="location.href='@Url.Action("TopicSearch", "Chat")'">Topic Search</button>
             <button class="joinButton" type="button" onclick="location.href='@Url.Action("JoinTopic", "Chat")'">Join Topic</button>
 
-            <h1 id="topicName">Topic: @TopicSearchModel.topic</h1>
+            <h1 id="topicName">@TopicSearchModel.topic</h1>
             <h2 id="topicDescription"> Description:  @TopicSearchModel.description</h2>
             <h2 id="topicQuestion"> Question: @TopicSearchModel.question</h2>
 
@@ -36,26 +36,26 @@
                     topicMessagelist = ViewData["messageobjects"] as List<Messages>;
                     for (int i = 0; i < topicMessagelist.Count(); i++)
                     {
-                        <p>
-                           <label>@topicMessagelist[i].GetUsername() says @topicMessagelist[i].GetMessage() </label>
-                        </p>
+                        <div class="message">
+
+                            <label style="color: black; font-size: 18px;"> @topicMessagelist[i].GetUsername():</label>
+                            <label style="font-size: 17px;">@topicMessagelist[i].GetMessage() </label>
+                            <br>
+                            <br>
+                        </div>
+
                     }
                 }
-
-                <p>
-                    <label id="messagesLabelNotFromDatabase"></label> <br />
-                </p>
             </div>
 
-
-        </form>
+            </form>
 
 
 
         <form class="right contactArea" asp-action="ViewTopic" method="post">
             <div class="fields">
                 <p>
-                    <h2 id="contactAreaLabel">Members</h2>
+                    <h2 id="contactAreaLabel" style="font-weight: bold;">Members</h2>
                     <br />
                 </p>
                 @{
