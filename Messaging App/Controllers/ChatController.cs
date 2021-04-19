@@ -163,9 +163,7 @@ namespace MessagingApp.Controllers
         {
             DBManager _manager = new DBManager();
             List<string> MembersList = new List<string>();
-
             List<Messages> topicMessages = new List<Messages>();
-            List<string> users = new List<string>();
 
             topicMessages = _manager.GetMessagesTopic(topicN);
             ViewData["messageobjects"] = topicMessages;
