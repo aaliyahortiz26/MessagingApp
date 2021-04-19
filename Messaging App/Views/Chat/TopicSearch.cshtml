@@ -24,12 +24,14 @@
                         @for (int i = 0; i < TopicSearchModel.topicCategoryList.Count(); i++)
                         {
                             <option value="@TopicSearchModel.topicCategoryList[i]">@TopicSearchModel.topicCategoryList[i]</option>
-                        @*<button class="viewTopicButton" type="submit" onclick="location.href='@Url.Action("GetTopicList", "Chat", new {category = TopicSearchModel.topicCategoryList[i]})'"> TopicSearchModel.topicCategoryList[i] </button>*@
+                            @*<button class="viewTopicButton" type="submit" onclick="location.href='@Url.Action("GetTopicList", "Chat", new {category = @TopicSearchModel.topicCategoryList[i]})'"> @TopicSearchModel.topicCategoryList[i] </button>*@
                         }
                     </select>
                     <br>
                 </p>
                 <p>
+                    @*@if (@TopicSearchModel.topicSearchList[0] != null)
+                    {*@
                     <span asp-validation-for="topicDropdown"></span>
                     <label class="topicLabel">Topic:</label>
                     <label style="color: red; position:initial">*</label>
@@ -40,6 +42,7 @@
                         }
                     </select>
                     <br>
+                    @*}*@
                 </p>
             </div>
             <button class="viewTopicButton" type="submit" onclick="location.href='@Url.Action("ViewTopic", "Chat")'">View Topic</button>

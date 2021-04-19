@@ -152,6 +152,14 @@ namespace MessagingApp.Controllers
             return View("ViewTopic");
         }
 
+        public IActionResult GetMembers(TopicSearchModel tSM2, string topicN)
+        {
+            List<string> MembersList = new List<string>();
+            DBManager _manager = new DBManager();
+
+            return View("GetMembers");
+        }
+
         public IActionResult JoinTopic(TopicSearchModel topicSearchM)
         {
             const string connection6 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";

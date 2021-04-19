@@ -31,19 +31,16 @@
             <h2 id="topicQuestion"> Question: @TopicSearchModel.question</h2>
 
             <div class="scrollMessages">
-                @{
-                    <p>
-                        <label>Message</label>
-                    </p>
-                    /* List<Messages> list = new List<Messages>();
-                     list = ViewData["messageobjects"] as List<Messages>;
-                     for (int i = 0; i < list.Count(); i++)
-                     {
-                         <p>
-                             <label>@list[i].GetUsername() says @list[i].GetMessage() </label>
-                         </p>
-                     }*/
-                }
+                @*@{
+                    List<Messages> topicMessagelist = new List<Messages>();
+                    topicMessagelist = ViewData["messageobjects"] as List<Messages>;
+                    for (int i = 0; i < topicMessagelist.Count(); i++)
+                    {
+                        <p>
+                            <label>@topicMessagelist[i].GetUsername() says @topicMessagelist[i].GetMessage() </label>
+                        </p>
+                    }
+                }*@
                 <p>
                     <label id="messagesLabelNotFromDatabase"></label> <br />
                 </p>
@@ -57,7 +54,7 @@
         <form class="right contactArea" asp-action="TopicTemplate" method="post">
             <div class="fields">
                 <p>
-                    <h2 id="contactAreaLabel">Contacts</h2>
+                    <h2 id="contactAreaLabel">Members</h2>
                     <br />
                 </p>
                 
