@@ -156,22 +156,35 @@ namespace MessagingApp.Controllers
             vRead.Close();
             conn4.Close();
 
+            DBManager _manager = new DBManager();
+            List<Messages> messages = new List<Messages>();
+            List<string> users = new List<string>();
+
+            messages = _manager.GetMessagesTopic(tSM.m_topic);
+            ViewData["messageobjects"] = messages;
+
+            users = _manager.GettopicUsers(tSM.m_topic);
+            ViewData["users"] = users;
+            tSM.topicDropdown = tSM.m_topic;
+
             return View("ViewTopic");
         }
 
         public IActionResult GetMembers(TopicSearchModel tSM2, string topicN)
         {
+            /**
+             Not being used 
+             **/
             DBManager _manager = new DBManager();
-            List<string> MembersList = new List<string>();
-            List<Messages> topicMessages = new List<Messages>();
+            List<Messages> messages = new List<Messages>();
+            List<string> users = new List<string>();
 
-            topicMessages = _manager.GetMessagesTopic(topicN);
-            ViewData["messageobjects"] = topicMessages;
+            messages = _manager.GetMessagesTopic(topicN);
+            ViewData["messageobjects"] = messages;
 
-            MembersList = _manager.GettopicUsers(topicN);
-            ViewData["MembersList"] = MembersList;
-            
-            tSM2.m_topic = topicN;
+            users = _manager.GettopicUsers(topicN);
+            ViewData["users"] = users;
+            tSM2.topicDropdown = topicN;
 
             return View();
         }
