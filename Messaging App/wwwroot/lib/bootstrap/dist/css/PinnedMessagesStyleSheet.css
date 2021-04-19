@@ -19,7 +19,7 @@ div.a {
     height: 460px;
     background-color: white;
     background: rgba(255,255,255,.8);
-    margin-top: 1%;
+    margin-top: 8%;
     margin-left: 27%;
     text-align: center;
     position: absolute;
@@ -57,4 +57,12 @@ h5 {
     font-size: 18px;
     margin-top: -5%;
     margin-left: 63%;
+}
+
+.displayPinnedMessages {
+    height: 67%;
+    position: absolute;
+    width: 99%;
+    overflow: auto;
+    margin-top: -31px;
 }

@@ -563,12 +563,13 @@ namespace MessagingApp.Controllers
 
             conn.Open();
 
-            string txtcmd1 = "select userName FROM pinnedMessages where userId = @userID and userName = @userName and topicgroupName = @topicgroupName";
+            string txtcmd1 = "select userName FROM pinnedMessages where userId = @userID and userName = @userName and pinnedMessages = @pinnedMessage and topicgroupName = @groupName";
             MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
             cmd1.CommandType = CommandType.Text;
             cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
             cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
-            cmd1.Parameters.AddWithValue("@topicgroupName", DBObject.m_TopicName);
+            cmd1.Parameters.AddWithValue("@pinnedMessage", message);
+            cmd1.Parameters.AddWithValue("@groupName", DBObject.m_TopicName);
             MySqlDataReader mRead;
             using (mRead = cmd1.ExecuteReader()) // executes the search command
             {
@@ -580,8 +581,8 @@ namespace MessagingApp.Controllers
                 }
                 else
                 {
-
-                    string txtcmd = $"Insert into united_messaging.pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
+                    mRead.Close();
+                    string txtcmd = $"Insert into pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
                     MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
@@ -602,12 +603,14 @@ namespace MessagingApp.Controllers
 
             conn.Open();
 
-            string txtcmd1 = "select userName FROM pinnedMessages where userId = @userID and userName = @userName and topicgroupName = @topicgroupName";
+            string txtcmd1 = "select userName FROM pinnedMessages where userId = @userID and userName = @userName and pinnedMessages = @pinnedMessage and topicgroupName = @groupName";
             MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
             cmd1.CommandType = CommandType.Text;
             cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
             cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
-            cmd1.Parameters.AddWithValue("@topicgroupName", DBObject.m_GroupName);
+            cmd1.Parameters.AddWithValue("@pinnedMessage", message);
+            cmd1.Parameters.AddWithValue("@groupName", DBObject.m_GroupName);
+
             MySqlDataReader mRead;
             using (mRead = cmd1.ExecuteReader()) // executes the search command
             {
@@ -619,8 +622,8 @@ namespace MessagingApp.Controllers
                 }
                 else
                 {
-
-                    string txtcmd = $"Insert into united_messaging.pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
+                    mRead.Close();
+                    string txtcmd = $"Insert into pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
                     MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
                     cmd.CommandType = CommandType.Text;
 
