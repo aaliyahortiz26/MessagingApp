@@ -154,6 +154,7 @@ namespace MessagingApp.Controllers
 
         public IActionResult JoinTopic(TopicSearchModel topicSearchM)
         {
+
             const string connection6 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn6 = new MySqlConnection(connection6);
 
@@ -184,21 +185,35 @@ namespace MessagingApp.Controllers
             }
             hRead.Close();
 
-            //for adding user on one end
-            string txtCmd2 = $"Insert into united_messaging.topics (userid, topicName, category, description,privacyOption, topicQuestion, contactName, userName)" + $"values ( @userID3, @topicName3, @category3, @description3, @privacyOption3, @topicQuestion3, @contactName3, @userName3)";
-            MySqlCommand joinTop = new MySqlCommand(txtCmd2, conn6);
-            joinTop.CommandType = CommandType.Text;
-            joinTop.Parameters.AddWithValue("@userID3", DBObject.m_id);
-            joinTop.Parameters.AddWithValue("@topicName3", topicSearchM.m_topic);
-            joinTop.Parameters.AddWithValue("@category3", topicSearchM.m_category);
-            joinTop.Parameters.AddWithValue("@description3", topicSearchM.m_description);
-            joinTop.Parameters.AddWithValue("@privacyOption3", topicSearchM.radioField);
-            joinTop.Parameters.AddWithValue("@topicQuestion3", topicSearchM.m_question);
-            joinTop.Parameters.AddWithValue("@contactName3", topicSearchM.m_contactName);
-            joinTop.Parameters.AddWithValue("@userName3", DBObject.m_username);
-            joinTop.ExecuteNonQuery();
+            string txtCmd4 = $"SELECT userName FROM topics where userId='" + DBObject.m_id + "' and topicName = '" + topicSearchM.m_topic + "'"; // the command
+            MySqlCommand cmd4 = new MySqlCommand(txtCmd4, conn6);
+            MySqlDataReader mRead;
+            using (mRead = cmd4.ExecuteReader()) // executes the search command
+            {
+                if (mRead.Read())
+                {
+                }
 
-            conn6.Close();
+                else
+                {
+                    mRead.Close();
+                    //for adding user on one end
+                    string txtCmd2 = $"Insert into united_messaging.topics (userid, topicName, category, description,privacyOption, topicQuestion, contactName, userName)" + $"values ( @userID3, @topicName3, @category3, @description3, @privacyOption3, @topicQuestion3, @contactName3, @userName3)";
+                    MySqlCommand joinTop = new MySqlCommand(txtCmd2, conn6);
+                    joinTop.CommandType = CommandType.Text;
+                    joinTop.Parameters.AddWithValue("@userID3", DBObject.m_id);
+                    joinTop.Parameters.AddWithValue("@topicName3", topicSearchM.m_topic);
+                    joinTop.Parameters.AddWithValue("@category3", topicSearchM.m_category);
+                    joinTop.Parameters.AddWithValue("@description3", topicSearchM.m_description);
+                    joinTop.Parameters.AddWithValue("@privacyOption3", topicSearchM.radioField);
+                    joinTop.Parameters.AddWithValue("@topicQuestion3", topicSearchM.m_question);
+                    joinTop.Parameters.AddWithValue("@contactName3", topicSearchM.m_contactName);
+                    joinTop.Parameters.AddWithValue("@userName3", DBObject.m_username);
+                    joinTop.ExecuteNonQuery();
+            }
+            conn6.Close(); 
+            }
+
             return RedirectToAction("Home", "Home");
         }
         public IActionResult CreateTopicScreen()
@@ -241,6 +256,7 @@ namespace MessagingApp.Controllers
                 {
                     ViewBag.message = "Topic already exists";
                     return View("CreateTopic");
+
                     //return RedirectToAction("CreateTopicScreen", "Chat");
                 }
                 else if (ctm.radioField == null)
