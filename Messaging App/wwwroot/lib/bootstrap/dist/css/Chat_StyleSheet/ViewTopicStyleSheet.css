@@ -8,22 +8,23 @@ footer {
 }
 
 .right {
-    top: 7%;
-    margin-left: 65%;
+    top: 20%;
+    margin-left: 69%;
 }
 
 .messageArea {
-    background-color: white;
+    background: rgba(255, 255, 255, 0.8);
     border-radius: 12px;
-    width: 72%;
-    height: 92%;
-    margin-left: 3%;
+    width: 54%;
+    height: 78%;
+    margin-left: 23%;
+    position: relative;
 }
 
 .contactArea {
     background-color: lightgray;
-    width: 20%;
-    height: 79%;
+    width: 15%;
+    height: 33%;
     position: fixed;
     border-radius: 12px;
 }
@@ -31,10 +32,19 @@ footer {
 h1 {
     margin-top: -4%;
     text-align: center;
+    font-weight: bold;
+    font-family: 'Times New Roman';
+    color: black;
 }
 
 h2 {
     text-align: center;
+    font-weight: normal;
+}
+
+/* Contact Name */
+h3 {
+    font-weight: normal;
 }
 
 .fields {
@@ -44,14 +54,6 @@ h2 {
 .fields label {
     margin-bottom: 20px;
     font-size: 18px;
-}
-
-.scrollMessages {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 18px;
-    overflow: auto;
-    height: 83%;
 }
 
 .messageArea button {
@@ -74,7 +76,7 @@ h2 {
     width: 86.7%;
     height: 86%;
     padding: 0px 0;
-    top: 0;
+    top: 10%;
     bottom: 0;
     left: 0;
     right: 0;
@@ -84,4 +86,25 @@ h2 {
 .pinnedMessagesButton {
     width: 10%;
     height: 10%;
+}
+
+.message {
+    width: 40%;
+    margin-left: 31%;
+    height: auto;
+    border: .5px solid black;
+    background: lightgrey;
+    border-radius: 10px;
+    word-wrap: break-word;
+    padding: .5%;
+    display: block;
+    margin-bottom: 2%;
+}
+
+.scrollMessages {
+    overflow: auto;
+    height: 70%;
+    position: inherit;
+    margin-right: 7%;
+    width: 95%;
 }

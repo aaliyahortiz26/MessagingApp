@@ -15,53 +15,59 @@
         body{
             background-image: @DBObject.Bcolor;
         }
-        p {
+        label {
             color:@DBObject.Tcolor;
         }
 
     </style>
    
     <div class="MessageContainer">
-        <form class="messageArea" asp-action="TopicTemplate" method="post">
+        <form class="messageArea" asp-action="ViewTopic" method="post">
             <button class="searchTopicButton" type="button" onclick="location.href='@Url.Action("TopicSearch", "Chat")'">Topic Search</button>
             <button class="joinButton" type="button" onclick="location.href='@Url.Action("JoinTopic", "Chat")'">Join Topic</button>
 
-            <h1 id="topicName">Topic: @TopicSearchModel.topic</h1>
+            <h1 id="topicName">@TopicSearchModel.topic</h1>
             <h2 id="topicDescription"> Description:  @TopicSearchModel.description</h2>
             <h2 id="topicQuestion"> Question: @TopicSearchModel.question</h2>
 
             <div class="scrollMessages">
                 @{
-                    <p>
-                        <label>Message</label>
-                    </p>
-                    /* List<Messages> list = new List<Messages>();
-                     list = ViewData["messageobjects"] as List<Messages>;
-                     for (int i = 0; i < list.Count(); i++)
-                     {
-                         <p>
-                             <label>@list[i].GetUsername() says @list[i].GetMessage() </label>
-                         </p>
-                     }*/
+                    List<Messages> topicMessagelist = new List<Messages>();
+                    topicMessagelist = ViewData["messageobjects"] as List<Messages>;
+                    for (int i = 0; i < topicMessagelist.Count(); i++)
+                    {
+                        <div class="message">
+
+                            <label style="color: black; font-size: 18px;"> @topicMessagelist[i].GetUsername():</label>
+                            <label style="font-size: 17px;">@topicMessagelist[i].GetMessage() </label>
+                            <br>
+                            <br>
+                        </div>
+
+                    }
                 }
-                <p>
-                    <label id="messagesLabelNotFromDatabase"></label> <br />
-                </p>
             </div>
 
-
-        </form>
-
+            </form>
 
 
-        <form class="right contactArea" asp-action="TopicTemplate" method="post">
+
+        <form class="right contactArea" asp-action="ViewTopic" method="post">
             <div class="fields">
                 <p>
-                    <h2 id="contactAreaLabel">Contacts</h2>
+                    <h2 id="contactAreaLabel" style="font-weight: bold;">Members</h2>
                     <br />
                 </p>
-                
-                <!--Print contact-->
+                @{
+                    List<string> users = new List<string>();
+                    users = ViewData["users"] as List<string>;
+                    for (int i = 0; i < users.Count(); i++)
+                    {
+                        <p>
+                            <h3>@users[i] </h3>
+                        </p>
+                    }
+                }
 
                 <dl>
                 </dl>

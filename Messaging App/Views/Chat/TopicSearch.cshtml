@@ -32,24 +32,24 @@
                 <p>
                     @if (@TopicSearchModel.topicSearchList == null)
                     {
-                        <label class="topicLabel">Topic:</label>
-                        <label style="color: red; position:initial">*</label>
-                        <select asp-for="topicDropdown" class="topicDropdown">
-                            <option>Select a category</option>
-                        </select>
+                    <label class="topicLabel">Topic:</label>
+                    <label style="color: red; position:initial">*</label>
+                    <select asp-for="topicDropdown" class="topicDropdown">
+                        <option>Select a category</option>
+                    </select>
                     }
                     else
                     {
-                        <span asp-validation-for="topicDropdown"></span>
-                        <label class="topicLabel">Topic:</label>
-                        <label style="color: red; position:initial">*</label>
-                        <select asp-for="topicDropdown" class="topicDropdown">
-                            @for (int i = 0; i < TopicSearchModel.topicSearchList.Count(); i++)
-                            {
-                                <option value="@TopicSearchModel.topicSearchList[i]">@TopicSearchModel.topicSearchList[i]</option>
-                            }
-                        </select>
-                        <br>
+                    <span asp-validation-for="topicDropdown"></span>
+                    <label class="topicLabel">Topic:</label>
+                    <label style="color: red; position:initial">*</label>
+                    <select asp-for="topicDropdown" class="topicDropdown">
+                        @for (int i = 0; i < TopicSearchModel.topicSearchList.Count(); i++)
+                        {
+                        <option value="@TopicSearchModel.topicSearchList[i]">@TopicSearchModel.topicSearchList[i]</option>
+                        }
+                    </select>
+                    <br>
                     }
                 </p>
             </div>

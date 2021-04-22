@@ -161,7 +161,37 @@ namespace MessagingApp.Controllers
             vRead.Close();
             conn4.Close();
 
+            DBManager _manager = new DBManager();
+            List<Messages> messages = new List<Messages>();
+            List<string> users = new List<string>();
+
+            messages = _manager.GetMessagesTopic(tSM.m_topic);
+            ViewData["messageobjects"] = messages;
+
+            users = _manager.GettopicUsers(tSM.m_topic);
+            ViewData["users"] = users;
+            tSM.topicDropdown = tSM.m_topic;
+
             return View("ViewTopic");
+        }
+
+        public IActionResult GetMembers(TopicSearchModel tSM2, string topicN)
+        {
+            /**
+             Not being used 
+             **/
+            DBManager _manager = new DBManager();
+            List<Messages> messages = new List<Messages>();
+            List<string> users = new List<string>();
+
+            messages = _manager.GetMessagesTopic(topicN);
+            ViewData["messageobjects"] = messages;
+
+            users = _manager.GettopicUsers(topicN);
+            ViewData["users"] = users;
+            tSM2.topicDropdown = topicN;
+
+            return View();
         }
 
         public IActionResult JoinTopic(TopicSearchModel topicSearchM)
@@ -196,23 +226,38 @@ namespace MessagingApp.Controllers
             }
             hRead.Close();
 
-            //for adding user on one end
-            string txtCmd2 = $"Insert into united_messaging.topics (userid, topicName, category, description,privacyOption, topicQuestion, contactName, userName)" + $"values ( @userID3, @topicName3, @category3, @description3, @privacyOption3, @topicQuestion3, @contactName3, @userName3)";
-            MySqlCommand joinTop = new MySqlCommand(txtCmd2, conn6);
-            joinTop.CommandType = CommandType.Text;
-            joinTop.Parameters.AddWithValue("@userID3", DBObject.m_id);
-            joinTop.Parameters.AddWithValue("@topicName3", topicSearchM.m_topic);
-            joinTop.Parameters.AddWithValue("@category3", topicSearchM.m_category);
-            joinTop.Parameters.AddWithValue("@description3", topicSearchM.m_description);
-            joinTop.Parameters.AddWithValue("@privacyOption3", topicSearchM.radioField);
-            joinTop.Parameters.AddWithValue("@topicQuestion3", topicSearchM.m_question);
-            joinTop.Parameters.AddWithValue("@contactName3", topicSearchM.m_contactName);
-            joinTop.Parameters.AddWithValue("@userName3", DBObject.m_username);
-            joinTop.ExecuteNonQuery();
 
-            conn6.Close();
+            string txtCmd4 = $"SELECT userName FROM topics where userId='" + DBObject.m_id + "' and topicName = '" + topicSearchM.m_topic + "'"; // the command
+            MySqlCommand cmd4 = new MySqlCommand(txtCmd4, conn6);
+            MySqlDataReader mRead;
+            using (mRead = cmd4.ExecuteReader()) // executes the search command
+            {
+                if (mRead.Read())
+                {
+                }
+
+                else
+                {
+                    mRead.Close();
+                    //for adding user on one end
+                    string txtCmd2 = $"Insert into united_messaging.topics (userid, topicName, category, description,privacyOption, topicQuestion, contactName, userName)" + $"values ( @userID3, @topicName3, @category3, @description3, @privacyOption3, @topicQuestion3, @contactName3, @userName3)";
+                    MySqlCommand joinTop = new MySqlCommand(txtCmd2, conn6);
+                    joinTop.CommandType = CommandType.Text;
+                    joinTop.Parameters.AddWithValue("@userID3", DBObject.m_id);
+                    joinTop.Parameters.AddWithValue("@topicName3", topicSearchM.m_topic);
+                    joinTop.Parameters.AddWithValue("@category3", topicSearchM.m_category);
+                    joinTop.Parameters.AddWithValue("@description3", topicSearchM.m_description);
+                    joinTop.Parameters.AddWithValue("@privacyOption3", topicSearchM.radioField);
+                    joinTop.Parameters.AddWithValue("@topicQuestion3", topicSearchM.m_question);
+                    joinTop.Parameters.AddWithValue("@contactName3", topicSearchM.m_contactName);
+                    joinTop.Parameters.AddWithValue("@userName3", DBObject.m_username);
+                    joinTop.ExecuteNonQuery();
+                }
+                conn6.Close();
+            }
             return RedirectToAction("Home", "Home");
         }
+
         public IActionResult CreateTopicScreen()
         {
             List<string> ContactsList = new List<string>();
