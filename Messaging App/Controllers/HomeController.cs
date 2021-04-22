@@ -167,7 +167,7 @@ namespace MessagingApp.Controllers
             conn.Close();
 
 
-            return View("Contacts");
+            return RedirectToAction("Contacts");
 
         }
         public IActionResult Contacts(HomeModel homeMod, ContactsModel cm)
