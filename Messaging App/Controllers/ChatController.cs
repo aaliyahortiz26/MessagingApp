@@ -1091,5 +1091,11 @@ namespace MessagingApp.Controllers
 
             return RedirectToAction("TopicSearch", new { bResetList = true });
         }
+
+        public IActionResult InviteContactGroup()
+        {
+
+            return View();
+        }   
     }
 }
