@@ -80,16 +80,22 @@ namespace MessagingApp.Models
             m_contactSender = contactSenderlist;
         }
 
-        public static List<int> m_groupSender;
-        public void SetgroupSenderListAttr(List<int> groupSenderlist)
+        public static List<String> m_groupuserName;
+        public void SetgroupuserNameListAttr(List<String> groupuserNamelist)
         {
-            m_groupSender = groupSenderlist;
+            m_groupuserName = groupuserNamelist;
         }
 
         public static List<int> m_Invite;
         public void SetinviteListAttr(List<int> invitelist)
         {
             m_Invite = invitelist;
+        }
+
+        public static List<string> m_InviteGroupContact;
+        public void SetinvitegroupContactListAttr(List<string> invitegroupContactlist)
+        {
+            m_InviteGroupContact = invitegroupContactlist;
         }
     }
 

@@ -1126,8 +1126,8 @@ namespace MessagingApp.Controllers
                 cmd2.CommandType = CommandType.Text;
                 cmd2.Parameters.AddWithValue("@contactUserID", id);
                 cmd2.Parameters.AddWithValue("@groupChatContactTitle", DBObject.m_GroupName);
-                cmd2.Parameters.AddWithValue("@inviteUserContact", ic.inviteContact);
-                cmd2.Parameters.AddWithValue("@userName", ic.inviteContact);
+                cmd2.Parameters.AddWithValue("@inviteUserContact", DBObject.m_username);
+                cmd2.Parameters.AddWithValue("@userName",ic.inviteContact );
                 cmd2.Parameters.AddWithValue("@Invite", true);
                 cmd2.Parameters.AddWithValue("@Sender", false);
                 cmd2.ExecuteNonQuery();

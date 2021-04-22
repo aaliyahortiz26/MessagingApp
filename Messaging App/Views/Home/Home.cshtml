@@ -56,17 +56,17 @@
         </div>
         <div class="topGroupArea">
             <h1>Top 3 Groups</h1>
-           
+
             @{
                 Dictionary<string, int> groupDictionary = new Dictionary<string, int>();
                 groupDictionary = ViewData["groupCount"] as Dictionary<string, int>;
                 int counterGroups = 1;
                 <p>
                     @foreach (KeyValuePair<string, int>
-                  group in groupDictionary)
+                 group in groupDictionary)
                     {
                         <h3 style="margin-top: 12%">@counterGroups.  @group.Key with @group.Value messages</h3>
-                        <br>                  
+                        <br>
                         counterGroups = counterGroups + 1;
 
                     }
@@ -78,12 +78,35 @@
                     <dl>
                         @for (int k = 0; k < HomeModel.m_groupinvitelist.Count; k++)
                         {
-                            @if (HomeModel.m_Invite[k] == 1 && HomeModel.m_groupSender[k] == 0)
+                            @if (HomeModel.m_Invite[k] == 1 && HomeModel.m_InviteGroupContact[k] != DBObject.m_username)
                             {
-                                <h3>@HomeModel.m_groupinvitelist[k]</h3>
-                                <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("EditgroupInvite", "Home", new { chatName = @HomeModel.m_groupinvitelist[k] })'">✔ </button>
-                                <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("removeGroupInvite", "Home", new { chatName = @HomeModel.m_groupinvitelist[k] })'">✘ </button>
+                        <h3>
+                            @HomeModel.m_groupinvitelist[k]
+                                                        <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("EditgroupInvite", "Home", new { chatName = @HomeModel.m_groupinvitelist[k] })'">✔ </button>
+                                                        <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("removeGroupInvite", "Home", new { chatName = @HomeModel.m_groupinvitelist[k] })'">✘ </button>
+                                                    </h3>
+                        <br>
                                 <br>
+                            }
+                        }
+                    </dl>
+                    <br>
+
+                </p>
+
+                <p>
+                    <h1> Pending Group Requests</h1>
+                    <br>
+                    <dl>
+                        @for (int k = 0; k < HomeModel.m_groupinvitelist.Count; k++)
+                        {
+                            @if (HomeModel.m_Invite[k] == 1  && HomeModel.m_InviteGroupContact[k] == DBObject.m_username)
+                            {
+                        <h3>
+                            @HomeModel.m_groupuserName[k] has not accepted the request to join the group titled: @HomeModel.m_groupinvitelist[k]
+                           <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("removeGroupInvite", "Home", new { chatName = @HomeModel.m_groupinvitelist[k],userName = HomeModel.m_groupuserName[k] })'">✘ </button>
+                         </h3>
+                        <br>
                                 <br>
                             }
                         }
