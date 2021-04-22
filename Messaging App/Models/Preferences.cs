@@ -10,5 +10,7 @@ namespace MessagingApp.Models
         public string TxtColor { get; set; }
 
         public string Baccolor { get; set; }
+        public string TxtSize { get; set; }
+
     }
 }

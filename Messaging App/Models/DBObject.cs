@@ -12,6 +12,7 @@ namespace MessagingApp.Models
         public static string RandC;
         public static int m_id;
         public static string Bcolor;
+        public static int Tsize;
         public static string Tcolor;
         public static string m_GroupName;
         public static int m_Groupid;
@@ -43,6 +44,11 @@ namespace MessagingApp.Models
         {
             get => Tcolor;
             set => Tcolor = value;
+        }
+        public int Tsize1
+        {
+            get => Tsize;
+            set => Tsize = value;
         }
         public string Bcolor1
         {

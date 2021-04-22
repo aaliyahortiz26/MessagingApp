@@ -57,7 +57,32 @@
                     <p6>Current Color: @DBObject.Tcolor</p6>
                     <br />
                     <br />
+                    <div class="dropdown">
+                        <select asp-for="TxtSize" id="theme">
+                            @if (DBObject.Tsize == 12)
+                            {
+                                <option value=12 selected>Small 12</option>
+                                <option value=14>Medium 14</option>
+                                <option value=18>Large 18</option>
+
+                            }
+                            @if (DBObject.Tsize == 14)
+                            {
+                                <option value=12>Small 12</option>
+                                <option value=14 selected>Medium 14</option>
+                                <option value=18>Large 18</option>
+                            }
+                            @if (DBObject.Tsize == 18)
+                            {
+                                <option value=12>Small 12</option>
+                                <option value=14>Medium 14</option>
+                                <option value=18 selected>Large 18</option>
+                            }
+                        </select>
+                        <p8>Current Size: @DBObject.Tsize</p8>
+                    </div>
                     <br />
+                    
                     <br />
 
                     <p3> Background Theme </p3>
@@ -98,7 +123,7 @@
 
                     <button class="button button1" type="submit" onclick="location.href='@Url.Action("PreferencesScreen", "Home")'">Apply Changes</button>
                 </div>
-            </div>
+                </div>
            
         </div>
         

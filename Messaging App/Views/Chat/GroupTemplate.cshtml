@@ -27,9 +27,13 @@
         body{
             background-image: @DBObject.Bcolor;
         }
+       
         label {
-            color:@DBObject.Tcolor;
+            color: @DBObject.Tcolor;
+            
         }
+        
+
 
     </style>
     <div class="LeftSideButton">
@@ -74,7 +78,7 @@
                             <div class="messageAndButtons">
                                 <div class="message">
                                     <label style="color: black; font-size: 18px;"> @list[i].GetUsername():</label>
-                                    <label style="font-size: 17px;">@list[i].GetMessage() </label>
+                                    <label style="font-size: @DBObject.Tsize">@list[i].GetMessage() </label>
                                 </div>
                             <div class="messageButtons">
                                 <button style="width: 58px; height: 25px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("PinnedMessagesgroup", "Chat", new { message = @list[i].GetMessage() })'">Save</button>
