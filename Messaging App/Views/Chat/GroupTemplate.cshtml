@@ -13,14 +13,14 @@
     <meta name="viewport" content="width=device-width" />
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-   <script type="text/javascript" language="Javascript">
+   <!--<script type="text/javascript" language="Javascript">
         $(document).ready(function () {
             $("#refreshMessages").load(window.location.href + " #refreshMessages");
             setInterval(function () {
                 $("#refreshMessages").load(window.location.href + " #refreshMessages");
             }, 2000);
         });
-    </script>
+    </script>-->
 </head>
 <body>
     <style>
@@ -63,6 +63,9 @@
         <form class="messageArea" asp-action="GroupTemplate" method="post">
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Home</button>
             <button type="button" onclick="location.href='@Url.Action("removeGroup", "Chat")'">Leave Topic </button>
+            <br>
+            <button class="addContactButton" type="button" onclick="location.href='@Url.Action("InviteContactGroup", "Chat")'">Invite a Contact</button>
+
             <h1 id="groupName">@GroupTemplateModel.m_groupName</h1>
             <div class="scrollMessages">
                 <div id="refreshMessages">
@@ -75,15 +78,19 @@
                                 <div class="message">
                                     <label style="color: black; font-size: 18px;"> @list[i].GetUsername():</label>
                                     <label style="font-size: 17px;">@list[i].GetMessage() </label>
+                                    @if (list[i].GetImage() != "")
+                                    {
+                                        <img src="../../GroupImages/@list[i].GetImage()" style="max-width: 100%; max-width: 100%; width: auto; height: auto;">
+                                    }
                                 </div>
-                            <div class="messageButtons">
-                                <button style="width: 58px; height: 25px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("PinnedMessagesgroup", "Chat", new { message = @list[i].GetMessage() })'">Save</button>
-                                <!--<button action style="width: 114px; height: 25px; margin-top: 0px; color: darkred; background-color:yellow; font-size: 16px;" type="button" onclick="location.href='@Url.Action("RemovePinnedMessagesgroup", "Chat", new { message = @list[i].GetMessage() })'">Remove Pin</button>-->
-                                @if (Convert.ToInt64(list[i].GetUserID()) == DBObject.m_id)
-                                {
-                                    <button style="width: 36px; height: 36px; margin-top: 0px; color: white; background: url(../../Images/trashCan.jpg); background-size: cover;" type="button" dis onclick="location.href='@Url.Action("RemoveMessagesgroup", "Chat", new { message = @list[i].GetMessage(), messageID = list[i].GetMessageID() })'"></button>
-                                }
-                            </div>
+                                <div class="messageButtons">
+                                    <button style="width: 64px; height: 46px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("PinnedMessagesgroup", "Chat", new { message = @list[i].GetMessage(), image = @list[i].GetImage() })'">@list[i].AlreadySaved("Group")</button>
+                                    <!--<button action style="width: 114px; height: 25px; margin-top: 0px; color: darkred; background-color:yellow; font-size: 16px;" type="button" onclick="location.href='@Url.Action("RemovePinnedMessagesgroup", "Chat", new { message = @list[i].GetMessage() })'">Remove Pin</button>-->
+                                    @if (Convert.ToInt64(list[i].GetUserID()) == DBObject.m_id)
+                                    {
+                                        <button style="width: 36px; height: 36px; margin-top: 0px; color: white; background: url(../../Images/trashCan.jpg); background-size: cover;" type="button" dis onclick="location.href='@Url.Action("RemoveMessagesgroup", "Chat", new { message = @list[i].GetMessage(), messageID = list[i].GetMessageID(), image = @list[i].GetImage() })'"></button>
+                                    }
+                                </div>
                             </div>
                             <br>
                             <br>
@@ -93,7 +100,7 @@
                         <label id="messagesLabelNotFromDatabase"></label>
                     </p>
                 </div>
-                </div>
+            </div>
         </form>
 
         <form class="right contactArea" asp-action="GroupTemplate" method="post">
@@ -103,15 +110,15 @@
                     <br />
                 </p>
                 @{
-                    List<string> userList = new List<string>();
-                    userList = ViewData["userobjects"] as List<string>;
-                    for (int i = 0; i < userList.Count(); i++)
-                    {
-                        <p>
-                            <h3>@userList[i] </h3>
-                        </p>
-                    }
-                }
+                   List<string> userList = new List<string>();
+                   userList = ViewData["userobjects"] as List<string>;
+                   for (int i = 0; i < userList.Count(); i++)
+                   {
+                      <p>
+                          <h3>@userList[i] </h3>
+                      </p> 
+                   }                   
+                 }
 
                 <dl>
                 </dl>
@@ -122,15 +129,13 @@
 
 
 
-        <form id="reset" class="centered sendMessageArea" asp-action="GroupTemplate" method="post">
-
-
-
+        <!--<form id="reset" class="centered sendMessageArea" asp-action="GroupTemplate" method="post">-->
+        <form method="post" class="centered sendMessageArea" enctype="multipart/form-data" asp-controller="Chat" asp-action="UploadImageGroup">
             <div class="fields">
                 <br>
-                <textarea id="messageTextArea" type="text" placeholder="Enter Message"></textarea>
-
-                <button id="sendMessageButton" type="button" value="Send Message" onclick="timeFunction()">Send Message</button>
+                <textarea asp-for="message" id="messageTextArea" type="text" placeholder="Enter Message"></textarea>
+                <input type="file" name="files" />
+                <button id="sendMessageButton" type="submit" value="Send Message" onclick="timeFunction()">Send Message</button>
 
                 <script>
 
@@ -147,12 +152,12 @@
             </div>
         </form>
 
-    </div>
+</div>
 
 </body>
 </html>
-<script src="~/js/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/chat.js"></script>
+<!--<script src="~/js/signalr/dist/browser/signalr.js"></script>-->
+<!--<script src="~/js/chat.js"></script>-->
 
 @if (ViewBag.Message != null)
 {

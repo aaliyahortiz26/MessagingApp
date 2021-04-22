@@ -22,18 +22,34 @@
         <div class="displayPinnedMessages">
             @if (HomeModel.m_Pinnedlist != null)
             {
-                 for (int k = 0; k < HomeModel.m_Pinnedlist.Count(); k++)
-                    {
-                        <p>
+                for (int k = 0; k < HomeModel.m_Pinnedlist.Count(); k++)
+                {
+                    <p>
+                        <div class="containerPin" style="width: 96%; margin-left: 2%; height: auto; border: .5px solid black; background: lightgrey; border-radius: 10px; word-wrap: break-word; padding: .5%; display: block;">
                             <h3 style="font-weight: normal">@HomeModel.m_userPinnedlist[k]  </h3>
-                            <h4 style="font-weight: normal; text-align: center;">    @HomeModel.m_Pinnedlist[k]</h4>
-                            <h5 style="font-weight: normal">
+                            @if (@HomeModel.m_Pinnedlist[k] != "")
+                            {
+                                <h4 style="font-weight: normal; text-align: center;">    @HomeModel.m_Pinnedlist[k]</h4>
+                            }
+                            <br>
+                            <!-- Saved Topic and Group picture -->
+                            @if ((@HomeModel.m_imagePinnedlist[k] != "") && (@HomeModel.m_messageTypelist[k] == "Topic"))
+                            {
+                                <h4><img src="../../TopicImages/@HomeModel.m_imagePinnedlist[k]" style=" max-width: 32%; width: auto; height: auto;"></h4>
+                            }
+                            else if ((@HomeModel.m_imagePinnedlist[k] != "") && (@HomeModel.m_messageTypelist[k] == "Group"))
+                            {
+                                <h4><img src="../../GroupImages/@HomeModel.m_imagePinnedlist[k]" style=" max-width: 32%; width: auto; height: auto;"></h4>
+                            }
+                            <br>
+                            <h6 style="font-weight: normal">
                                 @HomeModel.m_groupPinnedlist[k]
-                                                        <button action style="margin-left: 2%; width: 36px; height: 36px; margin-top: 0px; color: white; background: url(../../Images/trashCan.jpg); background-size: cover;" type="button" onclick="location.href='@Url.Action("RemovePinnedMessagesgroup", "Home", new { message = @HomeModel.m_Pinnedlist[k], user = @HomeModel.m_userPinnedlist[k], chatname = @HomeModel.m_groupPinnedlist[k] })'"></button>
-                                                    </h5>
-                            </p>
-                    }             
-             }
+                                <button action style="margin-left: 2%; width: 36px; height: 36px; margin-top: 0px; color: white; background: url(../../Images/trashCan.jpg); background-size: cover;" type="button" onclick="location.href='@Url.Action("RemovePinnedMessagesgroup", "Home", new { message = @HomeModel.m_Pinnedlist[k], user = @HomeModel.m_userPinnedlist[k], chatname = @HomeModel.m_groupPinnedlist[k], image = HomeModel.m_imagePinnedlist[k] })'"></button>
+                            </h6>
+                        </div>
+                    </p>
+                }
+            }
         </div>
         </div>
 </body>

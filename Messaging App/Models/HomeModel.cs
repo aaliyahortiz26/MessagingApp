@@ -52,7 +52,22 @@ namespace MessagingApp.Models
         {
             m_groupPinnedlist = groupPinnedlist;
         }
+        public static List<string> m_imagePinnedlist;
+        public void SetimagePinnedListAttr(List<string> imagePinnedlist)
+        {
+            m_imagePinnedlist = imagePinnedlist;
+        }
+        public static List<string> m_messageTypelist;
+        public void SetmessageTypePinnedListAttr(List<string> messageTypePinnedlist)
+        {
+            m_messageTypelist = messageTypePinnedlist;
+        }
 
+        public static List<int> m_contactnumber;
+        public void SetContactnumberListAttr(List<int> contactnumberlist)
+        {
+            m_contactnumber = contactnumberlist;
+        }
     }
 
 }
