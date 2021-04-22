@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="messageButtons">
                                     
-                                    <button style="width: 55px; height: 25px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" onclick="location.href='@Url.Action("PinnedMessagestopic", "Chat", new { message = @topicMessagelist[i].GetMessage(), image = @topicMessagelist[i].GetImage() })'">@topicMessagelist[i].AlreadySaved("Topic")</button>
+                                    <button style="width: 64px; height: 46px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" onclick="location.href='@Url.Action("PinnedMessagestopic", "Chat", new { message = @topicMessagelist[i].GetMessage(), image = @topicMessagelist[i].GetImage() })'">@topicMessagelist[i].AlreadySaved("Topic")</button>
                                     
                                     @if (topicMessagelist[i].GetUsername() == DBObject.m_username)
                                     {
@@ -146,7 +146,6 @@
                 <button id="sendTopicMessageButton" type="submit" value="Send Message" onclick="timeFunction()">Send Message</button>
 
                 <script>
-
                     function timeFunction() {
                         var idleInterval = setTimeout("reset()", 30);
                     }
@@ -155,7 +154,6 @@
                     function reset() {
                         document.getElementById("reset").reset()
                     }
-
                 </script>
             </div>
         </form>

@@ -140,7 +140,7 @@ namespace MessagingApp.Models
 
                 if (numMessages > 0)
                 {
-                    return "Already saved.";
+                    return "Already Saved";
                 }
             }
             return "Save";
