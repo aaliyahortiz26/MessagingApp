@@ -58,11 +58,11 @@
                         @if (HomeModel.m_contactnumber[i] == 1)
                         {
                             <h3>@HomeModel.m_contactslist[i]</h3>
-                            <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("removeContact", "Home", new {contact = @HomeModel.m_contactslist[i]})'">🗑️ </button>
+                            <!-- <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("removeContact", "Home", new {contact = @HomeModel.m_contactslist[i]})'">🗑️ </button>-->
+                            <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; background: url(../../Images/trashCan.jpg); background-size: cover;" type="button" dis onclick="location.href='@Url.Action("removeContact", "Home", new {contact = @HomeModel.m_contactslist[i]})'"></button>
                             <br>
                             <br>
                         }
-
                     }
                 </dl>
                 <br>

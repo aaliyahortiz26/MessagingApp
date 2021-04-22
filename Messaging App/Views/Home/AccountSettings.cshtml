@@ -27,7 +27,7 @@
                 <!--</div>-->
 
 
-                <input type="text" class="trigger" id="userNameInput" asp-for="userName" />
+                <input type="text" disabled="disabled" class="trigger" id="userNameInput" asp-for="userName" />
                 <br>
                 <span asp-validation-for="userName" class="text-danger"></span>
 
@@ -67,7 +67,7 @@
                <!-- <div class="second">-->
                     <button class="button button1" id="ApplyButton" type="submit" onclick="location.href='@Url.Action(" AccountSettings", "Home" )'"> Apply Changes</button>
                     <!--  <button class="button button2">Cancel</button>-->
-                    <button class="button button3" type="button" onclick="location.href='@Url.Action(" ChangePasswordScreen", "Home" )'">Change Password</button>
+                    <button class="button button3" type="button" onclick="location.href='@Url.Action("ChangePasswordScreen", "Home" )'">Change Password</button>
                <!-- </div>-->
             </div>
 
