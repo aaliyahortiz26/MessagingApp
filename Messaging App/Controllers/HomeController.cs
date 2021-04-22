@@ -125,6 +125,32 @@ namespace MessagingApp.Controllers
             ViewData["topicCount"] = topicDictionary;
             ViewData["topicCategory"] = categoryList;
 
+
+            MySqlCommand getgroups = conn.CreateCommand();
+            getgroups.CommandText = "SELECT chatName,Invite,Sender FROM groupmessage where userId= @userId";
+            getgroups.Parameters.AddWithValue("@userId", DBObject.m_id);
+            conn.Open();
+            MySqlDataReader lRead = getgroups.ExecuteReader();
+            List<string> groupinviteList = new List<string>();
+            List<int> InviteList = new List<int>();
+            List<int> groupSenderList = new List<int>();
+            while (lRead.Read())
+            {
+               groupinviteList.Add(Convert.ToString(lRead[0]));
+               InviteList.Add(Convert.ToInt32(lRead[1]));
+               groupSenderList.Add(Convert.ToInt32(lRead[2]));
+            }
+            lRead.Close();
+            conn.Close();
+           
+            homeMod.SetinviteListAttr(InviteList);
+
+
+            homeMod.SetgroupSenderListAttr(groupSenderList);
+
+            homeMod.SetGroupinviteListAttr(groupinviteList);
+
+
             return View();
         }
         public IActionResult Profile()
@@ -619,24 +645,41 @@ namespace MessagingApp.Controllers
             }
         }
 
-      /*  public IActionResult PinnedMessages()
+
+
+        public IActionResult EditgroupInvite(string chatName)
+        {
+            int id = 0;
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand(null, conn);
+            cmd.CommandText = "update groupmessage SET Invite ='" + 0 + "' Where UserId ='" + DBObject.m_id + "' and chatName ='" + chatName + "'";
+            cmd.Prepare();
+            cmd.ExecuteReader();
+            conn.Close();
+
+            return RedirectToAction("Home");
+
+        }
+
+        public IActionResult removeGroupInvite(string chatName)
         {
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
 
             conn.Open();
 
-            string txtcmd = $"Insert into united_messaging.pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
-            MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
-            cmd.CommandType = CommandType.Text;
-            cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
-            cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
-            //cmd.Parameters.AddWithValue("@topicgroupName", DBObject.m_TopicName);
-            //cmd.Parameters.AddWithValue("@pinnedMessages", message);
-            cmd.ExecuteNonQuery();
+            MySqlCommand removeGroup = conn.CreateCommand();
+            removeGroup.CommandText = "Delete FROM groupmessage where userID= @userID AND chatName = @chatName"; // the command
+            removeGroup.Parameters.AddWithValue("@userID", DBObject.m_id);
+            removeGroup.Parameters.AddWithValue("@chatName", chatName);
+            removeGroup.Prepare();
+            removeGroup.ExecuteReader();
             conn.Close();
-          
-            return View();
-        }*/
+
+            return RedirectToAction("Home");
+        }
+
     }
 }
