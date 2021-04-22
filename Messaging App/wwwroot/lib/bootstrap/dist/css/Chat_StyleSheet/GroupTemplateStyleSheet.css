@@ -98,9 +98,9 @@ h3 {
 
 
 .sendMessageArea button {
-    margin-top: 5px;
+    margin-top: 34px;
     justify-content: center;
-    margin-left: 15px;
+    margin-left: 53px;
     vertical-align: middle;
     width: 105px;
     height: 45px;
@@ -281,4 +281,16 @@ h3 {
 }
 .messageAndButtons {
     display: flex;
+}
+
+input[type = file] {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: dodgerblue;
+    position: absolute;
+    margin-top: -0.4%;
+    font-size: 14px;
+    width: 11%;
+    color: white;
 }

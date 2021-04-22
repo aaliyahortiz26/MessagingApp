@@ -40,10 +40,13 @@
 
                             <label style="color: black; font-size: 18px;"> @topicMessagelist[i].GetUsername():</label>
                             <label style="font-size: 17px;">@topicMessagelist[i].GetMessage() </label>
+                            @if (topicMessagelist[i].GetImage() != "")
+                            {
+                                <img src="../../TopicImages/@topicMessagelist[i].GetImage()" style="max-width: 100%; max-width: 100%; width: auto; height: auto;">
+                            }
                             <br>
                             <br>
                         </div>
-
                     }
                 }
             </div>

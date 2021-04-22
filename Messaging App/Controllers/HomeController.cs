@@ -238,23 +238,53 @@ namespace MessagingApp.Controllers
         }
 
 
-        public IActionResult RemovePinnedMessagesgroup(string message, string user, string chatname)
+        public IActionResult RemovePinnedMessagesgroup(string message, string user, string chatname, string image)
         {
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
 
             conn.Open();
 
-            string txtcmd = "Delete FROM pinnedMessages where userId = @userID and userName = @userName and topicgroupName = @topicgroupName and pinnedMessages = @pinnedMessages";
-            MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
-            cmd.CommandType = CommandType.Text;
+            if (message != null && image != null)
+            {
+                string txtcmd1 = "delete FROM pinnedMessages where (userId = @userID and userName = @userName and pinnedMessages = @pinnedMessage and topicgroupName = @topicGroupName and image = @image)";
+                MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
+                cmd1.CommandType = CommandType.Text;
+                cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
+                cmd1.Parameters.AddWithValue("@userName", user);
+                cmd1.Parameters.AddWithValue("@pinnedMessage", message);
+                cmd1.Parameters.AddWithValue("@topicGroupName", chatname);
+                cmd1.Parameters.AddWithValue("@image", image);
+                cmd1.ExecuteNonQuery();
+                conn.Close();
 
-            cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
-            cmd.Parameters.AddWithValue("@userName", user);
-            cmd.Parameters.AddWithValue("@topicgroupName", chatname);
-            cmd.Parameters.AddWithValue("@pinnedMessages", message);
-            cmd.ExecuteNonQuery();
-            conn.Close();
+            }
+            else if (message == null && image != null)
+            {
+                string txtcmd1 = "delete FROM pinnedMessages where (userId = @userID and userName = @userName and topicgroupName = @topicGroupName and image = @image)";
+                MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
+                cmd1.CommandType = CommandType.Text;
+                cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
+                cmd1.Parameters.AddWithValue("@userName", user);
+                cmd1.Parameters.AddWithValue("@topicGroupName", chatname);
+                cmd1.Parameters.AddWithValue("@image", image);
+                cmd1.ExecuteNonQuery();
+                conn.Close();
+            }
+            else if (message != null && image == null)
+            {
+                string txtcmd1 = "delete FROM pinnedMessages where (userId = @userID and userName = @userName and pinnedMessages = @pinnedMessage and topicGroupName = @topicGroupName)";
+                MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
+                cmd1.CommandType = CommandType.Text;
+                cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
+                cmd1.Parameters.AddWithValue("@userName", user);
+                cmd1.Parameters.AddWithValue("@pinnedMessage", message);
+                cmd1.Parameters.AddWithValue("@topicGroupName", chatname);
+                cmd1.ExecuteNonQuery();
+                conn.Close();
+            }
+
+
             return RedirectToAction("PinnedMessages", "Home");
         }
         public IActionResult PinnedMessages(HomeModel homeMod)
@@ -299,10 +329,36 @@ namespace MessagingApp.Controllers
                 groupPinnedList.Add(Convert.ToString(cRead[0]));
             }
             cRead.Close();
+
+            MySqlCommand getImagepinned = conn.CreateCommand();
+            getImagepinned.CommandText = "SELECT image FROM pinnedMessages where userId= @userID"; // the command
+            getImagepinned.Parameters.AddWithValue("@userID", DBObject.m_id);
+            MySqlDataReader dRead = getImagepinned.ExecuteReader();
+            List<string> imagePinnedlist = new List<string>();
+
+            while (dRead.Read())
+            {
+                imagePinnedlist.Add(Convert.ToString(dRead[0]));
+            }
+            dRead.Close();
+
+            MySqlCommand getMessageType = conn.CreateCommand();
+            getMessageType.CommandText = "SELECT messageType FROM pinnedMessages where userId= @userID"; // the command
+            getMessageType.Parameters.AddWithValue("@userID", DBObject.m_id);
+            MySqlDataReader eRead = getMessageType.ExecuteReader();
+            List<string> messageTypeList = new List<string>();
+
+            while (eRead.Read())
+            {
+                messageTypeList.Add(Convert.ToString(eRead[0]));
+            }
+            dRead.Close();
+
             homeMod.SetPinnedListAttr(PinnedList);
             homeMod.SetgroupPinnedListAttr(groupPinnedList);
             homeMod.SetuserPinnedListAttr(userPinnedList);
-
+            homeMod.SetimagePinnedListAttr(imagePinnedlist);
+            homeMod.SetmessageTypePinnedListAttr(messageTypeList);
 
             return View();
         }

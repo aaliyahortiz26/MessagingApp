@@ -6,7 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
-using Microsoft.AspNetCore.SignalR;                                         
+using Microsoft.AspNetCore.SignalR;
+using System.IO;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+
 
 namespace MessagingApp.Controllers
 {
@@ -477,38 +482,10 @@ namespace MessagingApp.Controllers
             List<string> users = new List<string>();
 
             messages = _manager.GetMessagesGroup(name);
-
             ViewData["messageobjects"] = messages;
-
 
             users = _manager.GetGroupUsers(name);
             ViewData["userobjects"] = users;
-
-            // bool foundUsername = false;
-            //string groupChatName = name;
-            /*  for (int i = 0; i < HomeModel.m_grouplist.Count; i++)
-              {
-                  if (name == HomeModel.m_grouplist[i])
-                  {
-                      foundUsername = true;
-                  }
-              }*/
-            /*if (name == "6")
-            {
-                return View();
-            }
-            else
-            {
-                return View();
-            }*/
-
-            /*   if (foundUsername == true)
-               {
-                   // select from database based on username of group and print out title
-                   // 
-
-
-               }*/
             groupTemplateMod.groupName = name;
 
             return View();
@@ -531,6 +508,227 @@ namespace MessagingApp.Controllers
             topicTemplateMod.topicName = name;
 
             return View();
+        }
+
+        private readonly IHostingEnvironment _environment;
+        public ChatController(IHostingEnvironment IHostingEnvironment)
+        {
+            _environment = IHostingEnvironment;
+        }
+        [HttpGet]
+        public IActionResult UploadImageTopic()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult UploadImageTopic(string name, TopicTemplateModel TopicTemplateMod)
+        {
+            var newFileName = string.Empty;
+            var files = HttpContext.Request.Form.Files;
+            if (files.Count() > 0)
+            {
+                if (HttpContext.Request.Form.Files != null)
+                {
+                    var fileName = string.Empty;
+                    string PathDB = string.Empty;
+
+
+                    foreach (var file in files)
+                    {
+                        if (file.Length > 0)
+                        {
+                            //Getting FileName
+                            fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+
+                            //Assigning Unique Filename (Guid)
+                            var myUniqueFileName = Convert.ToString(Guid.NewGuid());
+
+                            //Getting file Extension
+                            var FileExtension = Path.GetExtension(fileName);
+
+                            // concating  FileName + FileExtension
+                            newFileName = myUniqueFileName + FileExtension;
+
+                            // Combines two strings into a path.
+                            fileName = Path.Combine(_environment.WebRootPath, "TopicImages") + $@"\{newFileName}";
+
+                            // if you want to store path of folder in database
+                            PathDB =  newFileName;
+
+                            using (FileStream fs = System.IO.File.Create(fileName))
+                            {
+                                file.CopyTo(fs);
+                                fs.Flush();
+                            }
+
+                            // insert into database
+                            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                            MySqlConnection conn = new MySqlConnection(connectionstring);
+                            conn.Open();
+                            string txtcmd2 = $"SELECT topicId FROM topics where topicName='" + DBObject.m_GroupName + "'"; // the command
+                            MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn);
+                            MySqlDataReader dRead;
+                            using (dRead = cmd2.ExecuteReader()) // executes the search command
+                            {
+                                if (dRead.Read())
+                                {
+                                    DBObject.m_Topicid = Convert.ToInt32(dRead.GetValue(0));
+                                }
+                            }
+                            MySqlCommand cmd = new MySqlCommand(null, conn);
+                            cmd.CommandText = $"Insert into messagetopicbase (userId,userName,topicId,topicMessage,topicName,image)" + $"values ( @userId,@userName,@topicId,@topicMessage,@topicName,@image) ";
+                            cmd.Parameters.AddWithValue("@userId", DBObject.m_id);
+                            cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
+                            cmd.Parameters.AddWithValue("@topicId", DBObject.m_Topicid);
+                            cmd.Parameters.AddWithValue("@topicMessage", TopicTemplateMod.message);
+                            cmd.Parameters.AddWithValue("@topicName", DBObject.m_TopicName);
+                            cmd.Parameters.AddWithValue("@image", PathDB);
+
+                            cmd.Prepare();
+                            cmd.ExecuteReader();
+                            conn.Close();
+                            dRead.Close();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // insert into database
+                const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                MySqlConnection conn = new MySqlConnection(connectionstring);
+                conn.Open();
+                string txtcmd2 = $"SELECT topicId FROM topics where topicName='" + DBObject.m_GroupName + "'"; // the command
+                MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn);
+                MySqlDataReader dRead;
+                using (dRead = cmd2.ExecuteReader()) // executes the search command
+                {
+                    if (dRead.Read())
+                    {
+                        DBObject.m_Topicid = Convert.ToInt32(dRead.GetValue(0));
+                    }
+                }
+                MySqlCommand cmd = new MySqlCommand(null, conn);
+                cmd.CommandText = $"Insert into messagetopicbase (userId,userName,topicId,topicMessage,topicName)" + $"values ( @userId,@userName,@topicId,@topicMessage,@topicName) ";
+                cmd.Parameters.AddWithValue("@userId", DBObject.m_id);
+                cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd.Parameters.AddWithValue("@topicId", DBObject.m_Topicid);
+                cmd.Parameters.AddWithValue("@topicMessage", TopicTemplateMod.message);
+                cmd.Parameters.AddWithValue("@topicName", DBObject.m_TopicName);
+                cmd.Prepare();
+                cmd.ExecuteReader();
+                conn.Close();
+                dRead.Close();
+
+            }
+                               
+            return RedirectToAction("TopicTemplate", new { name = DBObject.m_TopicName });
+        }
+
+        [HttpGet]
+        public IActionResult UploadImageGroup()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult UploadImageGroup(string name, GroupTemplateModel GroupTemplateMod)
+        {
+            var newFileName = string.Empty;
+            var files = HttpContext.Request.Form.Files;
+            if (files.Count() > 0)
+            {
+                if (HttpContext.Request.Form.Files != null)
+                {
+                    var fileName = string.Empty;
+                    string PathDB = string.Empty;
+
+
+                    foreach (var file in files)
+                    {
+                        if (file.Length > 0)
+                        {
+                            //Getting FileName
+                            fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+
+                            //Assigning Unique Filename (Guid)
+                            var myUniqueFileName = Convert.ToString(Guid.NewGuid());
+
+                            //Getting file Extension
+                            var FileExtension = Path.GetExtension(fileName);
+
+                            // concating  FileName + FileExtension
+                            newFileName = myUniqueFileName + FileExtension;
+
+                            // Combines two strings into a path.
+                            fileName = Path.Combine(_environment.WebRootPath, "GroupImages") + $@"\{newFileName}";
+
+                            // if you want to store path of folder in database
+                            PathDB = newFileName;
+
+                            using (FileStream fs = System.IO.File.Create(fileName))
+                            {
+                                file.CopyTo(fs);
+                                fs.Flush();
+                            }
+                            // insert into database
+                            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                            MySqlConnection conn = new MySqlConnection(connectionstring);
+                            conn.Open();
+                            string txtcmd2 = $"SELECT groupmessageId FROM groupmessage where chatName='" + DBObject.m_GroupName + "'"; // the command
+                            MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn);
+                            MySqlDataReader dRead;
+                            using (dRead = cmd2.ExecuteReader()) // executes the search command
+                            {
+                                if (dRead.Read())
+                                {
+                                    DBObject.m_Groupid = Convert.ToInt32(dRead.GetValue(0));
+                                }
+                            }
+                            MySqlCommand cmd = new MySqlCommand(null, conn);
+                            cmd.CommandText = $"Insert into groupmessagetext (userId,userName,groupId,groupmessage,chatName,image)" + $"values ( @userId,@userName,@groupId,@groupmessage,@chatName,@image) ";
+                            cmd.Parameters.AddWithValue("@userId", DBObject.m_id);
+                            cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
+                            cmd.Parameters.AddWithValue("@groupId", DBObject.m_Groupid);
+                            cmd.Parameters.AddWithValue("@groupmessage", GroupTemplateMod.message);
+                            cmd.Parameters.AddWithValue("@chatName", DBObject.m_GroupName);
+                            cmd.Parameters.AddWithValue("@image", PathDB);
+                            cmd.Prepare();
+                            cmd.ExecuteReader();
+                            conn.Close();
+                            dRead.Close();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // insert into database
+                const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                MySqlConnection conn = new MySqlConnection(connectionstring);
+                conn.Open();
+                string txtcmd2 = $"SELECT groupmessageId FROM groupmessage where chatName='" + DBObject.m_GroupName + "'"; // the command
+                MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn);
+                MySqlDataReader dRead;
+                using (dRead = cmd2.ExecuteReader()) // executes the search command
+                {
+                    if (dRead.Read())
+                    {
+                        DBObject.m_Groupid = Convert.ToInt32(dRead.GetValue(0));
+                    }
+                }
+                MySqlCommand cmd = new MySqlCommand(null, conn);
+                cmd.CommandText = $"Insert into groupmessagetext (userId,userName,groupId,groupmessage,chatName)" + $"values ( @userId,@userName,@groupId,@groupmessage,@chatName) ";
+                cmd.Parameters.AddWithValue("@userId", DBObject.m_id);
+                cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd.Parameters.AddWithValue("@groupId", DBObject.m_Groupid);
+                cmd.Parameters.AddWithValue("@groupmessage", GroupTemplateMod.message);
+                cmd.Parameters.AddWithValue("@chatName", DBObject.m_GroupName);
+                cmd.Prepare();
+                cmd.ExecuteReader();
+                conn.Close();
+                dRead.Close();
+            }
+            return RedirectToAction("GroupTemplate", new { name = DBObject.m_GroupName });
         }
 
         public ActionResult removetopic()
@@ -601,87 +799,145 @@ namespace MessagingApp.Controllers
             ViewBag.message = "leaving Page";
             return RedirectToAction("Home", "Home");
         }
-        public IActionResult PinnedMessagestopic(string message)
+        public IActionResult PinnedMessagestopic(string message, string image)
         {
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
 
             conn.Open();
+            int numMessages = 0;
 
-            string txtcmd1 = "select userName FROM pinnedMessages where userId = @userID and userName = @userName and pinnedMessages = @pinnedMessage and topicgroupName = @groupName";
-            MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
-            cmd1.CommandType = CommandType.Text;
-            cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
-            cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
-            cmd1.Parameters.AddWithValue("@pinnedMessage", message);
-            cmd1.Parameters.AddWithValue("@groupName", DBObject.m_TopicName);
-            MySqlDataReader mRead;
-            using (mRead = cmd1.ExecuteReader()) // executes the search command
+            if (message != null && image != null)
             {
-                if (mRead.Read())
-                {
-                    conn.Close();
-                    return RedirectToAction("TopicTemplate", new { name = DBObject.m_TopicName });
+                string txtcmd1 = "SELECT count(*) FROM pinnedMessages where (userId = @userID and userName = @userName and pinnedMessages = @pinnedMessage and topicgroupName = @topicGroupName and image = @image)";
+                MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
+                cmd1.CommandType = CommandType.Text;
+                cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
+                cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd1.Parameters.AddWithValue("@pinnedMessage", message);
+                cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_TopicName);
+                cmd1.Parameters.AddWithValue("@image", image);
 
-                }
-                else
-                {
-                    mRead.Close();
-                    string txtcmd = $"Insert into pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
-                    MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
-                    cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
-                    cmd.Parameters.AddWithValue("@topicgroupName", DBObject.m_TopicName);
-                    cmd.Parameters.AddWithValue("@pinnedMessages", message);
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-
-                    return RedirectToAction("TopicTemplate", new { name = DBObject.m_TopicName });
-                }
+                numMessages = Convert.ToInt32(cmd1.ExecuteScalar());
             }
+            else if (message == null && image != null)
+            {
+                string txtcmd1 = "SELECT count(*) FROM pinnedMessages where (userId = @userID and userName = @userName and topicgroupName = @topicGroupName and image = @image)";
+                MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
+                cmd1.CommandType = CommandType.Text;
+                cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
+                cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_TopicName);
+                cmd1.Parameters.AddWithValue("@image", image);
+
+                numMessages = Convert.ToInt32(cmd1.ExecuteScalar());
+            }
+            else if (message != null && image == null)
+            {
+                string txtcmd1 = "SELECT count(*) FROM pinnedMessages where (userId = @userID and userName = @userName and pinnedMessages = @pinnedMessage and topicGroupName = @topicGroupName)";
+                MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
+                cmd1.CommandType = CommandType.Text;
+                cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
+                cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd1.Parameters.AddWithValue("@pinnedMessage", message);
+                cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_TopicName);
+
+                numMessages = Convert.ToInt32(cmd1.ExecuteScalar());
+            }
+
+            if (numMessages > 0)
+            {
+                conn.Close();
+                return RedirectToAction("TopicTemplate", new { name = DBObject.m_TopicName });
+            }
+            else
+            {
+                string txtcmd = $"Insert into pinnedMessages (userid, userName,topicgroupName, pinnedMessages, image, messageType)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages,@image,@messageType)";
+                MySqlCommand cmd2 = new MySqlCommand(txtcmd, conn);
+                cmd2.CommandType = CommandType.Text;
+                cmd2.Parameters.AddWithValue("@userID", DBObject.m_id);
+                cmd2.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd2.Parameters.AddWithValue("@topicgroupName", DBObject.m_TopicName);
+                cmd2.Parameters.AddWithValue("@pinnedMessages", message);
+                cmd2.Parameters.AddWithValue("@image", image);
+                cmd2.Parameters.AddWithValue("@messageType", "Topic");
+
+
+                cmd2.ExecuteNonQuery();
+                conn.Close();
+                return RedirectToAction("TopicTemplate", new { name = DBObject.m_TopicName });
+            }
+            
         }
-        public IActionResult PinnedMessagesgroup(string message)
+        public IActionResult PinnedMessagesgroup(string message, string image)
         {
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
 
             conn.Open();
+            int numMessages = 0;
 
-            string txtcmd1 = "select userName FROM pinnedMessages where userId = @userID and userName = @userName and pinnedMessages = @pinnedMessage and topicgroupName = @groupName";
-            MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
-            cmd1.CommandType = CommandType.Text;
-            cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
-            cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
-            cmd1.Parameters.AddWithValue("@pinnedMessage", message);
-            cmd1.Parameters.AddWithValue("@groupName", DBObject.m_GroupName);
-
-            MySqlDataReader mRead;
-            using (mRead = cmd1.ExecuteReader()) // executes the search command
+            if (message != null && image != null)
             {
-                if (mRead.Read())
-                {
-                    conn.Close();
-                    return RedirectToAction("GroupTemplate", new { name = DBObject.m_GroupName });
+                string txtcmd1 = "SELECT count(*) FROM pinnedMessages where (userId = @userID and userName = @userName and pinnedMessages = @pinnedMessage and topicgroupName = @topicGroupName and image = @image)";
+                MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
+                cmd1.CommandType = CommandType.Text;
+                cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
+                cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd1.Parameters.AddWithValue("@pinnedMessage", message);
+                cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_GroupName);
+                cmd1.Parameters.AddWithValue("@image", image);
 
-                }
-                else
-                {
-                    mRead.Close();
-                    string txtcmd = $"Insert into pinnedMessages (userid, userName,topicgroupName, pinnedMessages)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages)";
-                    MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
-                    cmd.CommandType = CommandType.Text;
-
-                    cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
-                    cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
-                    cmd.Parameters.AddWithValue("@topicgroupName", DBObject.m_GroupName);
-                    cmd.Parameters.AddWithValue("@pinnedMessages", message);
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-
-                    return RedirectToAction("GroupTemplate", new { name = DBObject.m_GroupName });
-                }
+                numMessages = Convert.ToInt32(cmd1.ExecuteScalar());
             }
+            else if (message == null && image != null)
+            {
+                string txtcmd1 = "SELECT count(*) FROM pinnedMessages where (userId = @userID and userName = @userName and topicgroupName = @topicGroupName and image = @image)";
+                MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
+                cmd1.CommandType = CommandType.Text;
+                cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
+                cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_GroupName);
+                cmd1.Parameters.AddWithValue("@image", image);
+
+                numMessages = Convert.ToInt32(cmd1.ExecuteScalar());
+            }
+            else if (message != null && image == null)
+            {
+                string txtcmd1 = "SELECT count(*) FROM pinnedMessages where (userId = @userID and userName = @userName and pinnedMessages = @pinnedMessage and topicGroupName = @topicGroupName)";
+                MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
+                cmd1.CommandType = CommandType.Text;
+                cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
+                cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd1.Parameters.AddWithValue("@pinnedMessage", message);
+                cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_GroupName);
+
+                numMessages = Convert.ToInt32(cmd1.ExecuteScalar());
+            }
+
+            if (numMessages > 0)
+            {
+                conn.Close();
+                return RedirectToAction("GroupTemplate", new { name = DBObject.m_GroupName });
+            }            
+            else
+            {
+                string txtcmd = $"Insert into pinnedMessages (userid, userName,topicgroupName, pinnedMessages, image, messageType)" + $"values ( @userID, @userName,@topicgroupName,@pinnedMessages,@image,@messageType)";
+                MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
+                cmd.CommandType = CommandType.Text;
+
+                cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
+                cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd.Parameters.AddWithValue("@topicgroupName", DBObject.m_GroupName);
+                cmd.Parameters.AddWithValue("@pinnedMessages", message);
+                cmd.Parameters.AddWithValue("@image", image);
+                cmd.Parameters.AddWithValue("@messageType", "Group");
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
+                return RedirectToAction("GroupTemplate", new { name = DBObject.m_GroupName });
+            }            
         }
 
         public IActionResult RemovePinnedMessagesgroup(string message)
@@ -725,39 +981,59 @@ namespace MessagingApp.Controllers
 
         }
 
-        public ActionResult RemoveMessagesgroup(string message, string messageID)
+        public ActionResult RemoveMessagesgroup(string message, string messageID, string image)
         {
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
 
             conn.Open();
             MySqlCommand deleteMessage = conn.CreateCommand();
-            deleteMessage.CommandText = "Delete FROM groupmessagetext where chatName = @chatName and groupmessage = @groupMessage and Documentid = @documentID "; // the command
+            deleteMessage.CommandText = "Delete FROM groupmessagetext where(chatName = @chatName and groupmessage = @groupMessage and Documentid = @documentID) or (chatName = @chatName and image = @image and Documentid = @documentID)";
             deleteMessage.Parameters.AddWithValue("@chatName", DBObject.m_GroupName);
             deleteMessage.Parameters.AddWithValue("@groupMessage", message);
+            deleteMessage.Parameters.AddWithValue("@image", image);
             deleteMessage.Parameters.AddWithValue("@documentID", messageID);
 
             deleteMessage.ExecuteNonQuery();
             conn.Close();
+
+            if (image != null)
+            {
+                string _imageToBeDeleted = Path.Combine(_environment.WebRootPath, "GroupImages", image);
+                if ((System.IO.File.Exists(_imageToBeDeleted)))
+                {
+                    System.IO.File.Delete(_imageToBeDeleted);
+                }
+            }
 
             return RedirectToAction("GroupTemplate", new {name = DBObject.m_GroupName });
         }
 
-        public ActionResult RemoveMessagesTopic(string message, string messageID)
+        public ActionResult RemoveMessagesTopic(string message, string messageID, string image)
         {
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
 
             conn.Open();
             MySqlCommand deleteMessage = conn.CreateCommand();
-            deleteMessage.CommandText = "Delete FROM messagetopicbase where topicName = @topicName and topicMessage = @topicMessage and Documentid = @documentID "; // the command
+            deleteMessage.CommandText = "Delete FROM messagetopicbase where(topicName = @topicName and topicMessage = @topicMessage and Documentid = @documentID) or (topicName = @topicName and image = @image and Documentid = @documentID)";
+            //deleteMessage.CommandText = "Delete FROM messagetopicbase where topicName = @topicName and topicMessage = @topicMessage or image = @image and Documentid = @documentID "; // the command
             deleteMessage.Parameters.AddWithValue("@topicName", DBObject.m_TopicName);
             deleteMessage.Parameters.AddWithValue("@topicMessage", message);
+            deleteMessage.Parameters.AddWithValue("@image", image);
             deleteMessage.Parameters.AddWithValue("@documentID", messageID);
-
+          
             deleteMessage.ExecuteNonQuery();
             conn.Close();
 
+            if (image != null)
+            {
+                string _imageToBeDeleted = Path.Combine(_environment.WebRootPath, "TopicImages", image);
+                if ((System.IO.File.Exists(_imageToBeDeleted)))
+                {
+                    System.IO.File.Delete(_imageToBeDeleted);
+                }
+            }
             return RedirectToAction("TopicTemplate", new { name = DBObject.m_TopicName });
         }
 

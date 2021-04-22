@@ -66,3 +66,11 @@ h5 {
     overflow: auto;
     margin-top: -31px;
 }
+
+h6 {
+    font-family: Arial;
+    color: black;
+    font-size: 18px;
+    margin-top: -10%;
+    margin-left: 63%;
+}
