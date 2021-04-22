@@ -768,41 +768,6 @@ namespace MessagingApp.Controllers
             return RedirectToAction("Home", "Home");
         }
 
-        public IActionResult EditgroupInvite(string ChatName)
-        {
-            int id = 0;
-            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
-            MySqlConnection conn = new MySqlConnection(connectionstring);
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand(null, conn);
-            cmd.CommandText = "update groupmessage SET Invite ='" + 0 + "' Where UserId ='" + DBObject.m_id + "' and chatName ='" + ChatName + "'";
-            cmd.Prepare();
-            cmd.ExecuteReader();
-            conn.Close();
-
-            return View("Contacts");
-
-        }
-
-        public IActionResult removeGroupInvite()
-        {
-            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
-            MySqlConnection conn = new MySqlConnection(connectionstring);
-
-            conn.Open();
-
-            MySqlCommand removeGroup = conn.CreateCommand();
-            removeGroup.CommandText = "Delete FROM groupmessage where userID= @userID AND chatName = @chatName"; // the command
-            removeGroup.Parameters.AddWithValue("@userID", DBObject.m_id);
-            removeGroup.Parameters.AddWithValue("@chatName", DBObject.m_GroupName);
-            removeGroup.Prepare();
-            removeGroup.ExecuteReader();
-            conn.Close();
-
-            return RedirectToAction("Home", "Home");
-        }
-
-
         public IActionResult removeGroup()
         {
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";

@@ -18,6 +18,12 @@ namespace MessagingApp.Models
             m_grouplist = grouplist;
         }
 
+        public static List<string> m_groupinvitelist;
+        public void SetGroupinviteListAttr(List<string> groupinvitelist)
+        {
+            m_groupinvitelist = groupinvitelist;
+        }
+
         public static List<string> m_contactslist;
         public void SetcontactsListAttr(List<string> contactslist)
         {
@@ -72,6 +78,18 @@ namespace MessagingApp.Models
         public void SetContactSenderListAttr(List<int> contactSenderlist)
         {
             m_contactSender = contactSenderlist;
+        }
+
+        public static List<int> m_groupSender;
+        public void SetgroupSenderListAttr(List<int> groupSenderlist)
+        {
+            m_groupSender = groupSenderlist;
+        }
+
+        public static List<int> m_Invite;
+        public void SetinviteListAttr(List<int> invitelist)
+        {
+            m_Invite = invitelist;
         }
     }
 
