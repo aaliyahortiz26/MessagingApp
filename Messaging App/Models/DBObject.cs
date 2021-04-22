@@ -18,7 +18,6 @@ namespace MessagingApp.Models
         public static string m_TopicName;
         public static int m_Topicid;
 
-
         public string Username
         {
             get => m_username;
@@ -70,5 +69,6 @@ namespace MessagingApp.Models
             get => m_Topicid;
             set => m_Topicid = value;
         }
+
     }
 }

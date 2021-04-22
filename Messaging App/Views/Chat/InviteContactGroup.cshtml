@@ -23,14 +23,14 @@
                     <select asp-for="inviteContact" class="inviteContactDropdown">
                         @for (int i = 0; i < HomeModel.m_contactsListHomeScreen.Count(); i++)
                         {
-                            <option value="@HomeModel.m_contactsListHomeScreen[i]">@HomeModel.m_contactsListHomeScreen[i]</option>
+                            <option value="@HomeModel.m_contactsListHomeScreen[i]" >@HomeModel.m_contactsListHomeScreen[i]</option>
                         }
                     </select>
                 </p>
             </div>
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Home</button>
             <button class="goToGroupButton" type="button" onclick="location.href='@Url.Action("GroupTemplate", "Chat", new { name = DBObject.m_GroupName })'">Back to Group</button>
-            <button class="sendInviteButton" type="submit" onclick="location.href='@Url.Action("GroupTemplate", "Chat", new { name = DBObject.m_GroupName })'">Send Invite</button>
+            <button class="sendInviteButton" type="submit">Send Invite</button>
 
         </form>
     </div>

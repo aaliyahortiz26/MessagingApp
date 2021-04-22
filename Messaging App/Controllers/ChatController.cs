@@ -425,7 +425,7 @@ namespace MessagingApp.Controllers
 
                     conn.Open();
 
-                    string txtcmd = $"Insert into united_messaging.groupmessage (userid, chatName, contactName, userName, Invite)" + $"values ( @userID, @groupChatTitle,@inviteContact, @userName, @Invite) ";
+                    string txtcmd = $"Insert into united_messaging.groupmessage (userid, chatName, contactName, userName, Invite, Sender)" + $"values ( @userID, @groupChatTitle,@inviteContact, @userName, @Invite, @Sender) ";
                     MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@userID", createGroupMod.ID);
@@ -434,6 +434,7 @@ namespace MessagingApp.Controllers
                     cmd.Parameters.AddWithValue("@inviteContact", createGroupMod.inviteContact);
                     cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
                     cmd.Parameters.AddWithValue("@Invite", false);
+                    cmd.Parameters.AddWithValue("@Sender", true);
                     cmd.ExecuteNonQuery();
                     conn.Close();
 
@@ -455,7 +456,7 @@ namespace MessagingApp.Controllers
                     }
                     dRead.Close();
 
-                    string txtcmd2 = $"Insert into united_messaging.groupmessage (userid, chatName, contactName, userName, Invite)" + $"values ( @contactUserID, @groupChatContactTitle,@inviteUserContact, @userName, @Invite) ";
+                    string txtcmd2 = $"Insert into united_messaging.groupmessage (userid, chatName, contactName, userName, Invite, Sender)" + $"values ( @contactUserID, @groupChatContactTitle,@inviteUserContact, @userName, @Invite, @Sender) ";
                     MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn2);
                     cmd2.CommandType = CommandType.Text;
                     cmd2.Parameters.AddWithValue("@contactUserID", contactID);
@@ -464,6 +465,7 @@ namespace MessagingApp.Controllers
                     cmd2.Parameters.AddWithValue("@inviteUserContact", DBObject.m_username);
                     cmd2.Parameters.AddWithValue("@userName", createGroupMod.inviteContact);
                     cmd2.Parameters.AddWithValue("@Invite", true);
+                    cmd2.Parameters.AddWithValue("@Sender", false);
                     cmd2.ExecuteNonQuery();
                     conn2.Close();
                 }
@@ -1127,26 +1129,53 @@ namespace MessagingApp.Controllers
             return RedirectToAction("TopicSearch", new { bResetList = true });
         }
 
-        public IActionResult InviteContactGroup()
+        public IActionResult InviteContactGroup(InviteContactGroupModel ic)
         {
-           /* const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
-            MySqlConnection conn2 = new MySqlConnection(connectionstring);
+            if (ic.inviteContact != null)
+            {
 
-            conn2.Open();
+                int id = 0;
+                const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                MySqlConnection conn2 = new MySqlConnection(connectionstring);
+                MySqlCommand cmd = new MySqlCommand(null, conn2);
+                cmd.CommandText = $"SELECT id FROM users where username='" + ic.inviteContact + "'"; // the command
+                MySqlDataReader cRead;
+                conn2.Open();
 
-            string txtcmd2 = $"Insert into united_messaging.groupmessage (userid, chatName, contactName, userName, Invite)" + $"values ( @contactUserID, @groupChatContactTitle,@inviteUserContact, @userName, @Invite) ";
-            MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn2);
-            cmd2.CommandType = CommandType.Text;
-            cmd2.Parameters.AddWithValue("@contactUserID", contactID);
-            cmd2.Parameters.AddWithValue("@groupChatContactTitle", createGroupMod.groupChatTitle);
-            //    cmd2.Parameters.AddWithValue("@privacyContactOption", createGroupMod.radioField);
-            cmd2.Parameters.AddWithValue("@inviteUserContact", DBObject.m_username);
-            cmd2.Parameters.AddWithValue("@userName", createGroupMod.inviteContact);
-            cmd2.Parameters.AddWithValue("@Invite", true);
-            cmd2.ExecuteNonQuery();
-            conn2.Close(); */
+                using (cRead = cmd.ExecuteReader()) // executes the search command
+                {
+                    if (cRead.Read())
+                    {
+                        id = Convert.ToInt32(cRead.GetValue(0));
 
-            return View();
+                    }
+                }
+                cRead.Close();
+                conn2.Close();
+
+
+                conn2.Open();
+
+                string txtcmd2 = $"Insert into united_messaging.groupmessage (userid, chatName, contactName, userName, Invite, Sender)" + $"values ( @contactUserID, @groupChatContactTitle,@inviteUserContact, @userName, @Invite @Sender) ";
+                MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn2);
+                cmd2.CommandType = CommandType.Text;
+                cmd2.Parameters.AddWithValue("@contactUserID", id);
+                cmd2.Parameters.AddWithValue("@groupChatContactTitle", DBObject.m_GroupName);
+                //    cmd2.Parameters.AddWithValue("@privacyContactOption", createGroupMod.radioField);
+                cmd2.Parameters.AddWithValue("@inviteUserContact", ic.inviteContact);
+                cmd2.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd2.Parameters.AddWithValue("@Invite", true);
+                cmd2.Parameters.AddWithValue("@Invite", false);
+                cmd2.ExecuteNonQuery();
+                conn2.Close();
+
+
+                return RedirectToAction("GroupTemplate", new { name = DBObject.m_GroupName });
+            }
+            else
+            { 
+                return View();
+            }
         }   
     }
 }
