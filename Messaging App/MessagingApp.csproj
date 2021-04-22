@@ -20,4 +20,9 @@
     <PackageReference Include="MySql.Data" Version="8.0.23" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\GroupImages\" />
+    <Folder Include="wwwroot\TopicImages\" />
+  </ItemGroup>
+
 </Project>
