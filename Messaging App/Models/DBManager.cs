@@ -164,8 +164,10 @@ namespace MessagingApp.Models
 				conn.Open();
 
 				MySqlCommand getContacts = conn.CreateCommand();
-				getContacts.CommandText = "SELECT username_newContact FROM contacts where UserId = @userID"; // the command
+				getContacts.CommandText = "SELECT username_newContact FROM contacts where UserId = @userID and FriendRequest = @FriendRequest"; // the command
 				getContacts.Parameters.AddWithValue("@userID", DBObject.m_id);
+				getContacts.Parameters.AddWithValue("@FriendRequest", 1);
+
 
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = getContacts.ExecuteReader();

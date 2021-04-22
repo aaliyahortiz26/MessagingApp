@@ -31,21 +31,40 @@
         </form>
         <form class="centered viewContactsArea" asp-action="GroupTemplate" method="post">
             <div class="fields">
+                <label class="contactLabel">Your Contact Requests:</label>
+                <br>
+                <dl>
+                    @for (int k = 0; k < HomeModel.m_contactslist.Count; k++)
+                    {
+                        @if (HomeModel.m_contactnumber[k] == 0)
+                        {
+                            <h3>@HomeModel.m_contactslist[k]</h3>
+                            <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("EditContacts", "Home", new { username = HomeModel.m_contactslist[k] })'">✔ </button>
+                            <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("removeContact", "Home", new { contact = @HomeModel.m_contactslist[k] })'">✘ </button>
+                            <br>
+                            <br>
+                        }
+                    }
+                </dl>
+                <br>
+
                 <label class="contactLabel">Your Contacts:</label>
                 <br>
+
+                <dl>
+
                     @for (int i = 0; i < HomeModel.m_contactslist.Count; i++)
                     {
-                        <div class="contactAndButtons">
-                            <div class="contacts">
-                                <h3>@HomeModel.m_contactslist[i]</h3>
-                            </div>
-                            <div class="removeContactButton">
-                                <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; background: url(../../Images/trashCan.jpg); background-size: cover;" type="button" dis onclick="location.href='@Url.Action("removeContact", "Home", new {contact = @HomeModel.m_contactslist[i]})'"></button>
-                                <br>
-                                <br>
-                            </div>
-                       </div>
+                        @if (HomeModel.m_contactnumber[i] == 1)
+                        {
+                            <h3>@HomeModel.m_contactslist[i]</h3>
+                            <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("removeContact", "Home", new {contact = @HomeModel.m_contactslist[i]})'">🗑️ </button>
+                            <br>
+                            <br>
+                        }
+
                     }
+                </dl>
                 <br>
                 <br>
             </div>

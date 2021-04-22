@@ -24,9 +24,10 @@ namespace MessagingApp.Controllers
 
             conn.Open();
 
-            MySqlCommand getGroups = conn.CreateCommand(); 
-            getGroups.CommandText = "SELECT chatName FROM groupmessage where userID= @userID"; // the command
+            MySqlCommand getGroups = conn.CreateCommand();
+            getGroups.CommandText = "SELECT chatName FROM groupmessage where userID = @userID and Invite = @Invite"; // the command
             getGroups.Parameters.AddWithValue("@userID", DBObject.m_id);
+            getGroups.Parameters.AddWithValue("@Invite", false);
 
             MySqlDataReader reader = getGroups.ExecuteReader();
 
@@ -130,6 +131,45 @@ namespace MessagingApp.Controllers
         {
             return View();
         }
+        public IActionResult EditContacts(string username)
+        {
+            int id = 0;
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+            MySqlCommand cmd2 = new MySqlCommand(null, conn);
+            cmd2.CommandText = $"SELECT id FROM users where username='" + username + "'"; // the command
+            MySqlDataReader cRead;
+            conn.Open();
+
+            using (cRead = cmd2.ExecuteReader()) // executes the search command
+            {
+                if (cRead.Read())
+                {
+                    id = Convert.ToInt32(cRead.GetValue(0));
+
+                }
+            }
+            cRead.Close();
+            conn.Close();
+
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand(null, conn);
+            cmd.CommandText = "update contacts SET FriendRequest ='" + 1 + "' Where UserId ='" + DBObject.m_id + "' and id_newContact='" + id + "' and username ='" + DBObject.m_username + "' and username_newContact ='" + username + "'";
+            cmd.Prepare();
+            cmd.ExecuteReader();
+            conn.Close();
+
+            conn.Open();
+            MySqlCommand cmd3 = new MySqlCommand(null, conn);
+            cmd3.CommandText = "update contacts SET FriendRequest ='" + 1 + "' Where UserId ='" + id + "' and id_newContact='" + DBObject.m_id + "' and username ='" + username + "' and username_newContact ='" + DBObject.m_username + "'";
+            cmd3.Prepare();
+            cmd3.ExecuteReader();
+            conn.Close();
+
+
+            return View("Contacts");
+
+        }
         public IActionResult Contacts(HomeModel homeMod, ContactsModel cm)
         {
             string username = cm.addContactInput;
@@ -169,15 +209,30 @@ namespace MessagingApp.Controllers
                         int id = Convert.ToInt32(cRead.GetValue(0));
 
                         MySqlCommand cmd = new MySqlCommand(null, conn);
-                        cmd.CommandText = $"Insert into contacts (UserId,id_newContact,username, username_newContact)" + $"values ( @UserId, @id_newContact,@username,@username_newContact) ";
+                        cmd.CommandText = $"Insert into contacts (UserId,id_newContact,username, username_newContact, FriendRequest,Sender)" + $"values ( @UserId, @id_newContact,@username,@username_newContact, @FriendRequest,@Sender) ";
                         cmd.Parameters.AddWithValue("@UserId", DBObject.m_id);
                         cmd.Parameters.AddWithValue("@id_newContact", id);
                         cmd.Parameters.AddWithValue("@username", DBObject.m_username);
                         cmd.Parameters.AddWithValue("@username_newContact", username);
-
+                        cmd.Parameters.AddWithValue("@FriendRequest", 0);
+                        cmd.Parameters.AddWithValue("@Sender", 1);
                         cRead.Close();
                         cmd.Prepare();
                         cmd.ExecuteReader();
+                        conn.Close();
+
+                        conn.Open();
+                        MySqlCommand cmd4 = new MySqlCommand(null, conn);
+                        cmd4.CommandText = $"Insert into contacts (UserId,id_newContact,username, username_newContact, FriendRequest, Sender)" + $"values ( @UserId, @id_newContact,@username,@username_newContact, @FriendRequest,@Sender) ";
+                        cmd4.Parameters.AddWithValue("@UserId", id);
+                        cmd4.Parameters.AddWithValue("@id_newContact", DBObject.m_id);
+                        cmd4.Parameters.AddWithValue("@username", username);
+                        cmd4.Parameters.AddWithValue("@username_newContact", DBObject.m_username);
+                        cmd4.Parameters.AddWithValue("@FriendRequest", 0);
+                        cmd4.Parameters.AddWithValue("@Sender", 0);
+                        cmd4.Prepare();
+                        cmd4.ExecuteReader();
+
                         conn.Close();
                     }
                     else
@@ -192,9 +247,11 @@ namespace MessagingApp.Controllers
             {
                 conn.Close();
             }
+
             MySqlCommand getContacts = conn.CreateCommand();
-            getContacts.CommandText = "SELECT username_newContact FROM contacts where userID= @userID"; // the command
+            getContacts.CommandText = "SELECT username_newContact FROM contacts where userID= @userID and FriendRequest = @FriendRequest"; // the command
             getContacts.Parameters.AddWithValue("@userID", DBObject.m_id);
+            getContacts.Parameters.AddWithValue("@FriendRequest", true);
             conn.Open();
             MySqlDataReader lRead = getContacts.ExecuteReader();
             List<string> ContactsList = new List<string>();
@@ -204,6 +261,23 @@ namespace MessagingApp.Controllers
                 ContactsList.Add(Convert.ToString(lRead[0]));
             }
             lRead.Close();
+            conn.Close();
+
+            MySqlCommand getContactnum = conn.CreateCommand();
+            getContactnum.CommandText = "SELECT Sender FROM contacts where userID= @userID"; // the command
+            getContactnum.Parameters.AddWithValue("@userID", DBObject.m_id);
+
+            conn.Open();
+            MySqlDataReader zRead = getContactnum.ExecuteReader();
+            List<int> ContactnumList = new List<int>();
+
+            while (zRead.Read())
+            {
+                ContactnumList.Add(Convert.ToInt32(zRead[0]));
+            }
+            zRead.Close();
+
+            homeMod.SetContactnumberListAttr(ContactnumList);
 
             homeMod.SetcontactsListAttr(ContactsList);
             conn.Close();
@@ -234,7 +308,7 @@ namespace MessagingApp.Controllers
             removecontact2.ExecuteReader();
             conn.Close();
 
-            return RedirectToAction("Contacts", "Home"); 
+            return RedirectToAction("Contacts", "Home");
         }
 
 

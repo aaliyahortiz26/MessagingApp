@@ -62,6 +62,12 @@ namespace MessagingApp.Models
         {
             m_messageTypelist = messageTypePinnedlist;
         }
+
+        public static List<int> m_contactnumber;
+        public void SetContactnumberListAttr(List<int> contactnumberlist)
+        {
+            m_contactnumber = contactnumberlist;
+        }
     }
 
 }
