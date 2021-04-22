@@ -167,7 +167,7 @@ namespace MessagingApp.Controllers
             conn.Close();
 
 
-            return View("Contacts");
+            return RedirectToAction("Contacts");
 
         }
         public IActionResult Contacts(HomeModel homeMod, ContactsModel cm)
@@ -247,40 +247,31 @@ namespace MessagingApp.Controllers
             {
                 conn.Close();
             }
-
             MySqlCommand getContacts = conn.CreateCommand();
-            getContacts.CommandText = "SELECT username_newContact FROM contacts where userID= @userID and FriendRequest = @FriendRequest"; // the command
+            getContacts.CommandText = "SELECT username_newContact,FriendRequest,Sender FROM contacts where userID= @userID"; // the command
             getContacts.Parameters.AddWithValue("@userID", DBObject.m_id);
-            getContacts.Parameters.AddWithValue("@FriendRequest", true);
             conn.Open();
             MySqlDataReader lRead = getContacts.ExecuteReader();
             List<string> ContactsList = new List<string>();
-
+            List<int> ContactnumList = new List<int>();
+            List<int> ContactSenderList = new List<int>();
             while (lRead.Read())
             {
                 ContactsList.Add(Convert.ToString(lRead[0]));
+                ContactnumList.Add(Convert.ToInt32(lRead[1]));
+                ContactSenderList.Add(Convert.ToInt32(lRead[2]));
             }
             lRead.Close();
             conn.Close();
 
-            MySqlCommand getContactnum = conn.CreateCommand();
-            getContactnum.CommandText = "SELECT Sender FROM contacts where userID= @userID"; // the command
-            getContactnum.Parameters.AddWithValue("@userID", DBObject.m_id);
-
-            conn.Open();
-            MySqlDataReader zRead = getContactnum.ExecuteReader();
-            List<int> ContactnumList = new List<int>();
-
-            while (zRead.Read())
-            {
-                ContactnumList.Add(Convert.ToInt32(zRead[0]));
-            }
-            zRead.Close();
-
+            
             homeMod.SetContactnumberListAttr(ContactnumList);
 
+   
+            homeMod.SetContactSenderListAttr(ContactSenderList);
+
             homeMod.SetcontactsListAttr(ContactsList);
-            conn.Close();
+
             return View("Contacts");
         }
 

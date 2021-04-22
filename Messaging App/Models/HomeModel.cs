@@ -68,6 +68,11 @@ namespace MessagingApp.Models
         {
             m_contactnumber = contactnumberlist;
         }
+        public static List<int> m_contactSender;
+        public void SetContactSenderListAttr(List<int> contactSenderlist)
+        {
+            m_contactSender = contactSenderlist;
+        }
     }
 
 }

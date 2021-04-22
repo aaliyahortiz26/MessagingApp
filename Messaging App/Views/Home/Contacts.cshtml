@@ -36,7 +36,7 @@
                 <dl>
                     @for (int k = 0; k < HomeModel.m_contactslist.Count; k++)
                     {
-                        @if (HomeModel.m_contactnumber[k] == 0)
+                        @if (HomeModel.m_contactnumber[k] == 0 && HomeModel.m_contactSender[k] == 0)
                         {
                             <h3>@HomeModel.m_contactslist[k]</h3>
                             <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("EditContacts", "Home", new { username = HomeModel.m_contactslist[k] })'">✔ </button>

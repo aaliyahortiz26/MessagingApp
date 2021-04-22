@@ -373,7 +373,7 @@ namespace MessagingApp.Controllers
             const string connection2 = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn2 = new MySqlConnection(connection2);
             MySqlCommand getContacts = conn2.CreateCommand();
-            getContacts.CommandText = "SELECT username_newContact FROM contacts where userID= @userID"; // the command
+            getContacts.CommandText = "SELECT username_newContact FROM contacts where userID= @userID" ; // the command
             getContacts.Parameters.AddWithValue("@userID", DBObject.m_id);
             conn2.Open();
             MySqlDataReader lRead = getContacts.ExecuteReader();
@@ -1129,6 +1129,22 @@ namespace MessagingApp.Controllers
 
         public IActionResult InviteContactGroup()
         {
+           /* const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn2 = new MySqlConnection(connectionstring);
+
+            conn2.Open();
+
+            string txtcmd2 = $"Insert into united_messaging.groupmessage (userid, chatName, contactName, userName, Invite)" + $"values ( @contactUserID, @groupChatContactTitle,@inviteUserContact, @userName, @Invite) ";
+            MySqlCommand cmd2 = new MySqlCommand(txtcmd2, conn2);
+            cmd2.CommandType = CommandType.Text;
+            cmd2.Parameters.AddWithValue("@contactUserID", contactID);
+            cmd2.Parameters.AddWithValue("@groupChatContactTitle", createGroupMod.groupChatTitle);
+            //    cmd2.Parameters.AddWithValue("@privacyContactOption", createGroupMod.radioField);
+            cmd2.Parameters.AddWithValue("@inviteUserContact", DBObject.m_username);
+            cmd2.Parameters.AddWithValue("@userName", createGroupMod.inviteContact);
+            cmd2.Parameters.AddWithValue("@Invite", true);
+            cmd2.ExecuteNonQuery();
+            conn2.Close(); */
 
             return View();
         }   
