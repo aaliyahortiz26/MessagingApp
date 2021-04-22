@@ -52,9 +52,9 @@ namespace MessagingApp.Models
 				conn.Open();
 
 				MySqlCommand getMessagesGroup = conn.CreateCommand();
-				getMessagesGroup.CommandText = "SELECT userName FROM groupmessage where chatName = @chatName"; // the command
+				getMessagesGroup.CommandText = "SELECT userName FROM groupmessage where chatName = @chatName and Invite = @Invite"; // the command
 				getMessagesGroup.Parameters.AddWithValue("@chatName", name);
-
+				getMessagesGroup.Parameters.AddWithValue("@Invite", false);
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = getMessagesGroup.ExecuteReader();
 				while (reader.Read())
