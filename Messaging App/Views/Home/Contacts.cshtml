@@ -31,7 +31,7 @@
         </form>
         <form class="centered viewContactsArea" asp-action="GroupTemplate" method="post">
             <div class="fields">
-                <label class="contactLabel">Your Contact Requests:</label>
+                <label class="contactLabel">Your Contact Requests From Others:</label>
                 <br>
                 <dl>
                     @for (int k = 0; k < HomeModel.m_contactslist.Count; k++)
@@ -48,7 +48,7 @@
                 </dl>
                 <br>
 
-                <label class="contactLabel">Your Pending Requests:</label>
+                <label class="contactLabel">Your Pending Requests From You:</label>
                 <br>
                 <dl>
                     @for (int k = 0; k < HomeModel.m_contactslist.Count; k++)

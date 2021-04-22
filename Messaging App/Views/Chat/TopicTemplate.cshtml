@@ -60,8 +60,8 @@
     </div>
     <div class="RightSide">
         <form class="messageArea" asp-action="TopicTemplate" method="post">
-            <button type="button" onclick="location.href='@Url.Action("removeTopic", "Chat")'">Leave Topic </button>
             <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Home</button>
+            <button type="button" onclick="location.href='@Url.Action("removeTopic", "Chat")'">Leave Topic </button>
             <h1 id="topicName">@TopicTemplateModel.m_topicName</h1>
 
 
@@ -84,15 +84,15 @@
                                 <div class="message">
                                     <label style="color: black; font-size: 18px;"> @topicMessagelist[i].GetUsername():</label>
                                     <label style="font-size: 17px;">@topicMessagelist[i].GetMessage() </label>
-                                     @if (topicMessagelist[i].GetImage() != "")
-                                     {
-                                         <img src="../../TopicImages/@topicMessagelist[i].GetImage()" style = "max-width: 100%; max-width: 100%; width: auto; height: auto;">
-                                     }
+                                    @if (topicMessagelist[i].GetImage() != "")
+                                    {
+                                        <img src="../../TopicImages/@topicMessagelist[i].GetImage()" style="max-width: 100%; max-width: 100%; width: auto; height: auto;">
+                                    }
                                 </div>
                                 <div class="messageButtons">
-                                    
+
                                     <button style="width: 64px; height: 46px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" onclick="location.href='@Url.Action("PinnedMessagestopic", "Chat", new { message = @topicMessagelist[i].GetMessage(), image = @topicMessagelist[i].GetImage() })'">@topicMessagelist[i].AlreadySaved("Topic")</button>
-                                    
+
                                     @if (topicMessagelist[i].GetUsername() == DBObject.m_username)
                                     {
                                         <button style="width: 36px; height: 36px; margin-top: 0px; color: white; background: url(../../Images/trashCan.jpg); background-size: cover;" type="button" dis onclick="location.href='@Url.Action("RemoveMessagesTopic", "Chat", new {message = @topicMessagelist[i].GetMessage(), messageID = topicMessagelist[i].GetMessageID(), image = @topicMessagelist[i].GetImage()})'"></button>
