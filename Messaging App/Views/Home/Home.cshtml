@@ -74,7 +74,6 @@
 
                 <p>
                     <h1> Group Requests</h1>
-                    <br>
                     <dl>
                         @for (int k = 0; k < HomeModel.m_groupinvitelist.Count; k++)
                         {
@@ -85,8 +84,6 @@
                                                         <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("EditgroupInvite", "Home", new { chatName = @HomeModel.m_groupinvitelist[k] })'">✔ </button>
                                                         <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("removeGroupInvite", "Home", new { chatName = @HomeModel.m_groupinvitelist[k] })'">✘ </button>
                                                     </h3>
-                        <br>
-                                <br>
                             }
                         }
                     </dl>
@@ -96,19 +93,16 @@
 
                 <p>
                     <h1> Pending Group Requests</h1>
-                    <br>
                     <dl>
                         @for (int k = 0; k < HomeModel.m_groupinvitelist.Count; k++)
                         {
                             @if (HomeModel.m_Invite[k] == 1  && HomeModel.m_InviteGroupContact[k] == DBObject.m_username)
                             {
                         <h3>
-                            @HomeModel.m_groupuserName[k] has not accepted the request to join the group titled: @HomeModel.m_groupinvitelist[k]
+                            @HomeModel.m_groupuserName[k] has not joined the group: @HomeModel.m_groupinvitelist[k]
                            <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("removeGroupInvite", "Home", new { chatName = @HomeModel.m_groupinvitelist[k],userName = HomeModel.m_groupuserName[k] })'">✘ </button>
                          </h3>
-                        <br>
-                                <br>
-                            }
+                             }
                         }
                     </dl>
                     <br>

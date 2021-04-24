@@ -64,7 +64,18 @@ p3 {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    margin-left: 22%;
+    margin-left: 24%;
+}
+
+.textSizeDropdown {
+    width: 40%;
+    padding: 12px 15px;
+    margin: 15px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-left: 25%;
 }
 
 .backgroundColorDropdown {
@@ -145,7 +156,7 @@ div.b {
     background: rgba(255,255,255,.8);
     border-radius: 12px;
     width: 550px;
-    height: 375px;
+    height: 460px;
     margin-top: 50%;
     margin-bottom: 50%;
 }

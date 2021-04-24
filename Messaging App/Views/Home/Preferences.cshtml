@@ -59,6 +59,40 @@
                 <p2>Current Color: @DBObject.Tcolor</p2>
                 <br />
                 <br />
+                <p2> Text Size </p2>
+                <select class="textSizeDropdown" asp-for="TxtSize" id="theme">
+                    @if (DBObject.m_TSize == 14)
+                    {
+                        <option value="14" selected>Small 14</option>
+                        <option value="18">Medium 18</option>
+                        <option value="22">Large 22</option>
+
+                    }
+                    @if (DBObject.m_TSize == 18)
+                    {
+                        <option value="14">Small 14</option>
+                        <option value="18" selected>Medium 18</option>
+                        <option value="22">Large 22</option>
+                    }
+                    @if (DBObject.m_TSize == 22)
+                    {
+                        <option value="14">Small 14</option>
+                        <option value="18">Medium 18</option>
+                        <option value="22" selected>Large 22</option>
+                    }
+                </select>
+                @if (DBObject.m_TSize == 14)
+                {
+                    <p2>Current Color: Small 14</p2>
+                }
+                @if (DBObject.m_TSize == 18)
+                {
+                    <p2>Current Color: Medium 18</p2>
+                }
+                @if (DBObject.m_TSize == 22)
+                {
+                    <p2>Current Color: Large 22</p2>
+                }
                 <br />
                 <br />
 
@@ -130,9 +164,9 @@
                 }
                 <br>
                 <button class="button button1" type="submit" onclick="location.href='@Url.Action("PreferencesScreen", "Home")'">Apply Changes</button>
-            <!--</div>-->
+                <!--</div>-->
             </div>
-        </div>
+            </div>
 
     </form>
 
