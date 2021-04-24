@@ -36,17 +36,27 @@
                     topicMessagelist = ViewData["messageobjects"] as List<Messages>;
                     for (int i = 0; i < topicMessagelist.Count(); i++)
                     {
-                        <div class="message">
+                                <div class="message">
 
-                            <label style="color: black; font-size: 18px;"> @topicMessagelist[i].GetUsername():</label>
-                            <label style="font-size: 17px;">@topicMessagelist[i].GetMessage() </label>
-                            @if (topicMessagelist[i].GetImage() != "")
-                            {
-                                <img src="../../TopicImages/@topicMessagelist[i].GetImage()" style="max-width: 100%; max-width: 100%; width: auto; height: auto;">
-                            }
-                            <br>
-                            <br>
-                        </div>
+                                    <label style="color: black; font-size: 18px;"> @topicMessagelist[i].GetUsername():</label>
+                                    @{
+                                        if (@topicMessagelist[i].GetMessage().Contains("http") && @topicMessagelist[i].GetMessage() != "")
+                                        {
+                                                   <a href="@topicMessagelist[i].GetMessage()" target="_blank" rel="noreferrer">@topicMessagelist[i].GetMessage()</a>
+                                        }
+                                        else
+                                        {
+                                <label style="font-size: 17px;">@topicMessagelist[i].GetMessage() </label>
+                                        }
+                                    }
+                                
+                                    @if (topicMessagelist[i].GetImage() != "")
+                                    {
+                                        <img src="../../TopicImages/@topicMessagelist[i].GetImage()" style="max-width: 100%; max-width: 100%; width: auto; height: auto;">
+                                    }
+                                    <br>
+                                    <br>
+                                </div>
                     }
                 }
             </div>

@@ -40,11 +40,11 @@ namespace MessagingApp.Controllers
             reader.Close();
 
             homeMod.SetGroupListAttr(groupsList);
-     
-            MySqlCommand gettopics = conn.CreateCommand();
-            gettopics.CommandText = "SELECT topicName FROM topics where userid= @userID"; // the command
-            gettopics.Parameters.AddWithValue("@userID", DBObject.m_id);
 
+            MySqlCommand gettopics = conn.CreateCommand();
+            gettopics.CommandText = "SELECT topicName FROM topics where userid= @userID and Invite = @Invite"; // the command
+            gettopics.Parameters.AddWithValue("@userID", DBObject.m_id);
+            gettopics.Parameters.AddWithValue("@Invite", false);
             MySqlDataReader reader1 = gettopics.ExecuteReader();
 
             List<string> topicList = new List<string>();
@@ -55,7 +55,7 @@ namespace MessagingApp.Controllers
             }
             reader1.Close();
 
-            homeMod.SetttopicListAttr(topicList);      
+            homeMod.SetttopicListAttr(topicList);
 
             // set background color and textcolor that user selected
             MySqlCommand getContacts = conn.CreateCommand();
@@ -75,7 +75,7 @@ namespace MessagingApp.Controllers
                 }
                 txtBackgroundColorList.Add(Convert.ToString(reader2[i]));
                 i++;
-                    
+
             }
 
             reader2.Close();
@@ -94,7 +94,7 @@ namespace MessagingApp.Controllers
                 cmd.ExecuteReader();
                 conn.Close();
             }
-            
+
             else
             {
                 DBObject.Bcolor = txtBackgroundColorList[0];
@@ -137,18 +137,43 @@ namespace MessagingApp.Controllers
             List<string> groupinviteContactList = new List<string>();
             while (lRead.Read())
             {
-               groupinviteList.Add(Convert.ToString(lRead[0]));
-               InviteList.Add(Convert.ToInt32(lRead[1]));
-               groupuserNameList.Add(Convert.ToString(lRead[2]));
+                groupinviteList.Add(Convert.ToString(lRead[0]));
+                InviteList.Add(Convert.ToInt32(lRead[1]));
+                groupuserNameList.Add(Convert.ToString(lRead[2]));
                 groupinviteContactList.Add(Convert.ToString(lRead[3]));
             }
             lRead.Close();
             conn.Close();
-           
+
             homeMod.SetinviteListAttr(InviteList);
             homeMod.SetgroupuserNameListAttr(groupuserNameList);
             homeMod.SetGroupinviteListAttr(groupinviteList);
-            homeMod.SetinvitegroupContactListAttr(groupinviteContactList);
+            homeMod.SetinviteGroupContactListAttr(groupinviteContactList);
+
+
+            MySqlCommand gettopic = conn.CreateCommand();
+            gettopic.CommandText = "SELECT topicName,Invite,userName,contactName FROM topics where Invite= @Invite";
+            gettopic.Parameters.AddWithValue("@Invite", true);
+            conn.Open();
+            MySqlDataReader hRead = gettopic.ExecuteReader();
+            List<string> topicinviteList = new List<string>();
+            List<int> InvitetopicList = new List<int>();
+            List<string> topicuserNameList = new List<string>();
+            List<string> topicinviteContactList = new List<string>();
+            while (hRead.Read())
+            {
+                topicinviteList.Add(Convert.ToString(hRead[0]));
+                InvitetopicList.Add(Convert.ToInt32(hRead[1]));
+                topicuserNameList.Add(Convert.ToString(hRead[2]));
+                topicinviteContactList.Add(Convert.ToString(hRead[3]));
+            }
+            hRead.Close();
+            conn.Close();
+
+            homeMod.SetinvitetopicListAttr(InvitetopicList);
+            homeMod.SettopicuserNameListAttr(topicuserNameList);
+            homeMod.SettopicinviteListAttr(topicinviteList);
+            homeMod.SetinvitetopicContactListAttr(topicinviteContactList);
 
 
             return View();
@@ -290,10 +315,10 @@ namespace MessagingApp.Controllers
             lRead.Close();
             conn.Close();
 
-            
+
             homeMod.SetContactnumberListAttr(ContactnumList);
 
-   
+
             homeMod.SetContactSenderListAttr(ContactSenderList);
 
             homeMod.SetcontactsListAttr(ContactsList);
@@ -453,9 +478,9 @@ namespace MessagingApp.Controllers
 
             return View();
         }
-    
 
-         public IActionResult PreferencesScreen()
+
+        public IActionResult PreferencesScreen()
         {
             return View("Preferences");
         }
@@ -638,14 +663,12 @@ namespace MessagingApp.Controllers
                 conn.Open();
                 cmd.ExecuteNonQuery();
 
-                ViewBag.message = (TempData["Password Changed"]="Password has been changed");
+                ViewBag.message = (TempData["Password Changed"] = "Password has been changed");
 
                 conn.Close();
-                return RedirectToAction("AccountSettings", "Home");                 
+                return RedirectToAction("AccountSettings", "Home");
             }
         }
-
-
 
         public IActionResult EditgroupInvite(string chatName)
         {
@@ -665,22 +688,22 @@ namespace MessagingApp.Controllers
 
         public IActionResult removeGroupInvite(string chatName, string userName)
         {
-            if(userName == null)
+            if (userName == null)
             {
-            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
-            MySqlConnection conn = new MySqlConnection(connectionstring);
+                const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                MySqlConnection conn = new MySqlConnection(connectionstring);
 
-            conn.Open();
+                conn.Open();
 
-            MySqlCommand removeGroup = conn.CreateCommand();
-            removeGroup.CommandText = "Delete FROM groupmessage where userID= @userID AND chatName = @chatName"; // the command
-            removeGroup.Parameters.AddWithValue("@userID", DBObject.m_id);
-            removeGroup.Parameters.AddWithValue("@chatName", chatName);
-            removeGroup.Prepare();
-            removeGroup.ExecuteReader();
-            conn.Close();
+                MySqlCommand removeGroup = conn.CreateCommand();
+                removeGroup.CommandText = "Delete FROM groupmessage where userID= @userID AND chatName = @chatName"; // the command
+                removeGroup.Parameters.AddWithValue("@userID", DBObject.m_id);
+                removeGroup.Parameters.AddWithValue("@chatName", chatName);
+                removeGroup.Prepare();
+                removeGroup.ExecuteReader();
+                conn.Close();
 
-            return RedirectToAction("Home");
+                return RedirectToAction("Home");
             }
             else
             {
@@ -701,5 +724,58 @@ namespace MessagingApp.Controllers
             }
         }
 
+
+        public IActionResult EdittopicInvite(string chatName)
+        {
+            const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+            MySqlConnection conn = new MySqlConnection(connectionstring);
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand(null, conn);
+            cmd.CommandText = "update topics SET Invite ='" + 0 + "' Where UserId ='" + DBObject.m_id + "' and topicName ='" + chatName + "'";
+            cmd.Prepare();
+            cmd.ExecuteReader();
+            conn.Close();
+
+            return RedirectToAction("Home");
+
+        }
+
+        public IActionResult removetopicInvite(string chatName, string userName)
+        {
+            if (userName == null)
+            {
+                const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                MySqlConnection conn = new MySqlConnection(connectionstring);
+
+                conn.Open();
+
+                MySqlCommand removeTopic = conn.CreateCommand();
+                removeTopic.CommandText = "Delete FROM topics where userID= @userID AND topicName = @topicName"; // the command
+                removeTopic.Parameters.AddWithValue("@userID", DBObject.m_id);
+                removeTopic.Parameters.AddWithValue("@topic", chatName);
+                removeTopic.Prepare();
+                removeTopic.ExecuteReader();
+                conn.Close();
+
+                return RedirectToAction("Home");
+            }
+            else
+            {
+                const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
+                MySqlConnection conn = new MySqlConnection(connectionstring);
+
+                conn.Open();
+
+                MySqlCommand removeTopic = conn.CreateCommand();
+                removeTopic.CommandText = "Delete FROM topics where userName= @userName AND topicName = @topicName"; // the command
+                removeTopic.Parameters.AddWithValue("@userName", userName);
+                removeTopic.Parameters.AddWithValue("@topicName", chatName);
+                removeTopic.Prepare();
+                removeTopic.ExecuteReader();
+                conn.Close();
+
+                return RedirectToAction("Home");
+            }
+        }
     }
 }

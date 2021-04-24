@@ -78,7 +78,7 @@
                     <dl>
                         @for (int k = 0; k < HomeModel.m_groupinvitelist.Count; k++)
                         {
-                            @if (HomeModel.m_Invite[k] == 1 && HomeModel.m_InviteGroupContact[k] != DBObject.m_username)
+                            @if (HomeModel.m_Invite[k] == 1 && HomeModel.m_InviteGroupContact[k] != DBObject.m_username && HomeModel.m_groupuserName[k] == DBObject.m_username )
                             {
                         <h3>
                             @HomeModel.m_groupinvitelist[k]
@@ -128,14 +128,59 @@
                 int counter = 1;
                 <p>
                     @foreach (KeyValuePair<string, int>
-                  topic in topicDictionary)
+                 topic in topicDictionary)
                     {
-                        <h3 style="margin-top: 12%">@counter.  @topic.Key in the category @categoryList[counter-1] 
-                    with @topic.Value messages</h3>
+                        <h3 style="margin-top: 12%">
+                            @counter.  @topic.Key in the category @categoryList[counter - 1]
+                            with @topic.Value messages
+                        </h3>
                         <br>
                         counter = counter + 1;
 
                     }
+                </p>
+
+                <p>
+                    <h1> Topic Requests</h1>
+                    <br>
+                    <dl>
+                        @for (int k = 0; k < HomeModel.m_topicinvitelist.Count; k++)
+                        {
+                            @if (HomeModel.m_Invitetopic[k] == 1 && HomeModel.m_InvitetopicContact[k] != DBObject.m_username && HomeModel.m_topicuserName[k] == DBObject.m_username)
+                            {
+                                <h3>
+                                    @HomeModel.m_topicinvitelist[k]
+                                    <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("EdittopicInvite", "Home", new { chatName = @HomeModel.m_topicinvitelist[k] })'">✔ </button>
+                                    <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("removetopicInvite", "Home", new { chatName = @HomeModel.m_topicinvitelist[k] })'">✘ </button>
+                                </h3>
+                                <br>
+                                <br>
+                            }
+                        }
+                    </dl>
+                    <br>
+
+                </p>
+
+                <p>
+                    <h1> Pending topic Requests</h1>
+                    <br>
+                    <dl>
+                        @for (int k = 0; k < HomeModel.m_topicinvitelist.Count; k++)
+                        {
+                            @if (HomeModel.m_Invitetopic[k] == 1 && HomeModel.m_InvitetopicContact[k] == DBObject.m_username)
+                            {
+                                <h3>
+                                    @HomeModel.m_topicuserName[k] has not accepted the request to join the group titled: @HomeModel.m_topicinvitelist[k]
+                                    <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("removetopicInvite", "Home", new { chatName = @HomeModel.m_topicinvitelist[k],userName = HomeModel.m_topicuserName[k] })'">✘ </button>
+                                </h3>
+                                <br>
+                                <br>
+                            }
+                        }
+                    </dl>
+                    <br>
+
                 </p>
             }
 

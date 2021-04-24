@@ -1,0 +1,47 @@
+﻿@model MessagingApp.Models.InviteContactTopicModel
+@{
+    // Use login layout under View->Shared folder
+    Layout = "_Layout";
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/Chat_StyleSheet/InviteContactTopic.css" />
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <div class="createTopicContainer">
+        <form class="centered createTopicArea" asp-action="InviteContactTopic" method="post">
+            <div class="fields">
+                <p>
+                    <h1 class="titleLabel">Add a Contact to</h1>
+                    <h1> @DBObject.m_TopicName</h1>
+                </p>
+                <p>
+                    <label class="inviteContactLabel">Contact:</label>
+                    <select asp-for="inviteContact" class="inviteContactDropdown">
+                        @for (int i = 0; i < HomeModel.m_contactsListHomeScreen.Count(); i++)
+                        {
+                            <option value="@HomeModel.m_contactsListHomeScreen[i]">@HomeModel.m_contactsListHomeScreen[i]</option>
+                        }
+                    </select>
+                </p>
+            </div>
+            <button class="goHomeButton" type="button" onclick="location.href='@Url.Action("Home", "Home")'">Home</button>
+            <button class="goTotopicButton" type="button" onclick="location.href='@Url.Action("TopicTemplate", "Chat", new { name = DBObject.m_TopicName })'">Back to Topic</button>
+            <button class="sendInviteButton" type="submit">Send Invite</button>
+
+        </form>
+    </div>
+</body>
+</html>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+    window.onload = function () {
+        alert("@ViewBag.Message");
+    };
+    </script>
+}

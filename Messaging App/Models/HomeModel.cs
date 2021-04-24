@@ -93,9 +93,32 @@ namespace MessagingApp.Models
         }
 
         public static List<string> m_InviteGroupContact;
-        public void SetinvitegroupContactListAttr(List<string> invitegroupContactlist)
+        public void SetinviteGroupContactListAttr(List<string> inviteGroupContactlist)
         {
-            m_InviteGroupContact = invitegroupContactlist;
+            m_InviteGroupContact = inviteGroupContactlist;
+        }
+
+        public static List<String> m_topicuserName;
+        public void SettopicuserNameListAttr(List<String> topicuserNamelist)
+        {
+            m_topicuserName = topicuserNamelist;
+        }
+
+        public static List<int> m_Invitetopic;
+        public void SetinvitetopicListAttr(List<int> invitetopiclist)
+        {
+            m_Invitetopic = invitetopiclist;
+        }
+
+        public static List<string> m_InvitetopicContact;
+        public void SetinvitetopicContactListAttr(List<string> invitetopicContactlist)
+        {
+            m_InvitetopicContact = invitetopicContactlist;
+        }
+        public static List<string> m_topicinvitelist;
+        public void SettopicinviteListAttr(List<string> topicinvitelist)
+        {
+            m_topicinvitelist = topicinvitelist;
         }
     }
 
