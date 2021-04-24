@@ -59,14 +59,14 @@ namespace MessagingApp.Controllers
 
             // set background color and textcolor that user selected
             MySqlCommand getContacts = conn.CreateCommand();
-            getContacts.CommandText = "SELECT backgroundColor, fontColor FROM preferences where id = @userID"; // the command
+            getContacts.CommandText = "SELECT backgroundColor, fontColor, fontSize FROM preferences where id = @userID"; // the command
             getContacts.Parameters.AddWithValue("@userID", DBObject.m_id);
             MySqlDataReader reader2 = getContacts.ExecuteReader();
 
             List<string> txtBackgroundColorList = new List<string>();
 
             int i = 0;
-            while (i != 2)
+            while (i != 3)
             {
                 reader2.Read();
                 if (reader2.HasRows == false)
@@ -83,13 +83,15 @@ namespace MessagingApp.Controllers
             {
                 pc.TxtColor = "black";
                 pc.Baccolor = "url(../../Images/EarthBackground.jpeg)";
-
-                string txtcmd = $"Insert into preferences (id,fontColor,backgroundColor)" + $"values ( @id, @TextColor,@BackgroundColor) ";
+                pc.TSize = 18;
+                string txtcmd = $"Insert into preferences (id,fontColor,backgroundColor,fontsize)" + $"values ( @id, @TextColor,@BackgroundColor,@fontsize) ";
                 MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@id", DBObject.m_id);
                 cmd.Parameters.AddWithValue("@TextColor", pc.TxtColor);
                 cmd.Parameters.AddWithValue("@BackgroundColor", pc.Baccolor);
+                cmd.Parameters.AddWithValue("@fontSize", pc.TSize);
+
                 cmd.Prepare();
                 cmd.ExecuteReader();
                 conn.Close();
@@ -99,6 +101,7 @@ namespace MessagingApp.Controllers
             {
                 DBObject.Bcolor = txtBackgroundColorList[0];
                 DBObject.Tcolor = txtBackgroundColorList[1];
+                DBObject.m_TSize = Convert.ToInt32(txtBackgroundColorList[2]);
             }
             conn.Close();
 
@@ -464,6 +467,7 @@ namespace MessagingApp.Controllers
         {
             string BackgroundColor = pc.Baccolor;
             string TextColor = pc.TxtColor;
+            int FontSize = Convert.ToInt32(pc.TxtSize);
 
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
@@ -476,7 +480,7 @@ namespace MessagingApp.Controllers
                 if (dRead.Read())
                 {
                     conn.Close();
-                    string txtcmd = "update preferences SET backgroundColor ='" + BackgroundColor + "', fontColor ='" + TextColor + "' Where id ='" + DBObject.m_id + "'"; // the command
+                    string txtcmd = "update preferences SET backgroundColor ='" + BackgroundColor + "', fontColor ='" + TextColor + "', fontSize ='" + FontSize + "' Where id ='" + DBObject.m_id + "'"; // the command
                     MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
                     conn.Open();
                     cmd.Prepare();
@@ -486,13 +490,14 @@ namespace MessagingApp.Controllers
                 else
                 {
                     conn.Close();
-                    string txtcmd = $"Insert into preferences (id,fontColor,backgroundColor)" + $"values ( @id, @TextColor,@BackgroundColor) ";
+                    string txtcmd = $"Insert into preferences (id,fontColor,backgroundColor,fontSize)" + $"values ( @id, @TextColor,@BackgroundColor,@FontSize) ";
                     MySqlCommand cmd = new MySqlCommand(txtcmd, conn);
                     conn.Open();
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@id", DBObject.m_id);
                     cmd.Parameters.AddWithValue("@TextColor", TextColor);
                     cmd.Parameters.AddWithValue("@BackgroundColor", BackgroundColor);
+                    cmd.Parameters.AddWithValue("@FontSize", FontSize);
                     cmd.Prepare();
                     cmd.ExecuteReader();
                 }
@@ -502,6 +507,7 @@ namespace MessagingApp.Controllers
 
             DBObject.Tcolor = TextColor;
             DBObject.Bcolor = BackgroundColor;
+            DBObject.m_TSize = FontSize;
             return View("Preferences");
         }
 

@@ -30,6 +30,12 @@
         label {
             color:@DBObject.Tcolor;
         }
+        .message {
+            @{
+                string size = DBObject.m_TSize + "px";
+             }
+                font-size: @size;
+        }
 
     </style>
     <div class="LeftSideButton">
@@ -76,8 +82,8 @@
                         {
                             <div class="messageAndButtons">
                                 <div class="message">
-                                    <label style="color: black; font-size: 18px;"> @list[i].GetUsername():</label>
-                                    <label style="font-size: 17px;">@list[i].GetMessage() </label>
+                                    <label style="color: black;"> @list[i].GetUsername():</label>
+                                    <label>@list[i].GetMessage() </label>
                                     @if (list[i].GetImage() != "")
                                     {
                                         <img src="../../GroupImages/@list[i].GetImage()" style="max-width: 100%; max-width: 100%; width: auto; height: auto;">

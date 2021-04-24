@@ -13,6 +13,7 @@ namespace MessagingApp.Models
         public static int m_id;
         public static string Bcolor;
         public static string Tcolor;
+        public static int m_TSize;
         public static string m_GroupName;
         public static int m_Groupid;
         public static string m_TopicName;
@@ -48,7 +49,11 @@ namespace MessagingApp.Models
             get => Bcolor;
             set => Bcolor = value;
         }
-
+        public int TSize
+        {
+            get => m_TSize;
+            set => m_TSize = value;
+        }
         public string GroupName
         {
             get => m_GroupName;
