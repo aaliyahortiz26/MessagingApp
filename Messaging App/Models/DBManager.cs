@@ -337,7 +337,14 @@ namespace MessagingApp.Models
 					getNumMessages.Parameters.AddWithValue("@groupName", groupsList[counter]);
 
 					int numMessages = Convert.ToInt32(getNumMessages.ExecuteScalar());
-					groupDictionary.Add(groupsList[counter], numMessages);
+					try
+					{
+						groupDictionary.Add(groupsList[counter], numMessages);
+					}
+					catch (ArgumentException e)
+					{
+
+					}					
 				}
 
 				conn.Close();
