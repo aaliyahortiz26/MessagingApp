@@ -758,7 +758,7 @@ namespace MessagingApp.Controllers
                 MySqlCommand removeTopic = conn.CreateCommand();
                 removeTopic.CommandText = "Delete FROM topics where userID= @userID AND topicName = @topicName"; // the command
                 removeTopic.Parameters.AddWithValue("@userID", DBObject.m_id);
-                removeTopic.Parameters.AddWithValue("@topic", chatName);
+                removeTopic.Parameters.AddWithValue("@topicName", chatName);
                 removeTopic.Prepare();
                 removeTopic.ExecuteReader();
                 conn.Close();

@@ -325,7 +325,7 @@ namespace MessagingApp.Controllers
                     cmd.Parameters.AddWithValue("@topicQuestion", ctm.question);
                     cmd.Parameters.AddWithValue("@contactName", ctm.inviteContact);
                     cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
-                    cmd.Parameters.AddWithValue("@Invite", true);
+                    cmd.Parameters.AddWithValue("@Invite", false);
                     cmd.ExecuteNonQuery();
                     conn.Close();
 

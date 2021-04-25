@@ -46,7 +46,7 @@ footer {
 }
 
 h1 {
-    margin-top: -4%;
+    margin-top: -8%;
     text-align: center;
     font-weight: bold;
     font-family: 'Times New Roman';
@@ -271,7 +271,7 @@ h3 {
 
 .scrollMessages {
     overflow: auto;
-    height: 70%;
+    height: 68%;
     position: inherit;
     margin-right: 7%;
     width: 95%;
