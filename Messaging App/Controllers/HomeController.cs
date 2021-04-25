@@ -402,7 +402,7 @@ namespace MessagingApp.Controllers
                 cmd1.ExecuteNonQuery();
                 conn.Close();
             }
-
+            conn.Close();
 
             return RedirectToAction("PinnedMessages", "Home");
         }

@@ -28,6 +28,7 @@
                         <div class="containerPin" style="width: 96%; margin-left: 2%; height: auto; border: .5px solid black; background: lightgrey; border-radius: 10px; word-wrap: break-word; padding: .5%; display: block;">
                             <h3 style="font-weight: normal">@HomeModel.m_userPinnedlist[k]  </h3>
 
+                            <div class="savedMessageContainer"> 
                             @{
                                 if (@HomeModel.m_Pinnedlist[k].Contains("http") && @HomeModel.m_Pinnedlist[k] != "")
                                 {
@@ -39,9 +40,10 @@
                                 }
                                 else
                                 {
-                                    <h4 style="font-weight: normal; text-align: center;"> @HomeModel.m_Pinnedlist[k].</h4>
+                                    <h4 style="font-weight: normal; text-align: center;"> @HomeModel.m_Pinnedlist[k]</h4>
                                 }
                             }
+                            </div>
                             <br>
                             <!-- Saved Topic and Group picture -->
                             @if ((@HomeModel.m_imagePinnedlist[k] != "") && (@HomeModel.m_messageTypelist[k] == "Topic"))
