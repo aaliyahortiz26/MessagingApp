@@ -136,7 +136,6 @@
 
                 <p>
                     <h1> Topic Requests</h1>
-                    <br>
                     <dl>
                         @for (int k = 0; k < HomeModel.m_topicinvitelist.Count; k++)
                         {
@@ -147,8 +146,6 @@
                                     <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("EdittopicInvite", "Home", new { chatName = @HomeModel.m_topicinvitelist[k] })'">✔ </button>
                                     <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("removetopicInvite", "Home", new { chatName = @HomeModel.m_topicinvitelist[k] })'">✘ </button>
                                 </h3>
-                                <br>
-                                <br>
                             }
                         }
                     </dl>
@@ -157,19 +154,16 @@
                 </p>
 
                 <p>
-                    <h1> Pending topic Requests</h1>
-                    <br>
+                    <h1> Pending Topic Requests</h1>
                     <dl>
                         @for (int k = 0; k < HomeModel.m_topicinvitelist.Count; k++)
                         {
                             @if (HomeModel.m_Invitetopic[k] == 1 && HomeModel.m_InvitetopicContact[k] == DBObject.m_username)
                             {
-                                <h3>
-                                    @HomeModel.m_topicuserName[k] has not accepted the request to join the group titled: @HomeModel.m_topicinvitelist[k]
-                                    <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("removetopicInvite", "Home", new { chatName = @HomeModel.m_topicinvitelist[k],userName = HomeModel.m_topicuserName[k] })'">✘ </button>
-                                </h3>
-                                <br>
-                                <br>
+                        <h3>
+                            @HomeModel.m_topicuserName[k] has not joined the group: @HomeModel.m_topicinvitelist[k]
+                            <button style="display: inline-block; width: 36px; height: 36px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" dis onclick="location.href='@Url.Action("removetopicInvite", "Home", new { chatName = @HomeModel.m_topicinvitelist[k],userName = HomeModel.m_topicuserName[k] })'">✘ </button>
+                        </h3>
                             }
                         }
                     </dl>
