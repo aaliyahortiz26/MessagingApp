@@ -801,7 +801,7 @@ namespace MessagingApp.Controllers
             ViewBag.message = "leaving Page";
             return RedirectToAction("Home", "Home");
         }
-        public IActionResult PinnedMessagestopic(string message, string image)
+        public IActionResult PinnedMessagestopic(string message, string image, string username)
         {
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
@@ -815,7 +815,7 @@ namespace MessagingApp.Controllers
                 MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
                 cmd1.CommandType = CommandType.Text;
                 cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
-                cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd1.Parameters.AddWithValue("@userName", username);
                 cmd1.Parameters.AddWithValue("@pinnedMessage", message);
                 cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_TopicName);
                 cmd1.Parameters.AddWithValue("@image", image);
@@ -828,7 +828,7 @@ namespace MessagingApp.Controllers
                 MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
                 cmd1.CommandType = CommandType.Text;
                 cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
-                cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd1.Parameters.AddWithValue("@userName", username);
                 cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_TopicName);
                 cmd1.Parameters.AddWithValue("@image", image);
 
@@ -840,7 +840,7 @@ namespace MessagingApp.Controllers
                 MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
                 cmd1.CommandType = CommandType.Text;
                 cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
-                cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd1.Parameters.AddWithValue("@userName", username);
                 cmd1.Parameters.AddWithValue("@pinnedMessage", message);
                 cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_TopicName);
 
@@ -858,7 +858,7 @@ namespace MessagingApp.Controllers
                 MySqlCommand cmd2 = new MySqlCommand(txtcmd, conn);
                 cmd2.CommandType = CommandType.Text;
                 cmd2.Parameters.AddWithValue("@userID", DBObject.m_id);
-                cmd2.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd2.Parameters.AddWithValue("@userName",username);
                 cmd2.Parameters.AddWithValue("@topicgroupName", DBObject.m_TopicName);
                 cmd2.Parameters.AddWithValue("@pinnedMessages", message);
                 cmd2.Parameters.AddWithValue("@image", image);
@@ -871,7 +871,7 @@ namespace MessagingApp.Controllers
             }
             
         }
-        public IActionResult PinnedMessagesgroup(string message, string image)
+        public IActionResult PinnedMessagesgroup(string message, string image, string username)
         {
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
@@ -885,7 +885,7 @@ namespace MessagingApp.Controllers
                 MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
                 cmd1.CommandType = CommandType.Text;
                 cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
-                cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd1.Parameters.AddWithValue("@userName", username);
                 cmd1.Parameters.AddWithValue("@pinnedMessage", message);
                 cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_GroupName);
                 cmd1.Parameters.AddWithValue("@image", image);
@@ -898,7 +898,7 @@ namespace MessagingApp.Controllers
                 MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
                 cmd1.CommandType = CommandType.Text;
                 cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
-                cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd1.Parameters.AddWithValue("@userName", username);
                 cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_GroupName);
                 cmd1.Parameters.AddWithValue("@image", image);
 
@@ -910,7 +910,7 @@ namespace MessagingApp.Controllers
                 MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
                 cmd1.CommandType = CommandType.Text;
                 cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
-                cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd1.Parameters.AddWithValue("@userName", username);
                 cmd1.Parameters.AddWithValue("@pinnedMessage", message);
                 cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_GroupName);
 
@@ -929,7 +929,7 @@ namespace MessagingApp.Controllers
                 cmd.CommandType = CommandType.Text;
 
                 cmd.Parameters.AddWithValue("@userID", DBObject.m_id);
-                cmd.Parameters.AddWithValue("@userName", DBObject.m_username);
+                cmd.Parameters.AddWithValue("@userName", username);
                 cmd.Parameters.AddWithValue("@topicgroupName", DBObject.m_GroupName);
                 cmd.Parameters.AddWithValue("@pinnedMessages", message);
                 cmd.Parameters.AddWithValue("@image", image);

@@ -44,7 +44,7 @@ namespace MessagingApp.Models
         {
             return image;
         }
-        public string AlreadySaved(string messagingType)
+        public string AlreadySaved(string messagingType, string username)
         {
             const string connectionstring = "server=unitedmessaging.cylirx7dw3jb.us-east-1.rds.amazonaws.com;user id=Unitedmessaging; password = unitedmessaging21; persistsecurityinfo=True;database= united_messaging";
             MySqlConnection conn = new MySqlConnection(connectionstring);
@@ -59,7 +59,7 @@ namespace MessagingApp.Models
                     MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
                     cmd1.CommandType = CommandType.Text;
                     cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
-                    cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                    cmd1.Parameters.AddWithValue("@userName", username);
                     cmd1.Parameters.AddWithValue("@pinnedMessage", message);
                     cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_TopicName);
                     cmd1.Parameters.AddWithValue("@image", image);
@@ -72,7 +72,7 @@ namespace MessagingApp.Models
                     MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
                     cmd1.CommandType = CommandType.Text;
                     cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
-                    cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                    cmd1.Parameters.AddWithValue("@userName", username);
                     cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_TopicName);
                     cmd1.Parameters.AddWithValue("@image", image);
 
@@ -84,7 +84,7 @@ namespace MessagingApp.Models
                     MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
                     cmd1.CommandType = CommandType.Text;
                     cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
-                    cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                    cmd1.Parameters.AddWithValue("@userName", username);
                     cmd1.Parameters.AddWithValue("@pinnedMessage", message);
                     cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_TopicName);
 
@@ -106,7 +106,7 @@ namespace MessagingApp.Models
                     MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
                     cmd1.CommandType = CommandType.Text;
                     cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
-                    cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                    cmd1.Parameters.AddWithValue("@userName", username);
                     cmd1.Parameters.AddWithValue("@pinnedMessage", message);
                     cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_GroupName);
                     cmd1.Parameters.AddWithValue("@image", image);
@@ -119,7 +119,7 @@ namespace MessagingApp.Models
                     MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
                     cmd1.CommandType = CommandType.Text;
                     cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
-                    cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                    cmd1.Parameters.AddWithValue("@userName", username);
                     cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_GroupName);
                     cmd1.Parameters.AddWithValue("@image", image);
 
@@ -131,7 +131,7 @@ namespace MessagingApp.Models
                     MySqlCommand cmd1 = new MySqlCommand(txtcmd1, conn);
                     cmd1.CommandType = CommandType.Text;
                     cmd1.Parameters.AddWithValue("@userID", DBObject.m_id);
-                    cmd1.Parameters.AddWithValue("@userName", DBObject.m_username);
+                    cmd1.Parameters.AddWithValue("@userName", username);
                     cmd1.Parameters.AddWithValue("@pinnedMessage", message);
                     cmd1.Parameters.AddWithValue("@topicGroupName", DBObject.m_GroupName);
 

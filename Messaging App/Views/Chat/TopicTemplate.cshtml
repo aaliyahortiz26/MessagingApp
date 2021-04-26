@@ -103,7 +103,7 @@
                                 </div>
                                 <div class="messageButtons">
 
-                                    <button style="width: 64px; height: 46px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" onclick="location.href='@Url.Action("PinnedMessagestopic", "Chat", new { message = @topicMessagelist[i].GetMessage(), image = @topicMessagelist[i].GetImage() })'">@topicMessagelist[i].AlreadySaved("Topic")</button>
+                                    <button style="width: 64px; height: 46px; margin-top: 0px; color: white; background-color:dodgerblue; font-size: 16px;" type="button" onclick="location.href='@Url.Action("PinnedMessagestopic", "Chat", new { message = @topicMessagelist[i].GetMessage(), image = @topicMessagelist[i].GetImage(), username = @topicMessagelist[i].GetUsername() })'">@topicMessagelist[i].AlreadySaved("Topic", @topicMessagelist[i].GetUsername())</button>
 
                                     @if (topicMessagelist[i].GetUsername() == DBObject.m_username)
                                     {
